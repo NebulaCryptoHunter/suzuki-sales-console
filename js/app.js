@@ -120,26 +120,21 @@ const APP = {
   buildModelPatterns() {
     this.db.modelPatterns = [
       // === CARRY (prioritas utama) ===
-      // Tangkap semua yang berbau CARRY kecuali yang sudah spesifik
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
-      // PU, Pickup, FD, WD
       { regex: /CARRY\s*(PU|PICK\s*UP|FD|WD)/i, model: 'New Carry PU', extract: s => {
           let t = s.replace(/.*CARRY\s*/i, '').trim();
-          // Normalisasi tipe
           t = t.replace(/\bPICK\s*UP\b/i, 'PU').replace(/\bFD\s*AC\s*PS\b/i, 'FD AC PS').replace(/\bWD\s*AC\s*PS\b/i, 'WD AC PS');
-          return t || 'PU'; // default PU jika kosong
+          return t || 'PU';
         }
       },
-      // Fallback: semua CARRY yang belum tertangkap dianggap New Carry PU
       { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() || 'PU' },
       
       // === ERTIGA ===
       { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
-      // ERTIGA tanpa ALL NEW
       { regex: /ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ERTIGA\s*HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ERTIGA\s*HYBRID\s*/i, '').trim() },
       { regex: /ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
@@ -291,7 +286,6 @@ const APP = {
   normalizeModel(m) {
     if (!m) return '';
     let norm = m.toUpperCase().replace(/\s+/g, ' ').trim();
-    // Hapus kata-kata umum
     norm = norm.replace(/\bNEW\b/gi, '').replace(/\bMC\b/gi, '').replace(/\bHYBRID\b/gi, '')
           .replace(/\bKURO\b/gi, '').replace(/\bLTD\b/gi, '').replace(/\bALL\b/gi, '')
           .replace(/\bAN\b/gi, '').replace(/\bGRAND\b/gi, '').replace(/\bVITARA\b/gi, 'VITARA')
@@ -299,7 +293,7 @@ const APP = {
           .replace(/\bFRONX\b/gi, 'FRONX').replace(/\bJIMNY\b/gi, 'JIMNY')
           .replace(/\bS-?PRESSO\b/gi, 'SPRESSO').replace(/\bCARRY\b/gi, 'CARRY')
           .replace(/\s+/g, ' ').trim();
-    // Hapus varian tipe (PU, FD, WD, dll) agar model dasar saja yang dibandingkan
+    // Hapus varian tipe agar model dasar saja yang dibandingkan
     norm = norm.replace(/\bPU\b/gi, '').replace(/\bPICK\s*UP\b/gi, '').replace(/\bFD\b/gi, '')
           .replace(/\bWD\b/gi, '').replace(/\bAC\s*PS\b/gi, '').replace(/\s+/g, ' ').trim();
     return norm;
@@ -336,7 +330,7 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
-    // Fallback: jika tidak ada yang cocok, coba tebak dari database pricelist
+    // Fallback: coba tebak dari database pricelist
     const normModel = this.normalizeModel(s);
     const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
     if (candidates.length > 0) {
@@ -487,11 +481,29 @@ const APP = {
     const normalizedModel = this.normalizeModel(model);
     const normalizedType = this.normalizeType(type);
     
-    const units = this.state.stockUnits.filter(u => {
+    // Filter unit dengan normalisasi
+    let units = this.state.stockUnits.filter(u => {
       const unitModel = this.normalizeModel(u.model);
       const unitType = u.normalizedType;
       return unitModel === normalizedModel && unitType === normalizedType;
     });
+    
+    // Jika tidak ada unit dan model adalah Carry, coba pencarian longgar: semua unit yang mengandung "CARRY" dengan tipe cocok
+    if (units.length === 0 && /CARRY/i.test(model)) {
+      units = this.state.stockUnits.filter(u => {
+        return /CARRY/i.test(u.model) && u.normalizedType === normalizedType;
+      });
+    }
+    
+    // Debug: log untuk mencari penyebab
+    console.log(`Pricelist Model: ${model} (norm: ${normalizedModel}), Type: ${type} (norm: ${normalizedType})`);
+    console.log(`Units found: ${units.length}`);
+    if (units.length === 0 && this.state.stockUnits.length > 0) {
+      const samples = this.state.stockUnits.slice(0, 5).map(u => 
+        `Model: ${u.model} (norm: ${this.normalizeModel(u.model)}), Type: ${u.type} (norm: ${u.normalizedType})`
+      ).join('\n');
+      console.log('Sample stock units:\n' + samples);
+    }
     
     const c = $('stock-summary-pricelist'); if (!c) return;
     if (!units.length) {
