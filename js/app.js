@@ -1,5 +1,5 @@
 /* ============================================================
-   Suzuki Sales Console v2.4 — Internal Dealer Application
+   Suzuki Sales Console v2.5 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
    ============================================================ */
 
@@ -14,7 +14,8 @@ const DATA_FILES = {
   sufiDP20: 'sufi-dp20.json',
   sufiDP25: 'sufi-dp25.json',
   sufiDP30: 'sufi-dp30.json',
-  sufiSubsidi: 'sufi-subsidi.json'
+  sufiSubsidi: 'sufi-subsidi.json',
+  modelPatterns: 'model-patterns.json'   // ← tambahan
 };
 const ALL_LEASINGS = ['ADIRA','MUF','SUFI DP20','SUFI DP25','SUFI DP30','BCA','BNI','BRI','MANDIRI'];
 const CATEGORIES_MAP = {
@@ -27,7 +28,7 @@ const PAGE_HEADERS = {
   pricelist: { icon:'📋', title:'Pricelist', subtitle:'Harga OTR Agustus 2026' },
   kredit:   { icon:'💳', title:'Simulasi Kredit', subtitle:'Perbandingan & Kalkulator' },
   stock:    { icon:'📦', title:'Stock Unit', subtitle:'Cek Ketersediaan Unit' },
-  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.4' }
+  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.5' }
 };
 
 // ========== UTILITY ==========
@@ -59,25 +60,26 @@ const APP = {
     },
     stockIndex: null,
     importTime: 0,
-    kreditTab: 'manual'
+    kreditTab: 'manual',
+    debugMode: false,            // ← debug mode
+    lastUploadFailedRows: []     // ← simpan error parsing untuk export
   },
   data: {
     pricelist: { regular: [], ltd: [] },
     leasingConfig: {},
     leasing: {},
-    sufiSubsidi: {}
+    sufiSubsidi: {},
+    modelPatterns: []            // ← dari JSON
   },
   db: {
     priceIndex: {},
-    leasingIndex: {},
-    modelPatterns: []
+    leasingIndex: {}
   },
   dom: {},
 
   async init() {
     try {
       await this.loadAllData();
-      this.buildModelPatterns();
       this.buildPriceIndex();
       this.buildLeasingIndex();
       this.cacheDOM();
@@ -94,7 +96,7 @@ const APP = {
   },
 
   async loadAllData() {
-    const [pricelist, leasingConfig, adira, muf, sufi20, sufi25, sufi30, sufiSubsidi] = await Promise.all([
+    const [pricelist, leasingConfig, adira, muf, sufi20, sufi25, sufi30, sufiSubsidi, modelPatterns] = await Promise.all([
       loadJSON(DATA_FILES.pricelist),
       loadJSON(DATA_FILES.leasingConfig),
       loadJSON(DATA_FILES.adira),
@@ -102,7 +104,8 @@ const APP = {
       loadJSON(DATA_FILES.sufiDP20),
       loadJSON(DATA_FILES.sufiDP25),
       loadJSON(DATA_FILES.sufiDP30),
-      loadJSON(DATA_FILES.sufiSubsidi)
+      loadJSON(DATA_FILES.sufiSubsidi),
+      loadJSON(DATA_FILES.modelPatterns)
     ]);
     this.data.pricelist = pricelist;
     this.data.leasingConfig = leasingConfig;
@@ -114,66 +117,11 @@ const APP = {
       'SUFI DP30': sufi30
     };
     this.data.sufiSubsidi = sufiSubsidi;
+    this.data.modelPatterns = modelPatterns;
   },
 
   // ---------- BUILD INDEXES ----------
-  buildModelPatterns() {
-    this.db.modelPatterns = [
-      // === CARRY (prioritas utama) ===
-      { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
-      { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
-      { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
-      // New Carry Chassis (harus sebelum PU/FD/WD)
-      { regex: /CARRY\s*CHASSIS/i, model: 'New Carry Chassis', extract: s => s.replace(/.*CARRY\s*CHASSIS\s*/i, '').trim() },
-      // PU/FD/WD
-      { regex: /CARRY\s*(PU|PICK\s*UP|FD|WD)/i, model: 'New Carry PU', extract: s => {
-          let t = s.replace(/.*CARRY\s*/i, '').trim();
-          t = t.replace(/\bPICK\s*UP\b/i, 'PU').replace(/\bFD\s*AC\s*PS\b/i, 'FD AC PS').replace(/\bWD\s*AC\s*PS\b/i, 'WD AC PS');
-          return t || 'PU';
-        }
-      },
-      // Fallback semua CARRY
-      { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() || 'PU' },
-      
-      // === ERTIGA ===
-      { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
-      { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
-      { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
-      { regex: /ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ERTIGA.*LTD\s*/i, '').trim() },
-      { regex: /ERTIGA\s*HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ERTIGA\s*HYBRID\s*/i, '').trim() },
-      { regex: /ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
-      
-      // === XL7 ===
-      { regex: /XL-?7.*MC.*LTD/i, model: 'XL-7 MC LTD', extract: s => s.replace(/.*XL-?7\s*MC.*LTD\s*/i, '').trim() },
-      { regex: /XL-?7.*KURO/i, model: 'XL-7 MC Hybrid Kuro', extract: s => s.replace(/.*XL-?7\s*(MC\s*)?(HYBRID\s*)?(KURO\s*)?(EDITION\s*)?/i, '').trim() },
-      { regex: /(NEW\s*)?XL-?7.*HYBRID/i, model: 'XL-7 MC Hybrid', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?(HYBRID\s*)?/i, '').trim() },
-      { regex: /(NEW\s*)?XL-?7\s*(MC|ZETA|BETA|ALPHA)/i, model: 'XL-7 MC', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?/i, '').trim() },
-      { regex: /XL-?7\s*NEW\s*(BETA|ALPHA).*HYBRID/i, model: 'XL-7 Hybrid', extract: s => s.replace(/.*XL-?7\s*(HYBRID\s*)?/i, '').trim() },
-      { regex: /XL-?7\s*NEW/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
-      { regex: /XL-?7/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
-      
-      // === FRONX ===
-      { regex: /FRONX\s*HYBRID/i, model: 'Fronx Hybrid', extract: s => s.replace(/.*FRONX\s*HYBRID\s*/i, '').trim() },
-      { regex: /FRONX/i, model: 'Fronx', extract: s => s.replace(/.*FRONX\s*/i, '').trim() },
-      
-      // === GRAND VITARA ===
-      { regex: /GRAND\s*VITARA/i, model: 'Grand Vitara MC', extract: s => s.replace(/.*GRAND\s*VITARA\s*(MC\s*)?/i, '').replace(/\bGX\b/gi, 'GLX').trim() },
-      
-      // === JIMNY ===
-      { regex: /JIMNY\s*5\s*DOOR/i, model: 'Jimny 5 Door', extract: s => s.replace(/.*JIMNY\s*5\s*DOOR\s*/i, '').trim() },
-      { regex: /JIMNY/i, model: 'Jimny 3 Door', extract: s => s.replace(/.*JIMNY(\s*3\s*DOOR)?\s*/i, '').trim() },
-      
-      // === S-PRESSO ===
-      { regex: /S[-\s]?PRESSO.*LUXURY/i, model: 'S-Presso Luxury', extract: s => s.replace(/.*S-?\s*PRESSO.*LUXURY\s*/i, '').trim() },
-      { regex: /S[-\s]?PRESSO/i, model: 'S-Presso', extract: s => s.replace(/.*S-?\s*PRESSO\s*/i, '').trim() },
-      
-      // === APV ===
-      { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
-      
-      // === E VITARA ===
-      { regex: /E\s*VITARA/i, model: 'e Vitara', extract: s => s.replace(/.*E\s*VITARA\s*/i, '').trim() },
-    ];
-  },
+  // (buildModelPatterns dihapus, karena data sudah diambil dari JSON)
 
   buildPriceIndex() {
     const all = [...this.data.pricelist.regular, ...this.data.pricelist.ltd];
@@ -204,16 +152,17 @@ const APP = {
     try {
       const saved = JSON.parse(localStorage.getItem('suzuki_hub_state'));
       if (saved) {
-        const { stockUnits, stockDate, stockIndex, importTime, ...rest } = saved;
+        const { stockUnits, stockDate, stockIndex, importTime, debugMode, ...rest } = saved;
         Object.assign(this.state, rest);
         this.state.stockUnits = []; this.state.stockDate = null; this.state.stockIndex = null; this.state.importTime = 0;
+        this.state.debugMode = debugMode || false;
       }
     } catch (e) {}
   },
 
   saveState() {
     const toSave = { ...this.state };
-    delete toSave.stockUnits; delete toSave.stockIndex; delete toSave.history;
+    delete toSave.stockUnits; delete toSave.stockIndex; delete toSave.history; delete toSave.lastUploadFailedRows;
     try { localStorage.setItem('suzuki_hub_state', JSON.stringify(toSave)); } catch (e) {}
   },
 
@@ -273,8 +222,9 @@ const APP = {
   copyText(t) { navigator.clipboard?.writeText(t).then(() => this.toast('Disalin!')) ?? this.toast('Gagal', true); },
   showModal(h) { this.dom.modalBody.innerHTML = h; this.dom.modalBackdrop.classList.add('active'); },
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
+  debugLog(...args) { if (this.state.debugMode) console.log('[DEBUG]', ...args); },
   
-  // Normalisasi agresif untuk perbandingan tipe
+  // Normalisasi tipe agresif (tanpa spasi, hanya alfanumerik)
   normalizeTypeAggressive(t) {
     if (!t) return '';
     return t.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/20\d{2}/g, '').replace(/HYBRID/gi, '')
@@ -298,7 +248,6 @@ const APP = {
       .replace(/\bPU\b/gi, 'PU').replace(/\bPICK\s*UP\b/gi, 'PICK UP')
       .replace(/\s+/g, ' ').trim();
   },
-  // Normalisasi model untuk pencocokan dengan Pricelist
   normalizeModel(m) {
     if (!m) return '';
     let norm = m.toUpperCase().replace(/\s+/g, ' ').trim();
@@ -309,7 +258,6 @@ const APP = {
           .replace(/\bFRONX\b/gi, 'FRONX').replace(/\bJIMNY\b/gi, 'JIMNY')
           .replace(/\bS-?PRESSO\b/gi, 'SPRESSO').replace(/\bCARRY\b/gi, 'CARRY')
           .replace(/\s+/g, ' ').trim();
-    // Hapus tipe, tapi pertahankan CHASSIS
     norm = norm.replace(/\bPU\b/gi, '').replace(/\bPICK\s*UP\b/gi, '').replace(/\bFD\b/gi, '')
           .replace(/\bWD\b/gi, '').replace(/\bAC\s*PS\b/gi, '').replace(/\s+/g, ' ').trim();
     return norm;
@@ -331,31 +279,36 @@ const APP = {
     if (u.includes('biru')||u.includes('blue')) return 'blue';
     return 'silver';
   },
+  // Parsing model menggunakan pattern dari JSON
   parseModelType(raw) {
     let s = raw.toUpperCase().replace(/[.,\/\\_\-()\[\]{}]/g,' ').replace(/\s+/g,' ').trim();
     s = s.replace(/\b20(2[3-9]|3[0-9])\b/g,'').replace(/\bNIK\s*2[56]\b/gi,'').replace(/\bMY\s*2[56]\b/gi,'');
     s = s.replace(/\s+/g,' ').replace(/\b2TONE\b/g,'TWO TONE').replace(/\b2 TONE\b/g,'TWO TONE').replace(/\b5 DOORS\b/g,'5 DOOR').replace(/\b3 DOORS\b/g,'3 DOOR');
-    for (const p of this.db.modelPatterns) {
-      if (p.regex.test(s)) {
-        let type = p.extract(s).replace(/\s+/g,' ').trim();
+    
+    for (const p of this.data.modelPatterns) {
+      const regex = new RegExp(p.regex, 'i');
+      if (regex.test(s)) {
+        let type = s.replace(regex, '').trim().replace(/\s+/g,' ').trim();
         const tu = type.toUpperCase();
         if (tu === 'GA MT' && p.model === 'All New Ertiga') type = 'GA PW';
         else if (tu.includes('GLX AT TWO TONE WHITE')) type = 'GLX AT (Two Tone White & Black)';
         else if (tu.includes('GLX AT TWO TONE')) type = 'GLX AT (Two Tone)';
         else if (tu.includes('GLX AT')) type = 'GLX AT';
+        this.debugLog(`Model matched: ${p.model}, type: ${type}`);
         return { model: p.model, type: type || '' };
       }
     }
-    // Fallback: coba tebak dari database pricelist
+    // Fallback ke pricelist
     const normModel = this.normalizeModel(s);
     const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
     if (candidates.length > 0) {
+      this.debugLog(`Fallback pricelist for: ${s}, using model: ${candidates[0].model}, type: ${candidates[0].type}`);
       return { model: candidates[0].model, type: candidates[0].type };
     }
     return null;
   },
   updateFooter() {
-    this.dom.footerInfo.textContent = 'v2.4 • Pricelist: Agustus 2026';
+    this.dom.footerInfo.textContent = 'v2.5 • Pricelist: Agustus 2026';
     this.dom.footerStock.textContent = `Stock: ${this.state.stockDate||'belum diunggah'} | ${this.state.stockUnits.length||0} unit`;
   },
   addRecentView(u) { this.state.recentViews = this.state.recentViews.filter(x=>x.idx!==u.idx); this.state.recentViews.unshift(u); if(this.state.recentViews.length>10) this.state.recentViews.pop(); this.saveState(); },
@@ -490,28 +443,19 @@ const APP = {
       const c = $('price-content'); if (c) c.innerHTML = `<div class="grid-2"><span>OTR</span><span style="text-align:right;">${this.fRupiah(pd.otr)}</span></div><div class="grid-2" style="color:#DC2626;"><span>Discount</span><span style="text-align:right;">-${this.fRupiah(d.discount)}</span></div><div class="grid-2" style="color:#059669;"><span>Cashback</span><span style="text-align:right;">-${this.fRupiah(d.cashback)}</span></div><div class="grid-2" style="font-weight:600;"><span>Total Discount</span><span style="text-align:right;">${this.fRupiah(d.total_discount)} <span class="badge badge-discount">${((d.total_discount/pd.otr)*100).toFixed(1)}%</span></span></div><div class="price-nett"><small>Harga Nett</small>${this.fRupiah(d.nett)}</div>`;
     }
   },
-  
-  // Pencarian unit stok yang lebih longgar
   findStockUnits(model, type) {
     if (!model || !type) return [];
-    
     const normalizedModel = this.normalizeModel(model);
     const normalizedType = this.normalizeType(type);
     const aggressiveType = this.normalizeTypeAggressive(type);
-    
-    // Tahap 1: normal
-    let units = this.state.stockUnits.filter(u => {
-      return this.normalizeModel(u.model) === normalizedModel && u.normalizedType === normalizedType;
-    });
-    if (units.length > 0) return units;
-    
-    // Tahap 2: model normal + tipe agresif
-    units = this.state.stockUnits.filter(u => {
-      return this.normalizeModel(u.model) === normalizedModel && this.normalizeTypeAggressive(u.type) === aggressiveType;
-    });
-    if (units.length > 0) return units;
-    
-    // Tahap 3: model mengandung string yang sama + tipe agresif longgar
+    let units = [];
+    // Tahap 1
+    units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && u.normalizedType === normalizedType);
+    if (units.length) return units;
+    // Tahap 2
+    units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && this.normalizeTypeAggressive(u.type) === aggressiveType);
+    if (units.length) return units;
+    // Tahap 3
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
       const ut = this.normalizeTypeAggressive(u.type);
@@ -519,9 +463,8 @@ const APP = {
       const typeMatch = ut.includes(aggressiveType) || aggressiveType.includes(ut);
       return modelMatch && typeMatch;
     });
-    if (units.length > 0) return units;
-    
-    // Tahap 4: kata kunci tipe - setiap kata dari tipe Pricelist harus ada di tipe unit
+    if (units.length) return units;
+    // Tahap 4: kata kunci tipe
     const typeKeywords = aggressiveType.match(/[A-Z0-9]+/g) || [aggressiveType];
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
@@ -530,16 +473,12 @@ const APP = {
       const ut = this.normalizeTypeAggressive(u.type);
       return typeKeywords.every(kw => ut.includes(kw));
     });
-    
     return units;
   },
-  
   showStockSummary() {
     const model = $('model-select')?.value, type = $('type-select')?.value;
     if (!model || !type) return;
-    
     const units = this.findStockUnits(model, type);
-    
     const c = $('stock-summary-pricelist'); if (!c) return;
     if (!units.length) {
       c.innerHTML = '<div style="margin-top:0.5rem;padding:0.7rem;background:#F1F5F9;border-radius:10px;text-align:center;color:#64748B;">🔴 Stok Habis</div>';
@@ -837,8 +776,10 @@ const APP = {
           const sr = rows[secondRowIdx].map(h => String(h || '').toUpperCase().trim());
           headers = headers.map((h, i) => (h + ' ' + (sr[i] || '')).trim());
         }
+        this.debugLog('Headers:', headers);
 
         const col = this.mapColumns(headers);
+        this.debugLog('Column mapping:', col);
         if (col.model === -1) throw new Error('Kolom MODEL tidak ditemukan. Header: ' + headers.join(', '));
         if (col.nik === -1) throw new Error('Kolom NIK tidak ditemukan. Header: ' + headers.join(', '));
 
@@ -928,6 +869,9 @@ const APP = {
 
         if (failedRows.length > 0) {
           console.table(failedRows);
+          this.state.lastUploadFailedRows = failedRows;   // simpan untuk export
+        } else {
+          this.state.lastUploadFailedRows = [];
         }
 
         this.setProgressStep(3, 'Import Database');
@@ -977,6 +921,7 @@ const APP = {
 
   findHeaderRows(rows) {
     const keywords = ['MODEL', 'NIK', 'RANGKA', 'MESIN', 'TYPE', 'WARNA', 'GD', 'NO'];
+    // Cari dua baris header yang saling melengkapi
     for (let i = 0; i < rows.length - 1; i++) {
       const row1 = (rows[i] || []).map(c => String(c || '').toUpperCase().trim());
       const row2 = (rows[i + 1] || []).map(c => String(c || '').toUpperCase().trim());
@@ -984,6 +929,7 @@ const APP = {
       const matched = keywords.filter(k => combined.some(t => t.includes(k)));
       if (matched.length >= 3) return { headerIdx: i, secondRowIdx: i + 1 };
     }
+    // Fallback 1 baris
     for (let i = 0; i < rows.length; i++) {
       const texts = (rows[i] || []).map(c => String(c || '').toUpperCase().trim());
       const matched = keywords.filter(k => texts.some(t => t.includes(k)));
@@ -997,8 +943,8 @@ const APP = {
       model: ['MODEL', 'MODEL UNIT', 'NAMA MODEL', 'TYPE UNIT', 'VARIAN', 'UNIT', 'TIPE', 'TIPE UNIT', 'PRODUK', 'PRODUCT'],
       gd: ['GD', 'GRADE', 'GUDANG', 'LOKASI', 'LOKASI UNIT', 'CABANG'],
       warna: ['WARNA', 'COLOR', 'COLOUR', 'BODY COLOR', 'WARNA UNIT', 'KODE WARNA', 'COLOR CODE'],
-      noRangka: ['NO RANGKA', 'RANGKA', 'CHASSIS', 'FRAME', 'NOMOR RANGKA', 'NO CHASSIS', 'NOMOR CHASSIS', 'VIN', 'NO VIN'],
-      noMesin: ['NO MESIN', 'MESIN', 'ENGINE', 'NOMOR MESIN', 'ENGINE NUMBER', 'NO ENGINE', 'NOMOR ENGINE'],
+      noRangka: ['NO RANGKA', 'RANGKA', 'CHASSIS', 'FRAME', 'NOMOR RANGKA', 'NO CHASSIS', 'NOMOR CHASSIS', 'VIN', 'NO VIN', 'FRAME NUMBER'],
+      noMesin: ['NO MESIN', 'MESIN', 'ENGINE', 'NOMOR MESIN', 'ENGINE NUMBER', 'NO ENGINE', 'NOMOR ENGINE', 'ENGINE NO'],
       nik: ['NIK', 'NO NIK', 'NIK UNIT', 'TAHUN', 'MY', 'MODEL YEAR', 'TAHUN PRODUKSI', 'YEAR'],
       noDO: ['NO DO', 'NOMOR DO', 'DO', 'DELIVERY ORDER', 'SURAT JALAN'],
       tanggal: ['TANGGAL DO', 'TANGGAL', 'TGL DO', 'TGL', 'DATE', 'TANGGAL MASUK'],
@@ -1029,8 +975,33 @@ const APP = {
       <div class="row"><span>Error Parsing</span><span style="color:#DC2626;">${error}</span></div>
       <div class="row"><span>Duplikat (No Rangka/Mesin)</span><span style="color:#D97706;">${dup}</span></div>
       <div class="row"><span>Waktu Import</span><span>${this.state.importTime}s</span></div>`;
-    if (details.length) h += `<div style="margin-top:0.5rem; color:#DC2626;"><strong>Detail Error:</strong><br>${details.slice(0, 5).map(e => '• ' + e).join('<br>')}</div>`;
+    if (details.length) {
+      h += `<div style="margin-top:0.5rem; color:#DC2626;"><strong>Detail Error:</strong><br>${details.slice(0, 5).map(e => '• ' + e).join('<br>')}</div>`;
+      // Tambahkan tombol export error
+      h += `<button class="btn-outline btn-sm" style="margin-top:0.5rem;" onclick="APP.downloadErrorReport()">📥 Download Error Parsing</button>`;
+    }
     c.innerHTML = h + '</div>';
+  },
+
+  // Export error parsing ke CSV
+  downloadErrorReport() {
+    const rows = this.state.lastUploadFailedRows;
+    if (!rows || rows.length === 0) {
+      this.toast('Tidak ada error untuk didownload.', true);
+      return;
+    }
+    let csv = 'Baris,Model Asli,Type Asli,NIK\n';
+    rows.forEach(r => {
+      csv += `"${r.baris}","${r.model}","${r.type}","${r.nik}"\n`;
+    });
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'error_parsing.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    this.toast('File CSV sedang didownload.');
   },
 
   buildStockIndex() {
@@ -1179,15 +1150,22 @@ const APP = {
     const stockInfo = this.state.stockUnits.length ? `${this.state.stockUnits.length} unit (${this.state.stockDate})` : 'Kosong';
     const info = $('setting-info');
     if (info) info.innerHTML = `<div class="card"><h3>⚙️ Setting</h3>
-      <p>Versi: v2.4</p>
+      <p>Versi: v2.5</p>
       <p>Pricelist: Agustus 2026</p>
       <p>Stok: ${stockInfo}</p>
       <p>Favorit: ${this.state.favorites.length}</p>
       <p>Riwayat Simulasi: ${this.state.kreditHistory.length}</p>
       <p><strong>Dikembangkan oleh:</strong> Heru Prasetyo</p>
       <p><strong>Perusahaan:</strong> PT Sunmotor Indosentra Trada Semarang</p>
+      <p><label><input type="checkbox" id="debug-mode-checkbox" ${this.state.debugMode ? 'checked' : ''} onchange="APP.toggleDebugMode(this.checked)"> Debug Mode</label></p>
       <button class="btn-outline btn-sm btn-block" onclick="APP.clearCache()">🗑️ Hapus Cache & Reset</button>
     </div>`;
+  },
+
+  toggleDebugMode(enabled) {
+    this.state.debugMode = enabled;
+    this.saveState();
+    this.toast(`Debug mode ${enabled ? 'aktif' : 'nonaktif'}.`);
   },
 
   clearCache() {
