@@ -1,5 +1,5 @@
 /* ============================================================
-   Suzuki Sales Hub v2.1 — Internal Dealer Application
+   Suzuki Sales Console v2.1 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
    ============================================================ */
 
@@ -326,9 +326,24 @@ const APP = {
     const map = {
       'ZAM':'Midnight Black','ZJ3':'Blueish Black Pearl','ZQD':'Cave Black',
       'C9J':'Arctic White','26U':'White','WBY':'Savanna Ivory','EYP':'Savanna Ivory',
-      'DG5':'Kinetic Yellow','Z2S':'Silky Silver'
+      'DG5':'Kinetic Yellow','Z2S':'Silky Silver',
+      'D17':'Bold Red','D20':'Orange Metallic','Z6Z':'Forest Green',
+      'Z7X':'Metallic Silver','D06':'Black','D04':'Silver',
+      '1G3':'Ash Gray','Z5F':'Mustard Yellow','D09':'Bronze',
+      'D11':'Deep Blue','Z8U':'Ocean Blue','D15':'Sapphire Blue',
+      'D14':'Olive Green','Z9Z':'Dark Brown','Z7T':'Cool White',
+      'Z9W':'Super White','Z8X':'Black Mica','D19':'Maroon','3S7':'Red Pearl'
     };
     for (const [k, v] of Object.entries(map)) if (u.includes(k)) return v;
+    const colorKeywords = {
+      'HITAM':'Black','BLACK':'Black','PUTIH':'White','WHITE':'White',
+      'SILVER':'Silver','ABU':'Gray','GRAY':'Gray','GREY':'Gray',
+      'MERAH':'Red','RED':'Red','BIRU':'Blue','BLUE':'Blue',
+      'KUNING':'Yellow','YELLOW':'Yellow','HIJAU':'Green','GREEN':'Green',
+      'ORANGE':'Orange','JINGGA':'Orange','COKLAT':'Brown','BROWN':'Brown',
+      'IVORY':'Ivory','CREAM':'Cream','EMAS':'Gold','GOLD':'Gold'
+    };
+    for (const [k, v] of Object.entries(colorKeywords)) if (u.includes(k)) return v;
     return u || 'Lainnya';
   },
 
@@ -828,8 +843,21 @@ const APP = {
         const data = new Uint8Array(e.target.result);
         const wb = XLSX.read(data, { type: 'array' });
         if (!wb.SheetNames.length) throw new Error('File Excel kosong.');
-        const sheet = wb.Sheets[wb.SheetNames[0]];
-        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+
+        // Cari sheet berdasarkan nama
+        let targetSheet = null;
+        const sheetNamesUpper = wb.SheetNames.map(s => s.toUpperCase().trim());
+        const priorityNames = ['STOCK', 'RINCIAN', 'DATA', 'UNIT', 'INVENTORY'];
+        for (const name of priorityNames) {
+          const found = sheetNamesUpper.find(s => s.includes(name));
+          if (found) {
+            targetSheet = wb.Sheets[wb.SheetNames[sheetNamesUpper.indexOf(found)]];
+            break;
+          }
+        }
+        if (!targetSheet) targetSheet = wb.Sheets[wb.SheetNames[0]];
+
+        const rows = XLSX.utils.sheet_to_json(targetSheet, { header: 1, defval: '' });
         this.setProgressStep(2, 'Validasi Data');
         const { headerIdx, secondRowIdx } = this.findHeaderRows(rows);
         if (headerIdx === -1) throw new Error('Header tidak ditemukan. Pastikan kolom Model dan NIK ada.');
@@ -839,6 +867,8 @@ const APP = {
           headers = headers.map((h, i) => (h + ' ' + (sr[i] || '')).trim());
         }
         const col = this.mapColumns(headers);
+        console.log('Headers:', headers);
+        console.log('Mapping:', col);
         if (col.model === -1) throw new Error('Kolom MODEL tidak ditemukan. Header: ' + headers.join(', '));
         if (col.nik === -1) throw new Error('Kolom NIK tidak ditemukan. Header: ' + headers.join(', '));
         const newUnits = [];
@@ -850,19 +880,29 @@ const APP = {
           const row = rows[i];
           if (!row || row.every(c => !c)) continue;
           if (String(row[0] || '').toUpperCase().includes('TOTAL')) continue;
+
           const resolved = this.parseModelType(String(row[col.model] || ''));
           if (!resolved) { errorCount++; errorDetails.push(`Baris ${i+1}: Model/Tipe tidak dikenal`); continue; }
+
           const nikRaw = String(row[col.nik] || '').trim();
           const nikMatch = nikRaw.match(/\b(25|26)\b/);
           const nikGroup = nikMatch ? nikMatch[1] : 'unknown';
           if (nikGroup === 'unknown') { errorCount++; errorDetails.push(`Baris ${i+1}: NIK tidak valid`); continue; }
-          const warna = String(row[col.warna] || '').trim();
+
           const noRangka = String(row[col.noRangka] || '').trim();
+          if (!noRangka) { errorCount++; errorDetails.push(`Baris ${i+1}: No Rangka kosong`); continue; }
+
           const noMesin = String(row[col.noMesin] || '').trim();
-          if (noRangka && seenRangka.has(noRangka)) { duplikat++; continue; }
-          if (noMesin && seenMesin.has(noMesin)) { duplikat++; continue; }
-          if (noRangka) seenRangka.add(noRangka);
-          if (noMesin) seenMesin.add(noMesin);
+          if (!noMesin) { errorCount++; errorDetails.push(`Baris ${i+1}: No Mesin kosong`); continue; }
+
+          const warna = String(row[col.warna] || '').trim();
+          if (!warna) { errorCount++; errorDetails.push(`Baris ${i+1}: Warna kosong`); continue; }
+
+          if (seenRangka.has(noRangka)) { duplikat++; continue; }
+          if (seenMesin.has(noMesin)) { duplikat++; continue; }
+          seenRangka.add(noRangka);
+          seenMesin.add(noMesin);
+
           const normalizedType = this.normalizeType(resolved.type);
           const searchKey = `${resolved.model} ${resolved.type} ${warna} ${noRangka} ${noMesin}`.toLowerCase();
           newUnits.push({
@@ -947,6 +987,15 @@ const APP = {
 
   findHeaderRows(rows) {
     const keywords = ['MODEL', 'NIK', 'RANGKA', 'MESIN', 'TYPE', 'WARNA', 'GD', 'NO'];
+    // Cari header 2 baris
+    for (let i = 0; i < rows.length - 1; i++) {
+      const row1 = (rows[i] || []).map(c => String(c || '').toUpperCase().trim());
+      const row2 = (rows[i + 1] || []).map(c => String(c || '').toUpperCase().trim());
+      const combined = row1.map((cell, idx) => (cell + ' ' + (row2[idx] || '')).trim());
+      const matched = keywords.filter(k => combined.some(t => t.includes(k)));
+      if (matched.length >= 3) return { headerIdx: i, secondRowIdx: i + 1 };
+    }
+    // Fallback 1 baris
     for (let i = 0; i < rows.length; i++) {
       const texts = (rows[i] || []).map(c => String(c || '').toUpperCase().trim());
       const matched = keywords.filter(k => texts.some(t => t.includes(k)));
@@ -957,18 +1006,18 @@ const APP = {
 
   mapColumns(headers) {
     const aliases = {
-      model: ['MODEL', 'MODEL UNIT', 'NAMA MODEL', 'TYPE UNIT', 'VARIAN', 'UNIT'],
-      gd: ['GD', 'GRADE', 'GUDANG', 'LOKASI'],
-      warna: ['WARNA', 'COLOR', 'COLOUR', 'BODY COLOR'],
-      noRangka: ['NO RANGKA', 'RANGKA', 'CHASSIS', 'FRAME'],
-      noMesin: ['NO MESIN', 'MESIN', 'ENGINE'],
-      nik: ['NIK', 'NO NIK', 'NIK UNIT', 'TAHUN', 'MY', 'MODEL YEAR'],
-      noDO: ['NO DO', 'NOMOR DO'],
-      tanggal: ['TANGGAL DO', 'TANGGAL', 'TGL DO'],
-      customer: ['CUSTOMER', 'PEMBELI'],
-      sales: ['SALES', 'NAMA SALES'],
-      salesHead: ['SALES HEAD', 'SUPERVISOR'],
-      keterangan: ['KETERANGAN', 'KET', 'KONDISI', 'STATUS']
+      model: ['MODEL', 'MODEL UNIT', 'NAMA MODEL', 'TYPE UNIT', 'VARIAN', 'UNIT', 'TIPE', 'TIPE UNIT', 'PRODUK', 'PRODUCT'],
+      gd: ['GD', 'GRADE', 'GUDANG', 'LOKASI', 'LOKASI UNIT', 'CABANG'],
+      warna: ['WARNA', 'COLOR', 'COLOUR', 'BODY COLOR', 'WARNA UNIT', 'KODE WARNA', 'COLOR CODE'],
+      noRangka: ['NO RANGKA', 'RANGKA', 'CHASSIS', 'FRAME', 'NOMOR RANGKA', 'NO CHASSIS', 'NOMOR CHASSIS', 'VIN', 'NO VIN'],
+      noMesin: ['NO MESIN', 'MESIN', 'ENGINE', 'NOMOR MESIN', 'ENGINE NUMBER', 'NO ENGINE', 'NOMOR ENGINE'],
+      nik: ['NIK', 'NO NIK', 'NIK UNIT', 'TAHUN', 'MY', 'MODEL YEAR', 'TAHUN PRODUKSI', 'YEAR'],
+      noDO: ['NO DO', 'NOMOR DO', 'DO', 'DELIVERY ORDER', 'SURAT JALAN'],
+      tanggal: ['TANGGAL DO', 'TANGGAL', 'TGL DO', 'TGL', 'DATE', 'TANGGAL MASUK'],
+      customer: ['CUSTOMER', 'PEMBELI', 'NAMA CUSTOMER', 'NAMA PEMBELI', 'PELANGGAN', 'KONSUMEN'],
+      sales: ['SALES', 'NAMA SALES', 'SALESMAN', 'MARKETING', 'SALES EXECUTIVE'],
+      salesHead: ['SALES HEAD', 'SUPERVISOR', 'SPV', 'KEPALA SALES', 'MANAGER'],
+      keterangan: ['KETERANGAN', 'KET', 'KONDISI', 'STATUS', 'NOTE', 'CATATAN', 'REMARKS']
     };
     const map = {}; for (const k in aliases) map[k] = -1;
     headers.forEach((h, i) => {
