@@ -1,5 +1,5 @@
 /* ============================================================
-   Suzuki Sales Console v2.3 — Internal Dealer Application
+   Suzuki Sales Console v2.4 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
    ============================================================ */
 
@@ -27,7 +27,7 @@ const PAGE_HEADERS = {
   pricelist: { icon:'📋', title:'Pricelist', subtitle:'Harga OTR Agustus 2026' },
   kredit:   { icon:'💳', title:'Simulasi Kredit', subtitle:'Perbandingan & Kalkulator' },
   stock:    { icon:'📦', title:'Stock Unit', subtitle:'Cek Ketersediaan Unit' },
-  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.3' }
+  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.4' }
 };
 
 // ========== UTILITY ==========
@@ -119,22 +119,31 @@ const APP = {
   // ---------- BUILD INDEXES ----------
   buildModelPatterns() {
     this.db.modelPatterns = [
+      // === CARRY (prioritas utama) ===
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
+      // New Carry Chassis (harus sebelum PU/FD/WD)
+      { regex: /CARRY\s*CHASSIS/i, model: 'New Carry Chassis', extract: s => s.replace(/.*CARRY\s*CHASSIS\s*/i, '').trim() },
+      // PU/FD/WD
       { regex: /CARRY\s*(PU|PICK\s*UP|FD|WD)/i, model: 'New Carry PU', extract: s => {
           let t = s.replace(/.*CARRY\s*/i, '').trim();
           t = t.replace(/\bPICK\s*UP\b/i, 'PU').replace(/\bFD\s*AC\s*PS\b/i, 'FD AC PS').replace(/\bWD\s*AC\s*PS\b/i, 'WD AC PS');
           return t || 'PU';
         }
       },
+      // Fallback semua CARRY
       { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() || 'PU' },
+      
+      // === ERTIGA ===
       { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
       { regex: /ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ERTIGA\s*HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ERTIGA\s*HYBRID\s*/i, '').trim() },
       { regex: /ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
+      
+      // === XL7 ===
       { regex: /XL-?7.*MC.*LTD/i, model: 'XL-7 MC LTD', extract: s => s.replace(/.*XL-?7\s*MC.*LTD\s*/i, '').trim() },
       { regex: /XL-?7.*KURO/i, model: 'XL-7 MC Hybrid Kuro', extract: s => s.replace(/.*XL-?7\s*(MC\s*)?(HYBRID\s*)?(KURO\s*)?(EDITION\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7.*HYBRID/i, model: 'XL-7 MC Hybrid', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?(HYBRID\s*)?/i, '').trim() },
@@ -142,14 +151,26 @@ const APP = {
       { regex: /XL-?7\s*NEW\s*(BETA|ALPHA).*HYBRID/i, model: 'XL-7 Hybrid', extract: s => s.replace(/.*XL-?7\s*(HYBRID\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
       { regex: /XL-?7/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
+      
+      // === FRONX ===
       { regex: /FRONX\s*HYBRID/i, model: 'Fronx Hybrid', extract: s => s.replace(/.*FRONX\s*HYBRID\s*/i, '').trim() },
       { regex: /FRONX/i, model: 'Fronx', extract: s => s.replace(/.*FRONX\s*/i, '').trim() },
+      
+      // === GRAND VITARA ===
       { regex: /GRAND\s*VITARA/i, model: 'Grand Vitara MC', extract: s => s.replace(/.*GRAND\s*VITARA\s*(MC\s*)?/i, '').replace(/\bGX\b/gi, 'GLX').trim() },
+      
+      // === JIMNY ===
       { regex: /JIMNY\s*5\s*DOOR/i, model: 'Jimny 5 Door', extract: s => s.replace(/.*JIMNY\s*5\s*DOOR\s*/i, '').trim() },
       { regex: /JIMNY/i, model: 'Jimny 3 Door', extract: s => s.replace(/.*JIMNY(\s*3\s*DOOR)?\s*/i, '').trim() },
+      
+      // === S-PRESSO ===
       { regex: /S[-\s]?PRESSO.*LUXURY/i, model: 'S-Presso Luxury', extract: s => s.replace(/.*S-?\s*PRESSO.*LUXURY\s*/i, '').trim() },
       { regex: /S[-\s]?PRESSO/i, model: 'S-Presso', extract: s => s.replace(/.*S-?\s*PRESSO\s*/i, '').trim() },
+      
+      // === APV ===
       { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
+      
+      // === E VITARA ===
       { regex: /E\s*VITARA/i, model: 'e Vitara', extract: s => s.replace(/.*E\s*VITARA\s*/i, '').trim() },
     ];
   },
@@ -253,7 +274,7 @@ const APP = {
   showModal(h) { this.dom.modalBody.innerHTML = h; this.dom.modalBackdrop.classList.add('active'); },
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
   
-  // Normalisasi agresif: hapus SEMUA karakter non-alphanumeric, ideal untuk perbandingan tipe
+  // Normalisasi agresif untuk perbandingan tipe
   normalizeTypeAggressive(t) {
     if (!t) return '';
     return t.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/20\d{2}/g, '').replace(/HYBRID/gi, '')
@@ -288,6 +309,7 @@ const APP = {
           .replace(/\bFRONX\b/gi, 'FRONX').replace(/\bJIMNY\b/gi, 'JIMNY')
           .replace(/\bS-?PRESSO\b/gi, 'SPRESSO').replace(/\bCARRY\b/gi, 'CARRY')
           .replace(/\s+/g, ' ').trim();
+    // Hapus tipe, tapi pertahankan CHASSIS
     norm = norm.replace(/\bPU\b/gi, '').replace(/\bPICK\s*UP\b/gi, '').replace(/\bFD\b/gi, '')
           .replace(/\bWD\b/gi, '').replace(/\bAC\s*PS\b/gi, '').replace(/\s+/g, ' ').trim();
     return norm;
@@ -324,6 +346,7 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
+    // Fallback: coba tebak dari database pricelist
     const normModel = this.normalizeModel(s);
     const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
     if (candidates.length > 0) {
@@ -332,7 +355,7 @@ const APP = {
     return null;
   },
   updateFooter() {
-    this.dom.footerInfo.textContent = 'v2.3 • Pricelist: Agustus 2026';
+    this.dom.footerInfo.textContent = 'v2.4 • Pricelist: Agustus 2026';
     this.dom.footerStock.textContent = `Stock: ${this.state.stockDate||'belum diunggah'} | ${this.state.stockUnits.length||0} unit`;
   },
   addRecentView(u) { this.state.recentViews = this.state.recentViews.filter(x=>x.idx!==u.idx); this.state.recentViews.unshift(u); if(this.state.recentViews.length>10) this.state.recentViews.pop(); this.saveState(); },
@@ -468,7 +491,7 @@ const APP = {
     }
   },
   
-  // Pencarian unit stok yang lebih longgar dengan kata kunci
+  // Pencarian unit stok yang lebih longgar
   findStockUnits(model, type) {
     if (!model || !type) return [];
     
@@ -1156,7 +1179,7 @@ const APP = {
     const stockInfo = this.state.stockUnits.length ? `${this.state.stockUnits.length} unit (${this.state.stockDate})` : 'Kosong';
     const info = $('setting-info');
     if (info) info.innerHTML = `<div class="card"><h3>⚙️ Setting</h3>
-      <p>Versi: v2.3</p>
+      <p>Versi: v2.4</p>
       <p>Pricelist: Agustus 2026</p>
       <p>Stok: ${stockInfo}</p>
       <p>Favorit: ${this.state.favorites.length}</p>
