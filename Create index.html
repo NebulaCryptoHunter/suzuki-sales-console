@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#005BAC">
+  <title>Suzuki Sales Hub v2.1</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- SheetJS CDN -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <header class="header" id="main-header">
+    <button class="header-back" id="header-back" onclick="APP.goBack()">←</button>
+    <div class="header-icon" id="header-icon">🏠</div>
+    <div class="header-text">
+      <div class="header-title" id="header-title">Suzuki Sales Hub</div>
+      <div class="header-subtitle" id="header-subtitle">Internal Dealer Application</div>
+    </div>
+  </header>
+
+  <!-- ========== TOAST ========== -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ========== MAIN CONTAINER ========== -->
+  <div class="container" id="main-container"></div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" id="main-footer">
+    <span id="footer-info">v2.1</span>
+    <span id="footer-stock-info">Stock: belum diunggah</span>
+    <span style="width:100%;text-align:center;margin-top:2px;">Engineered by Heru Prasetyo, SIT Semarang</span>
+  </footer>
+
+  <!-- ========== MODAL ========== -->
+  <div class="modal-backdrop" id="modal-backdrop" onclick="APP.closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="APP.closeModal()">✕</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ========== TEMPLATES ========== -->
+  
+  <!-- Dashboard -->
+  <template id="tpl-dashboard">
+    <div class="menu-list">
+      <div class="menu-card" onclick="APP.navigateTo('pricelist')">
+        <div class="menu-icon blue">📋</div>
+        <div class="menu-info">
+          <div class="menu-title">Pricelist</div>
+          <div class="menu-sub">Harga • Diskon • Cashback</div>
+        </div>
+        <span style="color:#94A3B8;">→</span>
+      </div>
+      <div class="menu-card" onclick="APP.navigateTo('kredit',{tab:'manual'})">
+        <div class="menu-icon green">💳</div>
+        <div class="menu-info">
+          <div class="menu-title">Kredit</div>
+          <div class="menu-sub">Kalkulator Manual</div>
+        </div>
+        <span style="color:#94A3B8;">→</span>
+      </div>
+      <div class="menu-card" onclick="APP.navigateTo('stock')">
+        <div class="menu-icon orange">📦</div>
+        <div class="menu-info">
+          <div class="menu-title">Stock</div>
+          <div class="menu-sub" id="dashboard-stock-sub">Upload Excel • Cek Unit</div>
+        </div>
+        <span style="color:#94A3B8;">→</span>
+      </div>
+      <div class="menu-card" onclick="APP.navigateTo('setting')">
+        <div class="menu-icon gray">⚙️</div>
+        <div class="menu-info">
+          <div class="menu-title">Setting</div>
+          <div class="menu-sub">Tentang • Versi • Cache</div>
+        </div>
+        <span style="color:#94A3B8;">→</span>
+      </div>
+    </div>
+    <div id="dashboard-stats"></div>
+    <div id="dashboard-sim-terakhir"></div>
+    <div id="dashboard-fav"></div>
+  </template>
+
+  <!-- Pricelist -->
+  <template id="tpl-pricelist">
+    <div class="card accent-blue">
+      <label>Kategori</label>
+      <select id="cat-select" onchange="APP.loadModels()">
+        <option value="">-- Pilih Kategori --</option>
+      </select>
+      <label>Model</label>
+      <select id="model-select" onchange="APP.loadTypes()" disabled>
+        <option value="">-- Pilih Model --</option>
+      </select>
+      <label>Type</label>
+      <select id="type-select" onchange="APP.showPriceAndStock()" disabled>
+        <option value="">-- Pilih Type --</option>
+      </select>
+      <div id="nik-selector" class="hidden">
+        <label>NIK</label>
+        <select id="nik-dropdown" onchange="APP.updatePriceDisplay()" disabled></select>
+      </div>
+    </div>
+    <div id="price-display" class="card accent-blue hidden">
+      <div id="price-content"></div>
+      <div id="stock-summary-pricelist" style="margin-top:0.8rem;"></div>
+      <button class="btn-primary btn-sm" style="width:auto;padding:0.6rem 1rem;margin-top:0.8rem;" onclick="APP.goToKreditFromPricelist()">🧮 Simulasi Kredit</button>
+    </div>
+  </template>
+
+  <!-- Kredit -->
+  <template id="tpl-kredit">
+    <div class="tab-nav">
+      <button class="tab-btn" id="tab-btn-paket" onclick="APP.switchKreditTab('paket')">Perbandingan Leasing</button>
+      <button class="tab-btn" id="tab-btn-manual" onclick="APP.switchKreditTab('manual')">Kalkulator Manual</button>
+    </div>
+    
+    <!-- Panel Paket -->
+    <div class="tab-panel hidden" id="panel-paket">
+      <div class="card accent-green">
+        <label>Kategori</label>
+        <select id="kredit-cat-paket" onchange="APP.loadKreditModelsPaket()">
+          <option value="">-- Pilih Kategori --</option>
+        </select>
+        <label>Model</label>
+        <select id="kredit-model-paket" onchange="APP.loadKreditTypesPaket()" disabled>
+          <option value="">-- Pilih Model --</option>
+        </select>
+        <label>Type</label>
+        <select id="kredit-type-paket" onchange="APP.onKreditTypeChangePaket()" disabled>
+          <option value="">-- Pilih Type --</option>
+        </select>
+        <div id="kredit-nik-selector-paket" class="hidden">
+          <label>NIK</label>
+          <select id="kredit-nik-dropdown-paket" onchange="APP.showAllLeasingResult()" disabled></select>
+        </div>
+        <label>Tenor</label>
+        <select id="kredit-tenor-paket" onchange="APP.showAllLeasingResult()" disabled>
+          <option value="">-- Pilih Tenor --</option>
+          <option value="12">12 Bulan</option>
+          <option value="24">24 Bulan</option>
+          <option value="36">36 Bulan</option>
+          <option value="48">48 Bulan</option>
+          <option value="60" selected>60 Bulan</option>
+        </select>
+        <div id="kredit-sort-options" class="hidden" style="margin-top:0.5rem;display:flex;gap:0.5rem;">
+          <button class="btn-outline btn-sm" onclick="APP.setSortMode('investasi')">📊 Investasi Terkecil</button>
+          <button class="btn-outline btn-sm" onclick="APP.setSortMode('dp')">💵 DP Terkecil</button>
+        </div>
+      </div>
+      <div id="kredit-result" class="hidden"></div>
+    </div>
+    
+    <!-- Panel Manual -->
+    <div class="tab-panel hidden" id="panel-manual">
+      <div class="card accent-green">
+        <label>Leasing</label>
+        <select id="manual-leasing-select" onchange="APP.onManualLeasingChange()">
+          <option value="">-- Pilih Leasing --</option>
+        </select>
+        <div id="manual-unit-section" class="hidden">
+          <label>Kategori</label>
+          <select id="manual-cat" onchange="APP.loadManualModels()">
+            <option value="">-- Pilih Kategori --</option>
+          </select>
+          <label>Model</label>
+          <select id="manual-model" onchange="APP.loadManualTypes()" disabled>
+            <option value="">-- Pilih Model --</option>
+          </select>
+          <label>Type</label>
+          <select id="manual-type" onchange="APP.onManualTypeChange()" disabled>
+            <option value="">-- Pilih Type --</option>
+          </select>
+          <div id="manual-nik-selector" class="hidden">
+            <label>NIK</label>
+            <select id="manual-nik-dropdown" onchange="APP.hitungManualPerLeasing()" disabled></select>
+          </div>
+          <label>DP Bayar</label>
+          <input type="text" id="manual-dp" placeholder="Contoh: 10.000.000" oninput="this.value=APP.formatRupiahInput(this.value);APP.hitungManualPerLeasing();">
+          <label>Tenor</label>
+          <select id="manual-tenor" onchange="APP.hitungManualPerLeasing()">
+            <option value="">-- Pilih Tenor --</option>
+            <option value="12">12 Bulan</option>
+            <option value="24">24 Bulan</option>
+            <option value="36">36 Bulan</option>
+            <option value="48">48 Bulan</option>
+            <option value="60" selected>60 Bulan</option>
+          </select>
+          <div id="manual-result" style="margin-top:0.5rem;"></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Stock -->
+  <template id="tpl-stock">
+    <div class="card accent-orange">
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('stock-file').click()">
+        <div style="font-size:1.8rem;">📄</div>
+        <p style="font-weight:600;">Upload Stock Dealer</p>
+        <p style="font-size:0.7rem;color:#64748B;">Klik atau tarik file Excel</p>
+      </div>
+      <input type="file" id="stock-file" accept=".xlsx,.xls" onchange="APP.handleStockUpload(this)" style="display:none;">
+      <div id="upload-status" style="margin-top:0.4rem;"></div>
+      <div id="upload-progress-container" class="progress-container hidden">
+        <div class="progress-steps" id="progress-steps">
+          <div class="progress-step">Baca</div>
+          <div class="progress-step">Parse</div>
+          <div class="progress-step">Validasi</div>
+          <div class="progress-step">Import</div>
+          <div class="progress-step">Selesai</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div id="progress-label" style="font-size:0.7rem;text-align:center;margin-top:0.2rem;"></div>
+      </div>
+      <div id="import-summary-container"></div>
+      <button class="btn-outline btn-sm" style="margin-top:0.5rem;" onclick="APP.downloadTemplate()">📥 Download Template Excel</button>
+    </div>
+    <div id="stock-summary" class="hidden"></div>
+    <div id="stock-filters" class="hidden card accent-orange">
+      <div class="flex-row">
+        <div><label>Model</label><select id="stock-model" onchange="APP.onStockModelChange()"></select></div>
+        <div><label>Type</label><select id="stock-type" onchange="APP.applyFilters()"></select></div>
+      </div>
+      <div class="flex-row">
+        <div><label>NIK</label><select id="stock-nik" onchange="APP.applyFilters()"><option value="">Semua</option><option value="25">NIK 25</option><option value="26">NIK 26</option></select></div>
+        <div><label>Warna</label><select id="stock-color" onchange="APP.applyFilters()"></select></div>
+      </div>
+      <input type="search" id="stock-search" placeholder="🔍 Cari Model, No Rangka, Customer..." oninput="APP.applyFilters()">
+      <button class="btn-outline btn-sm" style="margin-top:0.4rem;" onclick="APP.resetFilters()">↺ Reset Filter</button>
+      <p style="margin-top:0.4rem;font-size:0.75rem;color:#64748B;" id="filter-count"></p>
+    </div>
+    <div id="stock-list" class="hidden"></div>
+  </template>
+
+  <!-- Setting -->
+  <template id="tpl-setting">
+    <div class="card accent-gray" id="setting-info"></div>
+  </template>
+
+  <!-- ========== APP JS ========== -->
+  <script src="js/app.js?v=20260807"></script>
+</body>
+</html>
