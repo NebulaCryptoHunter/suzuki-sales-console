@@ -1,47 +1,374 @@
-{
-  "ADIRA": {
-    "nama": "ADIRA Finance",
-    "rumus": "faktor_leasing",
-    "subsidiDP": false
+[
+  {
+    "model": "New Carry PU",
+    "type": "FD",
+    "otr": 187000000,
+    "paket": [
+      { "tenor": 12, "tdp": 46750000, "angsuran": 13403000 },
+      { "tenor": 24, "tdp": 46750000, "angsuran": 7399000 },
+      { "tenor": 36, "tdp": 46750000, "angsuran": 5452000 },
+      { "tenor": 48, "tdp": 46750000, "angsuran": 4502000 },
+      { "tenor": 60, "tdp": 56100000, "angsuran": 3747000 }
+    ]
   },
-  "MUF": {
-    "nama": "Mandiri Utama Finance",
-    "rumus": "persentase_pokok",
-    "subsidiDP": false
+  {
+    "model": "New Carry PU",
+    "type": "WD",
+    "otr": 188100000,
+    "paket": [
+      { "tenor": 12, "tdp": 47030000, "angsuran": 13480000 },
+      { "tenor": 24, "tdp": 47030000, "angsuran": 7441000 },
+      { "tenor": 36, "tdp": 47030000, "angsuran": 5483000 },
+      { "tenor": 48, "tdp": 47030000, "angsuran": 4527000 },
+      { "tenor": 60, "tdp": 56430000, "angsuran": 3769000 }
+    ]
   },
-  "SUFI DP20": {
-    "nama": "Suzuki Finance (DP 20%)",
-    "rumus": "faktor_leasing",
-    "subsidiDP": true
+  {
+    "model": "New Carry PU",
+    "type": "FD AC PS",
+    "otr": 195300000,
+    "paket": [
+      { "tenor": 12, "tdp": 48830000, "angsuran": 13985000 },
+      { "tenor": 24, "tdp": 48830000, "angsuran": 7719000 },
+      { "tenor": 36, "tdp": 48830000, "angsuran": 5687000 },
+      { "tenor": 48, "tdp": 48830000, "angsuran": 4696000 },
+      { "tenor": 60, "tdp": 58590000, "angsuran": 3908000 }
+    ]
   },
-  "SUFI DP25": {
-    "nama": "Suzuki Finance (DP 25%)",
-    "rumus": "faktor_leasing",
-    "subsidiDP": true
+  {
+    "model": "New Carry PU",
+    "type": "WD AC PS",
+    "otr": 196200000,
+    "paket": [
+      { "tenor": 12, "tdp": 49050000, "angsuran": 14048000 },
+      { "tenor": 24, "tdp": 49050000, "angsuran": 7754000 },
+      { "tenor": 36, "tdp": 49050000, "angsuran": 5713000 },
+      { "tenor": 48, "tdp": 49050000, "angsuran": 4717000 },
+      { "tenor": 60, "tdp": 58860000, "angsuran": 3925000 }
+    ]
   },
-  "SUFI DP30": {
-    "nama": "Suzuki Finance (DP 30%)",
-    "rumus": "faktor_leasing",
-    "subsidiDP": true
+  {
+    "model": "All New Ertiga",
+    "type": "GL MT",
+    "otr": 279000000,
+    "paket": [
+      { "tenor": 12, "tdp": 41850000, "angsuran": 22408000 },
+      { "tenor": 24, "tdp": 41850000, "angsuran": 12209000 },
+      { "tenor": 36, "tdp": 41850000, "angsuran": 8870000 },
+      { "tenor": 48, "tdp": 41850000, "angsuran": 7249000 },
+      { "tenor": 60, "tdp": 55800000, "angsuran": 6074000 }
+    ]
   },
-  "BCA": {
-    "nama": "BCA Finance",
-    "rumus": "proporsional",
-    "subsidiDP": false
+  {
+    "model": "All New Ertiga",
+    "type": "GL AT",
+    "otr": 290700000,
+    "paket": [
+      { "tenor": 12, "tdp": 43610000, "angsuran": 23335000 },
+      { "tenor": 24, "tdp": 43610000, "angsuran": 12713000 },
+      { "tenor": 36, "tdp": 43610000, "angsuran": 9236000 },
+      { "tenor": 48, "tdp": 43610000, "angsuran": 7548000 },
+      { "tenor": 60, "tdp": 58140000, "angsuran": 6323000 }
+    ]
   },
-  "BNI": {
-    "nama": "BNI Finance",
-    "rumus": "proporsional",
-    "subsidiDP": false
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "GX MT",
+    "otr": 298900000,
+    "paket": [
+      { "tenor": 12, "tdp": 44840000, "angsuran": 23985000 },
+      { "tenor": 24, "tdp": 44840000, "angsuran": 13067000 },
+      { "tenor": 36, "tdp": 44840000, "angsuran": 9492000 },
+      { "tenor": 48, "tdp": 44840000, "angsuran": 7757000 },
+      { "tenor": 60, "tdp": 59780000, "angsuran": 6498000 }
+    ]
   },
-  "BRI": {
-    "nama": "BRI Finance",
-    "rumus": "proporsional",
-    "subsidiDP": false
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "GX AT",
+    "otr": 310100000,
+    "paket": [
+      { "tenor": 12, "tdp": 46520000, "angsuran": 24873000 },
+      { "tenor": 24, "tdp": 46520000, "angsuran": 13550000 },
+      { "tenor": 36, "tdp": 46520000, "angsuran": 9842000 },
+      { "tenor": 48, "tdp": 46520000, "angsuran": 8043000 },
+      { "tenor": 60, "tdp": 62020000, "angsuran": 6737000 }
+    ]
   },
-  "MANDIRI": {
-    "nama": "Mandiri Finance",
-    "rumus": "proporsional",
-    "subsidiDP": false
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "Cruise MT",
+    "otr": 312000000,
+    "paket": [
+      { "tenor": 12, "tdp": 46800000, "angsuran": 25024000 },
+      { "tenor": 24, "tdp": 46800000, "angsuran": 13632000 },
+      { "tenor": 36, "tdp": 46800000, "angsuran": 9902000 },
+      { "tenor": 48, "tdp": 46800000, "angsuran": 8092000 },
+      { "tenor": 60, "tdp": 62400000, "angsuran": 6777000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "Cruise AT",
+    "otr": 323300000,
+    "paket": [
+      { "tenor": 12, "tdp": 48500000, "angsuran": 25919000 },
+      { "tenor": 24, "tdp": 48500000, "angsuran": 14119000 },
+      { "tenor": 36, "tdp": 48500000, "angsuran": 10255000 },
+      { "tenor": 48, "tdp": 48500000, "angsuran": 8381000 },
+      { "tenor": 60, "tdp": 64660000, "angsuran": 7018000 }
+    ]
+  },
+  {
+    "model": "XL-7 MC",
+    "type": "Zeta MT",
+    "otr": 285000000,
+    "paket": [
+      { "tenor": 12, "tdp": 42750000, "angsuran": 22884000 },
+      { "tenor": 24, "tdp": 42750000, "angsuran": 12468000 },
+      { "tenor": 36, "tdp": 42750000, "angsuran": 9058000 },
+      { "tenor": 48, "tdp": 42750000, "angsuran": 7402000 },
+      { "tenor": 60, "tdp": 57000000, "angsuran": 6202000 }
+    ]
+  },
+  {
+    "model": "XL-7 MC",
+    "type": "Zeta AT",
+    "otr": 297000000,
+    "paket": [
+      { "tenor": 12, "tdp": 44550000, "angsuran": 23835000 },
+      { "tenor": 24, "tdp": 44550000, "angsuran": 12985000 },
+      { "tenor": 36, "tdp": 44550000, "angsuran": 9433000 },
+      { "tenor": 48, "tdp": 44550000, "angsuran": 7709000 },
+      { "tenor": 60, "tdp": 59400000, "angsuran": 6458000 }
+    ]
+  },
+  {
+    "model": "XL-7 MC Hybrid",
+    "type": "Beta MT",
+    "otr": 313500000,
+    "paket": [
+      { "tenor": 12, "tdp": 47030000, "angsuran": 25143000 },
+      { "tenor": 24, "tdp": 47030000, "angsuran": 13696000 },
+      { "tenor": 36, "tdp": 47030000, "angsuran": 9949000 },
+      { "tenor": 48, "tdp": 47030000, "angsuran": 8130000 },
+      { "tenor": 60, "tdp": 62700000, "angsuran": 6809000 }
+    ]
+  },
+  {
+    "model": "XL-7 MC Hybrid",
+    "type": "Beta AT",
+    "otr": 325500000,
+    "paket": [
+      { "tenor": 12, "tdp": 48830000, "angsuran": 26094000 },
+      { "tenor": 24, "tdp": 48830000, "angsuran": 14213000 },
+      { "tenor": 36, "tdp": 48830000, "angsuran": 10324000 },
+      { "tenor": 48, "tdp": 48830000, "angsuran": 8437000 },
+      { "tenor": 60, "tdp": 65100000, "angsuran": 7065000 }
+    ]
+  },
+  {
+    "model": "XL-7 MC Hybrid",
+    "type": "Alpha MT",
+    "otr": 325000000,
+    "paket": [
+      { "tenor": 12, "tdp": 48750000, "angsuran": 26054000 },
+      { "tenor": 24, "tdp": 48750000, "angsuran": 14192000 },
+      { "tenor": 36, "tdp": 48750000, "angsuran": 10308000 },
+      { "tenor": 48, "tdp": 48750000, "angsuran": 8424000 },
+      { "tenor": 60, "tdp": 65000000, "angsuran": 7054000 }
+    ]
+  },
+  {
+    "model": "XL-7 MC Hybrid",
+    "type": "Alpha AT",
+    "otr": 336500000,
+    "paket": [
+      { "tenor": 12, "tdp": 50480000, "angsuran": 26966000 },
+      { "tenor": 24, "tdp": 50480000, "angsuran": 14688000 },
+      { "tenor": 36, "tdp": 50480000, "angsuran": 10668000 },
+      { "tenor": 48, "tdp": 50480000, "angsuran": 8709000 },
+      { "tenor": 60, "tdp": 67300000, "angsuran": 7284000 }
+    ]
+  },
+  {
+    "model": "XL-7 MC Hybrid Kuro",
+    "type": "Alpha AT",
+    "otr": 340500000,
+    "paket": [
+      { "tenor": 12, "tdp": 51080000, "angsuran": 27283000 },
+      { "tenor": 24, "tdp": 51080000, "angsuran": 14860000 },
+      { "tenor": 36, "tdp": 51080000, "angsuran": 10793000 },
+      { "tenor": 48, "tdp": 51080000, "angsuran": 8811000 },
+      { "tenor": 60, "tdp": 68100000, "angsuran": 7369000 }
+    ]
+  },
+  {
+    "model": "XL-7",
+    "type": "New Zeta MT",
+    "otr": 294100000,
+    "paket": [
+      { "tenor": 12, "tdp": 44120000, "angsuran": 23605000 },
+      { "tenor": 24, "tdp": 44120000, "angsuran": 12860000 },
+      { "tenor": 36, "tdp": 44120000, "angsuran": 9342000 },
+      { "tenor": 48, "tdp": 44120000, "angsuran": 7635000 },
+      { "tenor": 60, "tdp": 58820000, "angsuran": 6396000 }
+    ]
+  },
+  {
+    "model": "XL-7",
+    "type": "New Zeta AT",
+    "otr": 305900000,
+    "paket": [
+      { "tenor": 12, "tdp": 45890000, "angsuran": 24540000 },
+      { "tenor": 24, "tdp": 45890000, "angsuran": 13369000 },
+      { "tenor": 36, "tdp": 45890000, "angsuran": 9711000 },
+      { "tenor": 48, "tdp": 45890000, "angsuran": 7936000 },
+      { "tenor": 60, "tdp": 61180000, "angsuran": 6647000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Beta MT",
+    "otr": 322700000,
+    "paket": [
+      { "tenor": 12, "tdp": 48410000, "angsuran": 25872000 },
+      { "tenor": 24, "tdp": 48410000, "angsuran": 14093000 },
+      { "tenor": 36, "tdp": 48410000, "angsuran": 10236000 },
+      { "tenor": 48, "tdp": 48410000, "angsuran": 8365000 },
+      { "tenor": 60, "tdp": 64540000, "angsuran": 7005000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Beta AT",
+    "otr": 334600000,
+    "paket": [
+      { "tenor": 12, "tdp": 50190000, "angsuran": 26815000 },
+      { "tenor": 24, "tdp": 50190000, "angsuran": 14606000 },
+      { "tenor": 36, "tdp": 50190000, "angsuran": 10608000 },
+      { "tenor": 48, "tdp": 50190000, "angsuran": 8661000 },
+      { "tenor": 60, "tdp": 66920000, "angsuran": 7244000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Alpha AT",
+    "otr": 348900000,
+    "paket": [
+      { "tenor": 12, "tdp": 52340000, "angsuran": 27949000 },
+      { "tenor": 24, "tdp": 52340000, "angsuran": 15222000 },
+      { "tenor": 36, "tdp": 52340000, "angsuran": 11055000 },
+      { "tenor": 48, "tdp": 52340000, "angsuran": 9026000 },
+      { "tenor": 60, "tdp": 69780000, "angsuran": 7548000 }
+    ]
+  },
+  {
+    "model": "Fronx",
+    "type": "GL MT",
+    "otr": 275800000,
+    "paket": [
+      { "tenor": 12, "tdp": 41370000, "angsuran": 22145000 },
+      { "tenor": 24, "tdp": 41370000, "angsuran": 12065000 },
+      { "tenor": 36, "tdp": 41370000, "angsuran": 8761000 },
+      { "tenor": 48, "tdp": 41370000, "angsuran": 7158000 },
+      { "tenor": 60, "tdp": 55160000, "angsuran": 5997000 }
+    ]
+  },
+  {
+    "model": "Fronx",
+    "type": "GL AT",
+    "otr": 287200000,
+    "paket": [
+      { "tenor": 12, "tdp": 43080000, "angsuran": 23060000 },
+      { "tenor": 24, "tdp": 43080000, "angsuran": 12564000 },
+      { "tenor": 36, "tdp": 43080000, "angsuran": 9123000 },
+      { "tenor": 48, "tdp": 43080000, "angsuran": 7454000 },
+      { "tenor": 60, "tdp": 57440000, "angsuran": 6245000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "GX MT",
+    "otr": 300400000,
+    "paket": [
+      { "tenor": 12, "tdp": 45060000, "angsuran": 24120000 },
+      { "tenor": 24, "tdp": 45060000, "angsuran": 13142000 },
+      { "tenor": 36, "tdp": 45060000, "angsuran": 9542000 },
+      { "tenor": 48, "tdp": 45060000, "angsuran": 7798000 },
+      { "tenor": 60, "tdp": 60080000, "angsuran": 6532000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "GX AT",
+    "otr": 318700000,
+    "paket": [
+      { "tenor": 12, "tdp": 47810000, "angsuran": 25589000 },
+      { "tenor": 24, "tdp": 47810000, "angsuran": 13942000 },
+      { "tenor": 36, "tdp": 47810000, "angsuran": 10123000 },
+      { "tenor": 48, "tdp": 47810000, "angsuran": 8275000 },
+      { "tenor": 60, "tdp": 63740000, "angsuran": 6931000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "SGX AT",
+    "otr": 345200000,
+    "paket": [
+      { "tenor": 12, "tdp": 51780000, "angsuran": 27718000 },
+      { "tenor": 24, "tdp": 51780000, "angsuran": 15102000 },
+      { "tenor": 36, "tdp": 51780000, "angsuran": 10965000 },
+      { "tenor": 48, "tdp": 51780000, "angsuran": 8963000 },
+      { "tenor": 60, "tdp": 69040000, "angsuran": 7507000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "SGX AT Two Tone",
+    "otr": 347200000,
+    "paket": [
+      { "tenor": 12, "tdp": 52080000, "angsuran": 27879000 },
+      { "tenor": 24, "tdp": 52080000, "angsuran": 15189000 },
+      { "tenor": 36, "tdp": 52080000, "angsuran": 11028000 },
+      { "tenor": 48, "tdp": 52080000, "angsuran": 9015000 },
+      { "tenor": 60, "tdp": 69440000, "angsuran": 7550000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "SGX AT Kuro",
+    "otr": 347700000,
+    "paket": [
+      { "tenor": 12, "tdp": 52160000, "angsuran": 27919000 },
+      { "tenor": 24, "tdp": 52160000, "angsuran": 15211000 },
+      { "tenor": 36, "tdp": 52160000, "angsuran": 11044000 },
+      { "tenor": 48, "tdp": 52160000, "angsuran": 9028000 },
+      { "tenor": 60, "tdp": 69540000, "angsuran": 7561000 }
+    ]
+  },
+  {
+    "model": "S-Presso",
+    "type": "MT",
+    "otr": 194400000,
+    "paket": [
+      { "tenor": 12, "tdp": 29160000, "angsuran": 15606000 },
+      { "tenor": 24, "tdp": 29160000, "angsuran": 8501000 },
+      { "tenor": 36, "tdp": 29160000, "angsuran": 6173000 },
+      { "tenor": 48, "tdp": 29160000, "angsuran": 5045000 },
+      { "tenor": 60, "tdp": 38880000, "angsuran": 4227000 }
+    ]
+  },
+  {
+    "model": "S-Presso",
+    "type": "AGS",
+    "otr": 206500000,
+    "paket": [
+      { "tenor": 12, "tdp": 30980000, "angsuran": 16577000 },
+      { "tenor": 24, "tdp": 30980000, "angsuran": 9030000 },
+      { "tenor": 36, "tdp": 30980000, "angsuran": 6557000 },
+      { "tenor": 48, "tdp": 30980000, "angsuran": 5359000 },
+      { "tenor": 60, "tdp": 41300000, "angsuran": 4490000 }
+    ]
   }
-}
+]
