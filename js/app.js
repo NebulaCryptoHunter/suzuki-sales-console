@@ -1,5 +1,5 @@
 /* ============================================================
-   Suzuki Sales Console v2.1 — Internal Dealer Application
+   Suzuki Sales Console v2.2 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
    ============================================================ */
 
@@ -27,7 +27,7 @@ const PAGE_HEADERS = {
   pricelist: { icon:'📋', title:'Pricelist', subtitle:'Harga OTR Agustus 2026' },
   kredit:   { icon:'💳', title:'Simulasi Kredit', subtitle:'Perbandingan & Kalkulator' },
   stock:    { icon:'📦', title:'Stock Unit', subtitle:'Cek Ketersediaan Unit' },
-  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.1' }
+  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.2' }
 };
 
 // ========== UTILITY ==========
@@ -119,37 +119,59 @@ const APP = {
   // ---------- BUILD INDEXES ----------
   buildModelPatterns() {
     this.db.modelPatterns = [
-      // New Carry PU & variants (tangkas semua variasi Carry)
-      { regex: /CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, '').trim() },
+      // === CARRY (prioritas utama) ===
+      // Tangkap semua yang berbau CARRY kecuali yang sudah spesifik
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
-      { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() },
-      // APV
-      { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
-      // Ertiga
+      // PU, Pickup, FD, WD
+      { regex: /CARRY\s*(PU|PICK\s*UP|FD|WD)/i, model: 'New Carry PU', extract: s => {
+          let t = s.replace(/.*CARRY\s*/i, '').trim();
+          // Normalisasi tipe
+          t = t.replace(/\bPICK\s*UP\b/i, 'PU').replace(/\bFD\s*AC\s*PS\b/i, 'FD AC PS').replace(/\bWD\s*AC\s*PS\b/i, 'WD AC PS');
+          return t || 'PU'; // default PU jika kosong
+        }
+      },
+      // Fallback: semua CARRY yang belum tertangkap dianggap New Carry PU
+      { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() || 'PU' },
+      
+      // === ERTIGA ===
       { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
-      // XL7
+      // ERTIGA tanpa ALL NEW
+      { regex: /ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ERTIGA.*LTD\s*/i, '').trim() },
+      { regex: /ERTIGA\s*HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ERTIGA\s*HYBRID\s*/i, '').trim() },
+      { regex: /ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
+      
+      // === XL7 ===
       { regex: /XL-?7.*MC.*LTD/i, model: 'XL-7 MC LTD', extract: s => s.replace(/.*XL-?7\s*MC.*LTD\s*/i, '').trim() },
       { regex: /XL-?7.*KURO/i, model: 'XL-7 MC Hybrid Kuro', extract: s => s.replace(/.*XL-?7\s*(MC\s*)?(HYBRID\s*)?(KURO\s*)?(EDITION\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7.*HYBRID/i, model: 'XL-7 MC Hybrid', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?(HYBRID\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7\s*(MC|ZETA|BETA|ALPHA)/i, model: 'XL-7 MC', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW\s*(BETA|ALPHA).*HYBRID/i, model: 'XL-7 Hybrid', extract: s => s.replace(/.*XL-?7\s*(HYBRID\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
-      // Fronx
+      { regex: /XL-?7/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
+      
+      // === FRONX ===
       { regex: /FRONX\s*HYBRID/i, model: 'Fronx Hybrid', extract: s => s.replace(/.*FRONX\s*HYBRID\s*/i, '').trim() },
       { regex: /FRONX/i, model: 'Fronx', extract: s => s.replace(/.*FRONX\s*/i, '').trim() },
-      // Grand Vitara
+      
+      // === GRAND VITARA ===
       { regex: /GRAND\s*VITARA/i, model: 'Grand Vitara MC', extract: s => s.replace(/.*GRAND\s*VITARA\s*(MC\s*)?/i, '').replace(/\bGX\b/gi, 'GLX').trim() },
-      // Jimny
+      
+      // === JIMNY ===
       { regex: /JIMNY\s*5\s*DOOR/i, model: 'Jimny 5 Door', extract: s => s.replace(/.*JIMNY\s*5\s*DOOR\s*/i, '').trim() },
       { regex: /JIMNY/i, model: 'Jimny 3 Door', extract: s => s.replace(/.*JIMNY(\s*3\s*DOOR)?\s*/i, '').trim() },
-      // S-Presso
+      
+      // === S-PRESSO ===
       { regex: /S[-\s]?PRESSO.*LUXURY/i, model: 'S-Presso Luxury', extract: s => s.replace(/.*S-?\s*PRESSO.*LUXURY\s*/i, '').trim() },
       { regex: /S[-\s]?PRESSO/i, model: 'S-Presso', extract: s => s.replace(/.*S-?\s*PRESSO\s*/i, '').trim() },
-      // e Vitara
+      
+      // === APV ===
+      { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
+      
+      // === E VITARA ===
       { regex: /E\s*VITARA/i, model: 'e Vitara', extract: s => s.replace(/.*E\s*VITARA\s*/i, '').trim() },
     ];
   },
@@ -265,11 +287,11 @@ const APP = {
       .replace(/\bPU\b/gi, 'PU').replace(/\bPICK\s*UP\b/gi, 'PICK UP')
       .replace(/\s+/g, ' ').trim();
   },
-  // Fungsi normalisasi model yang sudah disempurnakan
+  // Normalisasi model untuk pencocokan dengan Pricelist
   normalizeModel(m) {
     if (!m) return '';
     let norm = m.toUpperCase().replace(/\s+/g, ' ').trim();
-    // Hapus kata-kata umum yang tidak perlu untuk pencocokan
+    // Hapus kata-kata umum
     norm = norm.replace(/\bNEW\b/gi, '').replace(/\bMC\b/gi, '').replace(/\bHYBRID\b/gi, '')
           .replace(/\bKURO\b/gi, '').replace(/\bLTD\b/gi, '').replace(/\bALL\b/gi, '')
           .replace(/\bAN\b/gi, '').replace(/\bGRAND\b/gi, '').replace(/\bVITARA\b/gi, 'VITARA')
@@ -277,8 +299,7 @@ const APP = {
           .replace(/\bFRONX\b/gi, 'FRONX').replace(/\bJIMNY\b/gi, 'JIMNY')
           .replace(/\bS-?PRESSO\b/gi, 'SPRESSO').replace(/\bCARRY\b/gi, 'CARRY')
           .replace(/\s+/g, ' ').trim();
-    // Hapus varian yang tidak mempengaruhi model dasar (PU, PICKUP, FD, WD, dll)
-    // Ini akan membuat "CARRY PU", "CARRY PICK UP", "CARRY FD" menjadi "CARRY" saja
+    // Hapus varian tipe (PU, FD, WD, dll) agar model dasar saja yang dibandingkan
     norm = norm.replace(/\bPU\b/gi, '').replace(/\bPICK\s*UP\b/gi, '').replace(/\bFD\b/gi, '')
           .replace(/\bWD\b/gi, '').replace(/\bAC\s*PS\b/gi, '').replace(/\s+/g, ' ').trim();
     return norm;
@@ -315,10 +336,16 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
+    // Fallback: jika tidak ada yang cocok, coba tebak dari database pricelist
+    const normModel = this.normalizeModel(s);
+    const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
+    if (candidates.length > 0) {
+      return { model: candidates[0].model, type: candidates[0].type };
+    }
     return null;
   },
   updateFooter() {
-    this.dom.footerInfo.textContent = 'v2.1 • Pricelist: Agustus 2026';
+    this.dom.footerInfo.textContent = 'v2.2 • Pricelist: Agustus 2026';
     this.dom.footerStock.textContent = `Stock: ${this.state.stockDate||'belum diunggah'} | ${this.state.stockUnits.length||0} unit`;
   },
   addRecentView(u) { this.state.recentViews = this.state.recentViews.filter(x=>x.idx!==u.idx); this.state.recentViews.unshift(u); if(this.state.recentViews.length>10) this.state.recentViews.pop(); this.saveState(); },
@@ -460,20 +487,11 @@ const APP = {
     const normalizedModel = this.normalizeModel(model);
     const normalizedType = this.normalizeType(type);
     
-    // Filter unit dengan normalisasi yang lebih baik
     const units = this.state.stockUnits.filter(u => {
       const unitModel = this.normalizeModel(u.model);
       const unitType = u.normalizedType;
       return unitModel === normalizedModel && unitType === normalizedType;
     });
-    
-    // Debugging
-    console.log(`Pricelist Model: ${model} -> ${normalizedModel}, Type: ${type} -> ${normalizedType}`);
-    console.log(`Found ${units.length} units in stock.`);
-    if (units.length === 0 && this.state.stockUnits.length > 0) {
-      console.log('Sample stock models:', this.state.stockUnits.slice(0,5).map(u => `${u.model} -> ${this.normalizeModel(u.model)}`));
-      console.log('Sample stock types:', this.state.stockUnits.slice(0,5).map(u => `${u.type} -> ${u.normalizedType}`));
-    }
     
     const c = $('stock-summary-pricelist'); if (!c) return;
     if (!units.length) {
@@ -1114,7 +1132,7 @@ const APP = {
     const stockInfo = this.state.stockUnits.length ? `${this.state.stockUnits.length} unit (${this.state.stockDate})` : 'Kosong';
     const info = $('setting-info');
     if (info) info.innerHTML = `<div class="card"><h3>⚙️ Setting</h3>
-      <p>Versi: v2.1</p>
+      <p>Versi: v2.2</p>
       <p>Pricelist: Agustus 2026</p>
       <p>Stok: ${stockInfo}</p>
       <p>Favorit: ${this.state.favorites.length}</p>
