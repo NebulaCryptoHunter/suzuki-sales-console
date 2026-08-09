@@ -119,28 +119,37 @@ const APP = {
   // ---------- BUILD INDEXES ----------
   buildModelPatterns() {
     this.db.modelPatterns = [
+      // New Carry PU & variants
       { regex: /CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, '').trim() },
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
       { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() },
+      // APV
       { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
+      // Ertiga
       { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
+      // XL7
       { regex: /XL-?7.*MC.*LTD/i, model: 'XL-7 MC LTD', extract: s => s.replace(/.*XL-?7\s*MC.*LTD\s*/i, '').trim() },
       { regex: /XL-?7.*KURO/i, model: 'XL-7 MC Hybrid Kuro', extract: s => s.replace(/.*XL-?7\s*(MC\s*)?(HYBRID\s*)?(KURO\s*)?(EDITION\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7.*HYBRID/i, model: 'XL-7 MC Hybrid', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?(HYBRID\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7\s*(MC|ZETA|BETA|ALPHA)/i, model: 'XL-7 MC', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW\s*(BETA|ALPHA).*HYBRID/i, model: 'XL-7 Hybrid', extract: s => s.replace(/.*XL-?7\s*(HYBRID\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
+      // Fronx
       { regex: /FRONX\s*HYBRID/i, model: 'Fronx Hybrid', extract: s => s.replace(/.*FRONX\s*HYBRID\s*/i, '').trim() },
       { regex: /FRONX/i, model: 'Fronx', extract: s => s.replace(/.*FRONX\s*/i, '').trim() },
+      // Grand Vitara
       { regex: /GRAND\s*VITARA/i, model: 'Grand Vitara MC', extract: s => s.replace(/.*GRAND\s*VITARA\s*(MC\s*)?/i, '').replace(/\bGX\b/gi, 'GLX').trim() },
+      // Jimny
       { regex: /JIMNY\s*5\s*DOOR/i, model: 'Jimny 5 Door', extract: s => s.replace(/.*JIMNY\s*5\s*DOOR\s*/i, '').trim() },
       { regex: /JIMNY/i, model: 'Jimny 3 Door', extract: s => s.replace(/.*JIMNY(\s*3\s*DOOR)?\s*/i, '').trim() },
+      // S-Presso
       { regex: /S[-\s]?PRESSO.*LUXURY/i, model: 'S-Presso Luxury', extract: s => s.replace(/.*S-?\s*PRESSO.*LUXURY\s*/i, '').trim() },
       { regex: /S[-\s]?PRESSO/i, model: 'S-Presso', extract: s => s.replace(/.*S-?\s*PRESSO\s*/i, '').trim() },
+      // e Vitara
       { regex: /E\s*VITARA/i, model: 'e Vitara', extract: s => s.replace(/.*E\s*VITARA\s*/i, '').trim() },
     ];
   },
@@ -664,7 +673,7 @@ const APP = {
     this.addKreditHistory({ model, type, leasing, tenor, dpBayar: dpInput, angsuran: angsuranBaru, totalInvestasi });
   },
 
-  // ---------- STOCK (PERBAIKAN TOTAL) ----------
+  // ---------- STOCK (PERBAIKAN TOTAL TERBARU) ----------
   initStockPage() {
     this.setupDragDrop();
     if (this.state.stockUnits.length) {
@@ -715,7 +724,7 @@ const APP = {
         const rows = XLSX.utils.sheet_to_json(targetSheet, { header: 1, defval: '' });
         this.setProgressStep(2, 'Validasi Data');
 
-        // Deteksi header yang lebih robust
+        // Deteksi header 2 baris
         const { headerIdx, secondRowIdx } = this.findHeaderRows(rows);
         let headers = rows[headerIdx].map(h => String(h || '').toUpperCase().trim());
         if (secondRowIdx !== -1) {
@@ -729,13 +738,27 @@ const APP = {
         if (col.model === -1) throw new Error('Kolom MODEL tidak ditemukan. Header: ' + headers.join(', '));
         if (col.nik === -1) throw new Error('Kolom NIK tidak ditemukan. Header: ' + headers.join(', '));
 
+        // Cari baris data pertama yang memiliki No Rangka tidak kosong
+        let startRow = -1;
+        const minSearch = secondRowIdx !== -1 ? secondRowIdx + 1 : headerIdx + 1;
+        for (let i = minSearch; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row || row.every(c => !c)) continue;
+          const noRangkaCell = String(row[col.noRangka] || '').trim();
+          if (noRangkaCell) {
+            startRow = i;
+            break;
+          }
+        }
+        if (startRow === -1) {
+          // fallback: gunakan baris setelah header terakhir
+          startRow = minSearch;
+        }
+
         const newUnits = [];
         const seenRangka = new Set(), seenMesin = new Set();
         let errorCount = 0, duplikat = 0;
         const errorDetails = [];
-
-        // Tentukan baris mulai data: lewati semua header
-        const startRow = (secondRowIdx !== -1 ? secondRowIdx : headerIdx) + 1;
 
         for (let i = startRow; i < rows.length; i++) {
           const row = rows[i];
@@ -746,10 +769,22 @@ const APP = {
           const resolved = this.parseModelType(String(row[col.model] || ''));
           if (!resolved) { errorCount++; errorDetails.push(`Baris ${i+1}: Model/Tipe tidak dikenal`); continue; }
 
-          // Validasi NIK (lebih fleksibel)
+          // Validasi NIK (mendukung berbagai format)
           const nikRaw = String(row[col.nik] || '').trim();
-          const nikMatch = nikRaw.match(/\b(25|26)\b/);
-          const nikGroup = nikMatch ? nikMatch[1] : 'unknown';
+          // Ambil 2 digit terakhir dari tahun 4 digit, atau angka 25/26 langsung
+          let nikGroup = 'unknown';
+          const nikMatch = nikRaw.match(/\b(20)?(\d{2})\b/); // cocokkan 20XX atau XX
+          if (nikMatch) {
+            const year = nikMatch[2];
+            if (year === '25' || year === '26') {
+              nikGroup = year;
+            }
+          }
+          // fallback: cari 25 atau 26
+          if (nikGroup === 'unknown') {
+            const simpleMatch = nikRaw.match(/\b(25|26)\b/);
+            if (simpleMatch) nikGroup = simpleMatch[1];
+          }
           if (nikGroup === 'unknown') { errorCount++; errorDetails.push(`Baris ${i+1}: NIK tidak valid (${nikRaw})`); continue; }
 
           // Validasi No Rangka wajib
@@ -760,9 +795,9 @@ const APP = {
           const noMesin = String(row[col.noMesin] || '').trim();
           if (!noMesin) { errorCount++; errorDetails.push(`Baris ${i+1}: No Mesin kosong`); continue; }
 
-          // Validasi warna
-          const warna = String(row[col.warna] || '').trim();
-          if (!warna) { errorCount++; errorDetails.push(`Baris ${i+1}: Warna kosong`); continue; }
+          // Warna opsional, jika kosong isi "Tidak Diketahui"
+          let warna = String(row[col.warna] || '').trim();
+          if (!warna) warna = 'Tidak Diketahui';
 
           // Cek duplikat
           if (seenRangka.has(noRangka)) { duplikat++; continue; }
@@ -841,7 +876,6 @@ const APP = {
 
   findHeaderRows(rows) {
     const keywords = ['MODEL', 'NIK', 'RANGKA', 'MESIN', 'TYPE', 'WARNA', 'GD', 'NO'];
-    // Cari dua baris header yang saling melengkapi
     for (let i = 0; i < rows.length - 1; i++) {
       const row1 = (rows[i] || []).map(c => String(c || '').toUpperCase().trim());
       const row2 = (rows[i + 1] || []).map(c => String(c || '').toUpperCase().trim());
@@ -849,7 +883,6 @@ const APP = {
       const matched = keywords.filter(k => combined.some(t => t.includes(k)));
       if (matched.length >= 3) return { headerIdx: i, secondRowIdx: i + 1 };
     }
-    // Fallback ke 1 baris
     for (let i = 0; i < rows.length; i++) {
       const texts = (rows[i] || []).map(c => String(c || '').toUpperCase().trim());
       const matched = keywords.filter(k => texts.some(t => t.includes(k)));
