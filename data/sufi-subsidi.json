@@ -1,1 +1,26 @@
-{}
+{
+  "New Carry PU|FD": 2000000,
+  "New Carry PU|WD": 2000000,
+  "New Carry PU|FD AC PS": 2000000,
+  "New Carry PU|WD AC PS": 2000000,
+  "All New Ertiga|GA PW": 3000000,
+  "All New Ertiga|GL MT": 3000000,
+  "All New Ertiga|GL AT": 3000000,
+  "All New Ertiga Hybrid|GX MT": 3000000,
+  "All New Ertiga Hybrid|GX AT": 3000000,
+  "All New Ertiga Hybrid|Cruise MT": 3000000,
+  "All New Ertiga Hybrid|Cruise AT": 3000000,
+  "XL-7|New Zeta MT": 4000000,
+  "XL-7|New Zeta AT": 4000000,
+  "XL-7 Hybrid|New Beta MT": 4000000,
+  "XL-7 Hybrid|New Beta AT": 4000000,
+  "XL-7 Hybrid|New Alpha MT": 4000000,
+  "XL-7 Hybrid|New Alpha AT": 4000000,
+  "Fronx|GL MT": 1000000,
+  "Fronx|GL AT": 1000000,
+  "Fronx Hybrid|GX MT": 1000000,
+  "Fronx Hybrid|GX AT": 1000000,
+  "Fronx Hybrid|SGX AT": 1000000,
+  "Grand Vitara MC|GLX AT": 5000000,
+  "Grand Vitara MC|GLX AT (Two Tone)": 5000000
+}
