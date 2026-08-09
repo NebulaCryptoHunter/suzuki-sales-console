@@ -1,1 +1,402 @@
-{}
+[
+  {
+    "model": "Fronx",
+    "type": "GL MT",
+    "otr": 275800000,
+    "paket": [
+      { "tenor": 36, "tdp": 42249000, "angsuran": 8825000 },
+      { "tenor": 48, "tdp": 43196000, "angsuran": 7142000 },
+      { "tenor": 60, "tdp": 44082000, "angsuran": 6152000 }
+    ]
+  },
+  {
+    "model": "Fronx",
+    "type": "GL AT",
+    "otr": 287200000,
+    "paket": [
+      { "tenor": 36, "tdp": 43866000, "angsuran": 9216000 },
+      { "tenor": 48, "tdp": 44549000, "angsuran": 7459000 },
+      { "tenor": 60, "tdp": 45470000, "angsuran": 6424000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "GX MT",
+    "otr": 300400000,
+    "paket": [
+      { "tenor": 36, "tdp": 45616000, "angsuran": 9640000 },
+      { "tenor": 48, "tdp": 46325000, "angsuran": 7802000 },
+      { "tenor": 60, "tdp": 47284000, "angsuran": 6720000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "GX AT",
+    "otr": 318700000,
+    "paket": [
+      { "tenor": 36, "tdp": 48041000, "angsuran": 10227000 },
+      { "tenor": 48, "tdp": 48788000, "angsuran": 8277000 },
+      { "tenor": 60, "tdp": 49489000, "angsuran": 7129000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "SGX AT",
+    "otr": 345200000,
+    "paket": [
+      { "tenor": 36, "tdp": 51553000, "angsuran": 11077000 },
+      { "tenor": 48, "tdp": 52354000, "angsuran": 8965000 },
+      { "tenor": 60, "tdp": 53105000, "angsuran": 7722000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "SGX AT Two Tone",
+    "otr": 347200000,
+    "paket": [
+      { "tenor": 36, "tdp": 51818000, "angsuran": 11141000 },
+      { "tenor": 48, "tdp": 52623000, "angsuran": 9017000 },
+      { "tenor": 60, "tdp": 53378000, "angsuran": 7766000 }
+    ]
+  },
+  {
+    "model": "Fronx Hybrid",
+    "type": "SGX AT Kuro",
+    "otr": 347700000,
+    "paket": [
+      { "tenor": 36, "tdp": 51885000, "angsuran": 11157000 },
+      { "tenor": 48, "tdp": 52690000, "angsuran": 9030000 },
+      { "tenor": 60, "tdp": 53446000, "angsuran": 7778000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga",
+    "type": "GA PW",
+    "otr": 255100000,
+    "paket": [
+      { "tenor": 36, "tdp": 39898000, "angsuran": 8186000 },
+      { "tenor": 48, "tdp": 40784000, "angsuran": 6625000 },
+      { "tenor": 60, "tdp": 41614000, "angsuran": 5706000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga",
+    "type": "GL MT",
+    "otr": 279000000,
+    "paket": [
+      { "tenor": 36, "tdp": 42779000, "angsuran": 8953000 },
+      { "tenor": 48, "tdp": 43738000, "angsuran": 7246000 },
+      { "tenor": 60, "tdp": 44636000, "angsuran": 6241000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga",
+    "type": "GL AT",
+    "otr": 290700000,
+    "paket": [
+      { "tenor": 36, "tdp": 44330000, "angsuran": 9328000 },
+      { "tenor": 48, "tdp": 45020000, "angsuran": 7550000 },
+      { "tenor": 60, "tdp": 45951000, "angsuran": 6503000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "GX MT",
+    "otr": 293200000,
+    "paket": [
+      { "tenor": 36, "tdp": 44661000, "angsuran": 9409000 },
+      { "tenor": 48, "tdp": 45356000, "angsuran": 7615000 },
+      { "tenor": 60, "tdp": 46295000, "angsuran": 6559000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "GX AT",
+    "otr": 304800000,
+    "paket": [
+      { "tenor": 36, "tdp": 46199000, "angsuran": 9781000 },
+      { "tenor": 48, "tdp": 46917000, "angsuran": 7916000 },
+      { "tenor": 60, "tdp": 47889000, "angsuran": 6818000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "Cruise MT",
+    "otr": 306900000,
+    "paket": [
+      { "tenor": 36, "tdp": 46477000, "angsuran": 9848000 },
+      { "tenor": 48, "tdp": 47200000, "angsuran": 7971000 },
+      { "tenor": 60, "tdp": 48178000, "angsuran": 6865000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "Cruise MT Two Tone",
+    "otr": 308900000,
+    "paket": [
+      { "tenor": 36, "tdp": 46742000, "angsuran": 9912000 },
+      { "tenor": 48, "tdp": 47469000, "angsuran": 8022000 },
+      { "tenor": 60, "tdp": 48151000, "angsuran": 6910000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "Cruise AT",
+    "otr": 318300000,
+    "paket": [
+      { "tenor": 36, "tdp": 47988000, "angsuran": 10214000 },
+      { "tenor": 48, "tdp": 48734000, "angsuran": 8267000 },
+      { "tenor": 60, "tdp": 49434000, "angsuran": 7120000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "Cruise AT Two Tone",
+    "otr": 320300000,
+    "paket": [
+      { "tenor": 36, "tdp": 48253000, "angsuran": 10278000 },
+      { "tenor": 48, "tdp": 49003000, "angsuran": 8319000 },
+      { "tenor": 60, "tdp": 49707000, "angsuran": 7165000 }
+    ]
+  },
+  {
+    "model": "XL-7",
+    "type": "New Zeta MT",
+    "otr": 294100000,
+    "paket": [
+      { "tenor": 36, "tdp": 44781000, "angsuran": 9437000 },
+      { "tenor": 48, "tdp": 45478000, "angsuran": 7638000 },
+      { "tenor": 60, "tdp": 46419000, "angsuran": 6579000 }
+    ]
+  },
+  {
+    "model": "XL-7",
+    "type": "New Zeta AT",
+    "otr": 305900000,
+    "paket": [
+      { "tenor": 36, "tdp": 46344000, "angsuran": 9816000 },
+      { "tenor": 48, "tdp": 47065000, "angsuran": 7945000 },
+      { "tenor": 60, "tdp": 48040000, "angsuran": 6843000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Beta MT",
+    "otr": 322700000,
+    "paket": [
+      { "tenor": 36, "tdp": 48571000, "angsuran": 10355000 },
+      { "tenor": 48, "tdp": 49326000, "angsuran": 8381000 },
+      { "tenor": 60, "tdp": 50035000, "angsuran": 7218000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Beta AT",
+    "otr": 334600000,
+    "paket": [
+      { "tenor": 36, "tdp": 50148000, "angsuran": 10737000 },
+      { "tenor": 48, "tdp": 50928000, "angsuran": 8690000 },
+      { "tenor": 60, "tdp": 51658000, "angsuran": 7485000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Alpha AT",
+    "otr": 348900000,
+    "paket": [
+      { "tenor": 36, "tdp": 52044000, "angsuran": 11196000 },
+      { "tenor": 48, "tdp": 52852000, "angsuran": 9061000 },
+      { "tenor": 60, "tdp": 53610000, "angsuran": 7804000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Alpha AT (2 Tone)",
+    "otr": 350900000,
+    "paket": [
+      { "tenor": 36, "tdp": 52309000, "angsuran": 11260000 },
+      { "tenor": 48, "tdp": 53121000, "angsuran": 9113000 },
+      { "tenor": 60, "tdp": 53883000, "angsuran": 7849000 }
+    ]
+  },
+  {
+    "model": "S-Presso",
+    "type": "MT",
+    "otr": 194400000,
+    "paket": [
+      { "tenor": 36, "tdp": 33782000, "angsuran": 6238000 },
+      { "tenor": 48, "tdp": 34481000, "angsuran": 5049000 },
+      { "tenor": 60, "tdp": 35137000, "angsuran": 4349000 }
+    ]
+  },
+  {
+    "model": "S-Presso",
+    "type": "AGS",
+    "otr": 206500000,
+    "paket": [
+      { "tenor": 36, "tdp": 33666000, "angsuran": 6627000 },
+      { "tenor": 48, "tdp": 34402000, "angsuran": 5363000 },
+      { "tenor": 60, "tdp": 35092000, "angsuran": 4619000 }
+    ]
+  },
+  {
+    "model": "Grand Vitara MC",
+    "type": "GLX AT",
+    "otr": 445000000,
+    "paket": [
+      { "tenor": 36, "tdp": 61888000, "angsuran": 14279000 },
+      { "tenor": 48, "tdp": 62892000, "angsuran": 11557000 },
+      { "tenor": 60, "tdp": 63830000, "angsuran": 9954000 }
+    ]
+  },
+  {
+    "model": "Grand Vitara MC",
+    "type": "GLX AT (Two Tone)",
+    "otr": 448000000,
+    "paket": [
+      { "tenor": 36, "tdp": 62266000, "angsuran": 14376000 },
+      { "tenor": 48, "tdp": 63276000, "angsuran": 11635000 },
+      { "tenor": 60, "tdp": 64220000, "angsuran": 10021000 }
+    ]
+  },
+  {
+    "model": "Jimny 3 Door",
+    "type": "AT",
+    "otr": 510400000,
+    "paket": [
+      { "tenor": 36, "tdp": 69871000, "angsuran": 16378000 },
+      { "tenor": 48, "tdp": 71007000, "angsuran": 13255000 },
+      { "tenor": 60, "tdp": 72069000, "angsuran": 11417000 }
+    ]
+  },
+  {
+    "model": "Jimny 3 Door",
+    "type": "AT Two Tone",
+    "otr": 513400000,
+    "paket": [
+      { "tenor": 36, "tdp": 95661000, "angsuran": 15559000 },
+      { "tenor": 48, "tdp": 96803000, "angsuran": 12593000 },
+      { "tenor": 60, "tdp": 97871000, "angsuran": 10846000 }
+    ]
+  },
+  {
+    "model": "Jimny 5 Door",
+    "type": "AT",
+    "otr": 526300000,
+    "paket": [
+      { "tenor": 36, "tdp": 97919000, "angsuran": 15950000 },
+      { "tenor": 48, "tdp": 99087000, "angsuran": 12909000 },
+      { "tenor": 60, "tdp": 100179000, "angsuran": 11118000 }
+    ]
+  },
+  {
+    "model": "Jimny 5 Door",
+    "type": "AT Two Tone",
+    "otr": 529300000,
+    "paket": [
+      { "tenor": 36, "tdp": 98444000, "angsuran": 16041000 },
+      { "tenor": 48, "tdp": 99618000, "angsuran": 12983000 },
+      { "tenor": 60, "tdp": 100716000, "angsuran": 11182000 }
+    ]
+  },
+  {
+    "model": "New Carry PU",
+    "type": "FD",
+    "otr": 187000000,
+    "paket": [
+      { "tenor": 36, "tdp": 57591000, "angsuran": 5142000 },
+      { "tenor": 48, "tdp": 58652000, "angsuran": 4194000 },
+      { "tenor": 60, "tdp": 59636000, "angsuran": 3639000 }
+    ]
+  },
+  {
+    "model": "New Carry PU",
+    "type": "WD",
+    "otr": 188100000,
+    "paket": [
+      { "tenor": 36, "tdp": 57898000, "angsuran": 5172000 },
+      { "tenor": 48, "tdp": 58964000, "angsuran": 4219000 },
+      { "tenor": 60, "tdp": 59955000, "angsuran": 3660000 }
+    ]
+  },
+  {
+    "model": "New Carry PU",
+    "type": "FD AC PS",
+    "otr": 195300000,
+    "paket": [
+      { "tenor": 36, "tdp": 59903000, "angsuran": 5370000 },
+      { "tenor": 48, "tdp": 61011000, "angsuran": 4380000 },
+      { "tenor": 60, "tdp": 62039000, "angsuran": 3800000 }
+    ]
+  },
+  {
+    "model": "New Carry PU",
+    "type": "WD AC PS",
+    "otr": 196200000,
+    "paket": [
+      { "tenor": 36, "tdp": 59654000, "angsuran": 5394000 },
+      { "tenor": 48, "tdp": 60766000, "angsuran": 4400000 },
+      { "tenor": 60, "tdp": 61799000, "angsuran": 3818000 }
+    ]
+  },
+  {
+    "model": "New Carry PU LTD",
+    "type": "FD AC PS",
+    "otr": 210300000,
+    "paket": [
+      { "tenor": 36, "tdp": 65664000, "angsuran": 5705000 },
+      { "tenor": 48, "tdp": 66856000, "angsuran": 4654000 },
+      { "tenor": 60, "tdp": 67963000, "angsuran": 4037000 }
+    ]
+  },
+  {
+    "model": "New Carry PU LTD",
+    "type": "WD AC PS",
+    "otr": 211200000,
+    "paket": [
+      { "tenor": 36, "tdp": 65915000, "angsuran": 5729000 },
+      { "tenor": 48, "tdp": 67111000, "angsuran": 4674000 },
+      { "tenor": 60, "tdp": 68222000, "angsuran": 4055000 }
+    ]
+  },
+  {
+    "model": "New Carry Chassis",
+    "type": "FD",
+    "otr": 180500000,
+    "paket": [
+      { "tenor": 36, "tdp": 55776000, "angsuran": 5002000 },
+      { "tenor": 48, "tdp": 56806000, "angsuran": 4080000 },
+      { "tenor": 60, "tdp": 57761000, "angsuran": 3540000 }
+    ]
+  },
+  {
+    "model": "New Carry Chassis",
+    "type": "WD",
+    "otr": 181600000,
+    "paket": [
+      { "tenor": 36, "tdp": 56083000, "angsuran": 5032000 },
+      { "tenor": 48, "tdp": 57118000, "angsuran": 4105000 },
+      { "tenor": 60, "tdp": 58079000, "angsuran": 3562000 }
+    ]
+  },
+  {
+    "model": "New Carry Chassis",
+    "type": "FD AC PS",
+    "otr": 188800000,
+    "paket": [
+      { "tenor": 36, "tdp": 58088000, "angsuran": 5230000 },
+      { "tenor": 48, "tdp": 59165000, "angsuran": 4266000 },
+      { "tenor": 60, "tdp": 60163000, "angsuran": 3720000 }
+    ]
+  },
+  {
+    "model": "New Carry Chassis",
+    "type": "WD AC PS",
+    "otr": 189700000,
+    "paket": [
+      { "tenor": 36, "tdp": 58339000, "angsuran": 5255000 },
+      { "tenor": 48, "tdp": 59420000, "angsuran": 4287000 },
+      { "tenor": 60, "tdp": 60423000, "angsuran": 3738000 }
+    ]
+  }
+]
