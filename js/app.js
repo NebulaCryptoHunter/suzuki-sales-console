@@ -119,7 +119,7 @@ const APP = {
   // ---------- BUILD INDEXES ----------
   buildModelPatterns() {
     this.db.modelPatterns = [
-      // New Carry PU & variants
+      // New Carry PU & variants (tangkas semua variasi Carry)
       { regex: /CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, '').trim() },
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
@@ -254,21 +254,34 @@ const APP = {
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
   matchType(a, b) { return this.normalizeType(a) === this.normalizeType(b); },
   normalizeType(t) {
-    return (t||'').toUpperCase().replace(/20\d{2}/g,'').replace(/HYBRID/gi,'').replace(/NEW/gi,'')
-      .replace(/EDITION/gi,'').replace(/KURO/gi,'').replace(/2\s*TONE/gi,'TWO TONE').replace(/TT/gi,'TWO TONE')
-      .replace(/DOORS/gi,'DOOR').replace(/\bGX\b/gi,'GLX').replace(/LTD/gi,'LTD').replace(/LUXURY/gi,'LUXURY')
-      .replace(/\s+/g,' ').trim();
+    if (!t) return '';
+    return t.toUpperCase().trim()
+      .replace(/\b20\d{2}\b/g, '').replace(/\bHYBRID\b/gi, '').replace(/\bNEW\b/gi, '')
+      .replace(/\bEDITION\b/gi, '').replace(/\bKURO\b/gi, '').replace(/\b2\s*TONE\b/gi, 'TWO TONE')
+      .replace(/\bTT\b/gi, 'TWO TONE').replace(/\bDOORS\b/gi, 'DOOR').replace(/\bGX\b/gi, 'GLX')
+      .replace(/\bLTD\b/gi, 'LTD').replace(/\bLUXURY\b/gi, 'LUXURY')
+      .replace(/\bMT\b/gi, 'MT').replace(/\bAT\b/gi, 'AT').replace(/\bAGS\b/gi, 'AGS')
+      .replace(/\bFD\b/gi, 'FD').replace(/\bWD\b/gi, 'WD').replace(/\bAC\s*PS\b/gi, 'AC PS')
+      .replace(/\bPU\b/gi, 'PU').replace(/\bPICK\s*UP\b/gi, 'PICK UP')
+      .replace(/\s+/g, ' ').trim();
   },
-  // Fungsi normalisasi model untuk mencocokkan dengan database pricelist
+  // Fungsi normalisasi model yang sudah disempurnakan
   normalizeModel(m) {
     if (!m) return '';
-    return m.toUpperCase().replace(/\s+/g,' ').trim()
-      .replace(/\bNEW\b/gi,'').replace(/\bMC\b/gi,'').replace(/\bHYBRID\b/gi,'')
-      .replace(/\bKURO\b/gi,'').replace(/\bLTD\b/gi,'').replace(/\bALL\b/gi,'')
-      .replace(/\bAN\b/gi,'').replace(/\bERTIGA\b/gi,'ERTIGA').replace(/\bXL-?7\b/gi,'XL7')
-      .replace(/\bFRONX\b/gi,'FRONX').replace(/\bGRAND\b/gi,'').replace(/\bVITARA\b/gi,'VITARA')
-      .replace(/\bJIMNY\b/gi,'JIMNY').replace(/\bS-?PRESSO\b/gi,'SPRESSO')
-      .replace(/\bCARRY\b/gi,'CARRY').replace(/\s+/g,' ').trim();
+    let norm = m.toUpperCase().replace(/\s+/g, ' ').trim();
+    // Hapus kata-kata umum yang tidak perlu untuk pencocokan
+    norm = norm.replace(/\bNEW\b/gi, '').replace(/\bMC\b/gi, '').replace(/\bHYBRID\b/gi, '')
+          .replace(/\bKURO\b/gi, '').replace(/\bLTD\b/gi, '').replace(/\bALL\b/gi, '')
+          .replace(/\bAN\b/gi, '').replace(/\bGRAND\b/gi, '').replace(/\bVITARA\b/gi, 'VITARA')
+          .replace(/\bERTIGA\b/gi, 'ERTIGA').replace(/\bXL-?7\b/gi, 'XL7')
+          .replace(/\bFRONX\b/gi, 'FRONX').replace(/\bJIMNY\b/gi, 'JIMNY')
+          .replace(/\bS-?PRESSO\b/gi, 'SPRESSO').replace(/\bCARRY\b/gi, 'CARRY')
+          .replace(/\s+/g, ' ').trim();
+    // Hapus varian yang tidak mempengaruhi model dasar (PU, PICKUP, FD, WD, dll)
+    // Ini akan membuat "CARRY PU", "CARRY PICK UP", "CARRY FD" menjadi "CARRY" saja
+    norm = norm.replace(/\bPU\b/gi, '').replace(/\bPICK\s*UP\b/gi, '').replace(/\bFD\b/gi, '')
+          .replace(/\bWD\b/gi, '').replace(/\bAC\s*PS\b/gi, '').replace(/\s+/g, ' ').trim();
+    return norm;
   },
   getColorName(r) {
     const u = String(r||'').toUpperCase().replace(/^(PRL\.?|PEARL|MET\.?|M\.?)\s*/i,'').replace(/^[A-Z0-9]+\s*-\s*/,'').trim();
@@ -302,7 +315,6 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
-    // Tambahkan logging debug untuk baris yang gagal
     return null;
   },
   updateFooter() {
@@ -444,26 +456,23 @@ const APP = {
   showStockSummary() {
     const model = $('model-select')?.value, type = $('type-select')?.value;
     if (!model || !type) return;
+    
     const normalizedModel = this.normalizeModel(model);
     const normalizedType = this.normalizeType(type);
     
-    // Filter unit menggunakan normalizedType dan normalizedModel
+    // Filter unit dengan normalisasi yang lebih baik
     const units = this.state.stockUnits.filter(u => {
-      const modelMatch = this.normalizeModel(u.model) === normalizedModel;
-      const typeMatch = u.normalizedType === normalizedType;
-      return modelMatch && typeMatch;
+      const unitModel = this.normalizeModel(u.model);
+      const unitType = u.normalizedType;
+      return unitModel === normalizedModel && unitType === normalizedType;
     });
     
-    // Debug info untuk pengembangan
-    console.log(`Pricelist Model: ${model} (normalized: ${normalizedModel})`);
-    console.log(`Pricelist Type: ${type} (normalized: ${normalizedType})`);
-    console.log(`Units found: ${units.length}`);
+    // Debugging
+    console.log(`Pricelist Model: ${model} -> ${normalizedModel}, Type: ${type} -> ${normalizedType}`);
+    console.log(`Found ${units.length} units in stock.`);
     if (units.length === 0 && this.state.stockUnits.length > 0) {
-      // Tampilkan 3 sample unit untuk debugging
-      const samples = this.state.stockUnits.slice(0, 3).map(u => 
-        `Model: ${u.model} (norm: ${this.normalizeModel(u.model)}), Type: ${u.type} (norm: ${u.normalizedType})`
-      ).join('\n');
-      console.log('Sample units:\n' + samples);
+      console.log('Sample stock models:', this.state.stockUnits.slice(0,5).map(u => `${u.model} -> ${this.normalizeModel(u.model)}`));
+      console.log('Sample stock types:', this.state.stockUnits.slice(0,5).map(u => `${u.type} -> ${u.normalizedType}`));
     }
     
     const c = $('stock-summary-pricelist'); if (!c) return;
@@ -707,7 +716,7 @@ const APP = {
     this.addKreditHistory({ model, type, leasing, tenor, dpBayar: dpInput, angsuran: angsuranBaru, totalInvestasi });
   },
 
-  // ---------- STOCK (STABIL) ----------
+  // ---------- STOCK ----------
   initStockPage() {
     this.setupDragDrop();
     if (this.state.stockUnits.length) {
@@ -742,7 +751,6 @@ const APP = {
         const wb = XLSX.read(data, { type: 'array' });
         if (!wb.SheetNames.length) throw new Error('File Excel kosong.');
 
-        // Cari sheet berdasarkan nama prioritas
         let targetSheet = null;
         const sheetNamesUpper = wb.SheetNames.map(s => s.toUpperCase().trim());
         const priorityNames = ['STOCK', 'RINCIAN', 'DATA', 'UNIT', 'INVENTORY'];
@@ -758,7 +766,6 @@ const APP = {
         const rows = XLSX.utils.sheet_to_json(targetSheet, { header: 1, defval: '' });
         this.setProgressStep(2, 'Validasi Data');
 
-        // Deteksi header 2 baris
         const { headerIdx, secondRowIdx } = this.findHeaderRows(rows);
         let headers = rows[headerIdx].map(h => String(h || '').toUpperCase().trim());
         if (secondRowIdx !== -1) {
@@ -770,7 +777,6 @@ const APP = {
         if (col.model === -1) throw new Error('Kolom MODEL tidak ditemukan. Header: ' + headers.join(', '));
         if (col.nik === -1) throw new Error('Kolom NIK tidak ditemukan. Header: ' + headers.join(', '));
 
-        // Cari baris data pertama yang memiliki No Rangka tidak kosong
         let startRow = -1;
         const minSearch = secondRowIdx !== -1 ? secondRowIdx + 1 : headerIdx + 1;
         for (let i = minSearch; i < rows.length; i++) {
@@ -788,7 +794,7 @@ const APP = {
         const seenRangka = new Set(), seenMesin = new Set();
         let errorCount = 0, duplikat = 0;
         const errorDetails = [];
-        const failedRows = []; // Untuk debugging
+        const failedRows = [];
 
         for (let i = startRow; i < rows.length; i++) {
           const row = rows[i];
@@ -855,7 +861,6 @@ const APP = {
           });
         }
 
-        // Log failed rows untuk debugging (bisa diakses di console)
         if (failedRows.length > 0) {
           console.table(failedRows);
         }
