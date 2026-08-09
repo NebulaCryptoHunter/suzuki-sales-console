@@ -1,5 +1,5 @@
 /* ============================================================
-   Suzuki Sales Console v2.4 — Internal Dealer Application
+   Suzuki Sales Console v2.5 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
    ============================================================ */
 
@@ -27,7 +27,7 @@ const PAGE_HEADERS = {
   pricelist: { icon:'📋', title:'Pricelist', subtitle:'Harga OTR Agustus 2026' },
   kredit:   { icon:'💳', title:'Simulasi Kredit', subtitle:'Perbandingan & Kalkulator' },
   stock:    { icon:'📦', title:'Stock Unit', subtitle:'Cek Ketersediaan Unit' },
-  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.4' }
+  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.5' }
 };
 
 // ========== UTILITY ==========
@@ -119,7 +119,6 @@ const APP = {
   // ---------- BUILD INDEXES ----------
   buildModelPatterns() {
     this.db.modelPatterns = [
-      // CARRY
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
@@ -130,14 +129,12 @@ const APP = {
         }
       },
       { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() || 'PU' },
-      // ERTIGA
       { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
       { regex: /ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ERTIGA\s*HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ERTIGA\s*HYBRID\s*/i, '').trim() },
       { regex: /ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
-      // XL7
       { regex: /XL-?7.*MC.*LTD/i, model: 'XL-7 MC LTD', extract: s => s.replace(/.*XL-?7\s*MC.*LTD\s*/i, '').trim() },
       { regex: /XL-?7.*KURO/i, model: 'XL-7 MC Hybrid Kuro', extract: s => s.replace(/.*XL-?7\s*(MC\s*)?(HYBRID\s*)?(KURO\s*)?(EDITION\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7.*HYBRID/i, model: 'XL-7 MC Hybrid', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?(HYBRID\s*)?/i, '').trim() },
@@ -145,20 +142,14 @@ const APP = {
       { regex: /XL-?7\s*NEW\s*(BETA|ALPHA).*HYBRID/i, model: 'XL-7 Hybrid', extract: s => s.replace(/.*XL-?7\s*(HYBRID\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
       { regex: /XL-?7/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
-      // FRONX
       { regex: /FRONX\s*HYBRID/i, model: 'Fronx Hybrid', extract: s => s.replace(/.*FRONX\s*HYBRID\s*/i, '').trim() },
       { regex: /FRONX/i, model: 'Fronx', extract: s => s.replace(/.*FRONX\s*/i, '').trim() },
-      // GRAND VITARA
       { regex: /GRAND\s*VITARA/i, model: 'Grand Vitara MC', extract: s => s.replace(/.*GRAND\s*VITARA\s*(MC\s*)?/i, '').replace(/\bGX\b/gi, 'GLX').trim() },
-      // JIMNY
       { regex: /JIMNY\s*5\s*DOOR/i, model: 'Jimny 5 Door', extract: s => s.replace(/.*JIMNY\s*5\s*DOOR\s*/i, '').trim() },
       { regex: /JIMNY/i, model: 'Jimny 3 Door', extract: s => s.replace(/.*JIMNY(\s*3\s*DOOR)?\s*/i, '').trim() },
-      // S-PRESSO
       { regex: /S[-\s]?PRESSO.*LUXURY/i, model: 'S-Presso Luxury', extract: s => s.replace(/.*S-?\s*PRESSO.*LUXURY\s*/i, '').trim() },
       { regex: /S[-\s]?PRESSO/i, model: 'S-Presso', extract: s => s.replace(/.*S-?\s*PRESSO\s*/i, '').trim() },
-      // APV
       { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
-      // e VITARA
       { regex: /E\s*VITARA/i, model: 'e Vitara', extract: s => s.replace(/.*E\s*VITARA\s*/i, '').trim() },
     ];
   },
@@ -233,16 +224,18 @@ const APP = {
   renderPage(page) {
     const tpl = document.getElementById(`tpl-${page}`);
     if (!tpl) return;
-    // Bersihkan total
-    while (this.dom.container.firstChild) {
-      this.dom.container.removeChild(this.dom.container.firstChild);
-    }
-    this.dom.container.appendChild(tpl.content.cloneNode(true));
+    // Hapus total isi container
+    this.dom.container.innerHTML = '';
+    // Clone dan tambahkan template
+    const clone = tpl.content.cloneNode(true);
+    this.dom.container.appendChild(clone);
+    // Perbarui header
     const hd = PAGE_HEADERS[page];
     this.dom.headerIcon.textContent = hd.icon;
     this.dom.headerTitle.textContent = hd.title;
     this.dom.headerSubtitle.textContent = hd.subtitle;
     this.dom.headerBack.style.display = page !== 'dashboard' ? 'block' : 'none';
+    // Inisialisasi halaman
     if (page === 'pricelist') this.initPricelist();
     if (page === 'kredit') this.initKredit();
     if (page === 'stock') this.initStockPage();
@@ -339,7 +332,6 @@ const APP = {
     if (candidates.length > 0) {
       return { model: candidates[0].model, type: candidates[0].type };
     }
-    // Fallback terakhir: cari berdasarkan kata yang dikenal di daftar model
     const knownModels = [...new Set(Object.values(this.db.priceIndex).map(p => p.model))];
     for (const known of knownModels) {
       if (s.includes(known.toUpperCase().replace(/\s+/g, ' '))) {
@@ -349,7 +341,7 @@ const APP = {
     return null;
   },
   updateFooter() {
-    this.dom.footerInfo.textContent = 'v2.4 • Pricelist: Agustus 2026';
+    this.dom.footerInfo.textContent = 'v2.5 • Pricelist: Agustus 2026';
     this.dom.footerStock.textContent = `Stock: ${this.state.stockDate||'belum diunggah'} | ${this.state.stockUnits.length||0} unit`;
   },
   addRecentView(u) { this.state.recentViews = this.state.recentViews.filter(x=>x.idx!==u.idx); this.state.recentViews.unshift(u); if(this.state.recentViews.length>10) this.state.recentViews.pop(); this.saveState(); },
@@ -372,11 +364,11 @@ const APP = {
       const mc = {}; all.forEach(u=>mc[u.model]=(mc[u.model]||0)+1);
       const top = Object.entries(mc).sort((a,b)=>b[1]-a[1])[0] || ['-',0];
       const stats = $('dashboard-stats');
-      if (stats) stats.innerHTML = `<div class="stat-grid">
-        <div class="stat-card"><div>📦</div><div class="stat-number">${all.length}</div></div>
-        <div class="stat-card"><div>🔵</div><div class="stat-number">${n25}</div></div>
-        <div class="stat-card"><div>🟣</div><div class="stat-number">${n26}</div></div>
-        <div class="stat-card"><div>⭐</div><div class="stat-number">${this.state.favorites.length}</div></div>
+      if (stats) stats.innerHTML = `<div class="stat-grid" style="text-align:center;">
+        <div class="stat-card"><div>📦</div><div class="stat-number">${all.length}</div><div style="font-size:0.65rem;color:#64748B;">Total Stok</div></div>
+        <div class="stat-card"><div>🔵</div><div class="stat-number">${n25}</div><div style="font-size:0.65rem;color:#64748B;">NIK 25</div></div>
+        <div class="stat-card"><div>🟣</div><div class="stat-number">${n26}</div><div style="font-size:0.65rem;color:#64748B;">NIK 26</div></div>
+        <div class="stat-card"><div>⭐</div><div class="stat-number">${this.state.favorites.length}</div><div style="font-size:0.65rem;color:#64748B;">Favorit</div></div>
       </div>
       <div class="card" style="margin-top:0.5rem;padding:0.6rem;">
         <small>🏆 Model Terbanyak: <strong>${top[0]}</strong> (${top[1]} unit)</small><br>
@@ -1155,7 +1147,7 @@ const APP = {
     const stockInfo = this.state.stockUnits.length ? `${this.state.stockUnits.length} unit (${this.state.stockDate})` : 'Kosong';
     const info = $('setting-info');
     if (info) info.innerHTML = `<div class="card"><h3>⚙️ Setting</h3>
-      <p>Versi: v2.4</p>
+      <p>Versi: v2.5</p>
       <p>Pricelist: Agustus 2026</p>
       <p>Stok: ${stockInfo}</p>
       <p>Favorit: ${this.state.favorites.length}</p>
