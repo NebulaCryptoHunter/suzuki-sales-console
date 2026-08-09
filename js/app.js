@@ -5,7 +5,7 @@
 
 // ========== CONFIG ==========
 const DATA_BASE = 'data/';
-const VERSION = '20260809';
+const VERSION = '20260810';
 const DATA_FILES = {
   pricelist: 'pricelist.json',
   leasingConfig: 'leasing-config.json',
@@ -259,6 +259,17 @@ const APP = {
       .replace(/DOORS/gi,'DOOR').replace(/\bGX\b/gi,'GLX').replace(/LTD/gi,'LTD').replace(/LUXURY/gi,'LUXURY')
       .replace(/\s+/g,' ').trim();
   },
+  // Fungsi normalisasi model untuk mencocokkan dengan database pricelist
+  normalizeModel(m) {
+    if (!m) return '';
+    return m.toUpperCase().replace(/\s+/g,' ').trim()
+      .replace(/\bNEW\b/gi,'').replace(/\bMC\b/gi,'').replace(/\bHYBRID\b/gi,'')
+      .replace(/\bKURO\b/gi,'').replace(/\bLTD\b/gi,'').replace(/\bALL\b/gi,'')
+      .replace(/\bAN\b/gi,'').replace(/\bERTIGA\b/gi,'ERTIGA').replace(/\bXL-?7\b/gi,'XL7')
+      .replace(/\bFRONX\b/gi,'FRONX').replace(/\bGRAND\b/gi,'').replace(/\bVITARA\b/gi,'VITARA')
+      .replace(/\bJIMNY\b/gi,'JIMNY').replace(/\bS-?PRESSO\b/gi,'SPRESSO')
+      .replace(/\bCARRY\b/gi,'CARRY').replace(/\s+/g,' ').trim();
+  },
   getColorName(r) {
     const u = String(r||'').toUpperCase().replace(/^(PRL\.?|PEARL|MET\.?|M\.?)\s*/i,'').replace(/^[A-Z0-9]+\s*-\s*/,'').trim();
     const map = { ZAM:'Midnight Black', ZJ3:'Blueish Black Pearl', ZQD:'Cave Black', C9J:'Arctic White', '26U':'White', WBY:'Savanna Ivory', EYP:'Savanna Ivory', DG5:'Kinetic Yellow', Z2S:'Silky Silver', D17:'Bold Red', D20:'Orange Metallic', Z6Z:'Forest Green', Z7X:'Metallic Silver', D06:'Black', D04:'Silver', '1G3':'Ash Gray', Z5F:'Mustard Yellow', D09:'Bronze', D11:'Deep Blue', Z8U:'Ocean Blue', D15:'Sapphire Blue', D14:'Olive Green', Z9Z:'Dark Brown', Z7T:'Cool White', Z9W:'Super White', Z8X:'Black Mica', D19:'Maroon', '3S7':'Red Pearl' };
@@ -291,6 +302,7 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
+    // Tambahkan logging debug untuk baris yang gagal
     return null;
   },
   updateFooter() {
@@ -431,7 +443,29 @@ const APP = {
   },
   showStockSummary() {
     const model = $('model-select')?.value, type = $('type-select')?.value;
-    const units = this.state.stockUnits.filter(u => u.model === model && this.matchType(u.type, type));
+    if (!model || !type) return;
+    const normalizedModel = this.normalizeModel(model);
+    const normalizedType = this.normalizeType(type);
+    
+    // Filter unit menggunakan normalizedType dan normalizedModel
+    const units = this.state.stockUnits.filter(u => {
+      const modelMatch = this.normalizeModel(u.model) === normalizedModel;
+      const typeMatch = u.normalizedType === normalizedType;
+      return modelMatch && typeMatch;
+    });
+    
+    // Debug info untuk pengembangan
+    console.log(`Pricelist Model: ${model} (normalized: ${normalizedModel})`);
+    console.log(`Pricelist Type: ${type} (normalized: ${normalizedType})`);
+    console.log(`Units found: ${units.length}`);
+    if (units.length === 0 && this.state.stockUnits.length > 0) {
+      // Tampilkan 3 sample unit untuk debugging
+      const samples = this.state.stockUnits.slice(0, 3).map(u => 
+        `Model: ${u.model} (norm: ${this.normalizeModel(u.model)}), Type: ${u.type} (norm: ${u.normalizedType})`
+      ).join('\n');
+      console.log('Sample units:\n' + samples);
+    }
+    
     const c = $('stock-summary-pricelist'); if (!c) return;
     if (!units.length) {
       c.innerHTML = '<div style="margin-top:0.5rem;padding:0.7rem;background:#F1F5F9;border-radius:10px;text-align:center;color:#64748B;">🔴 Stok Habis</div>';
@@ -673,7 +707,7 @@ const APP = {
     this.addKreditHistory({ model, type, leasing, tenor, dpBayar: dpInput, angsuran: angsuranBaru, totalInvestasi });
   },
 
-  // ---------- STOCK (PERBAIKAN TOTAL TERBARU) ----------
+  // ---------- STOCK (STABIL) ----------
   initStockPage() {
     this.setupDragDrop();
     if (this.state.stockUnits.length) {
@@ -733,8 +767,6 @@ const APP = {
         }
 
         const col = this.mapColumns(headers);
-        console.log('Headers:', headers);
-        console.log('Mapping:', col);
         if (col.model === -1) throw new Error('Kolom MODEL tidak ditemukan. Header: ' + headers.join(', '));
         if (col.nik === -1) throw new Error('Kolom NIK tidak ditemukan. Header: ' + headers.join(', '));
 
@@ -750,56 +782,50 @@ const APP = {
             break;
           }
         }
-        if (startRow === -1) {
-          // fallback: gunakan baris setelah header terakhir
-          startRow = minSearch;
-        }
+        if (startRow === -1) startRow = minSearch;
 
         const newUnits = [];
         const seenRangka = new Set(), seenMesin = new Set();
         let errorCount = 0, duplikat = 0;
         const errorDetails = [];
+        const failedRows = []; // Untuk debugging
 
         for (let i = startRow; i < rows.length; i++) {
           const row = rows[i];
           if (!row || row.every(c => !c)) continue;
           if (String(row[0] || '').toUpperCase().includes('TOTAL')) continue;
 
-          // Validasi model
-          const resolved = this.parseModelType(String(row[col.model] || ''));
-          if (!resolved) { errorCount++; errorDetails.push(`Baris ${i+1}: Model/Tipe tidak dikenal`); continue; }
+          const modelRaw = String(row[col.model] || '').trim();
+          const resolved = this.parseModelType(modelRaw);
+          if (!resolved) {
+            errorCount++;
+            errorDetails.push(`Baris ${i+1}: Model/Tipe tidak dikenal`);
+            failedRows.push({ baris: i+1, model: modelRaw, type: String(row[col.type] || ''), nik: String(row[col.nik] || '') });
+            continue;
+          }
 
-          // Validasi NIK (mendukung berbagai format)
           const nikRaw = String(row[col.nik] || '').trim();
-          // Ambil 2 digit terakhir dari tahun 4 digit, atau angka 25/26 langsung
           let nikGroup = 'unknown';
-          const nikMatch = nikRaw.match(/\b(20)?(\d{2})\b/); // cocokkan 20XX atau XX
+          const nikMatch = nikRaw.match(/\b(20)?(\d{2})\b/);
           if (nikMatch) {
             const year = nikMatch[2];
-            if (year === '25' || year === '26') {
-              nikGroup = year;
-            }
+            if (year === '25' || year === '26') nikGroup = year;
           }
-          // fallback: cari 25 atau 26
           if (nikGroup === 'unknown') {
             const simpleMatch = nikRaw.match(/\b(25|26)\b/);
             if (simpleMatch) nikGroup = simpleMatch[1];
           }
           if (nikGroup === 'unknown') { errorCount++; errorDetails.push(`Baris ${i+1}: NIK tidak valid (${nikRaw})`); continue; }
 
-          // Validasi No Rangka wajib
           const noRangka = String(row[col.noRangka] || '').trim();
           if (!noRangka) { errorCount++; errorDetails.push(`Baris ${i+1}: No Rangka kosong`); continue; }
 
-          // Validasi No Mesin wajib
           const noMesin = String(row[col.noMesin] || '').trim();
           if (!noMesin) { errorCount++; errorDetails.push(`Baris ${i+1}: No Mesin kosong`); continue; }
 
-          // Warna opsional, jika kosong isi "Tidak Diketahui"
           let warna = String(row[col.warna] || '').trim();
           if (!warna) warna = 'Tidak Diketahui';
 
-          // Cek duplikat
           if (seenRangka.has(noRangka)) { duplikat++; continue; }
           if (seenMesin.has(noMesin)) { duplikat++; continue; }
           seenRangka.add(noRangka);
@@ -827,6 +853,11 @@ const APP = {
             status: 'READY',
             searchKey
           });
+        }
+
+        // Log failed rows untuk debugging (bisa diakses di console)
+        if (failedRows.length > 0) {
+          console.table(failedRows);
         }
 
         this.setProgressStep(3, 'Import Database');
