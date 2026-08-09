@@ -1,1 +1,916 @@
-{}
+{
+  "regular": [
+    {
+      "model": "New Carry PU",
+      "type": [
+        {
+          "name": "FD",
+          "otr": 187000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 153500000
+          }
+        },
+        {
+          "name": "WD",
+          "otr": 188100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 154600000
+          }
+        },
+        {
+          "name": "FD AC PS",
+          "otr": 195300000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 161800000
+          }
+        },
+        {
+          "name": "WD AC PS",
+          "otr": 196200000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 162700000
+          }
+        }
+      ]
+    },
+    {
+      "model": "APV",
+      "type": [
+        {
+          "name": "GE3 PS DEL VAN (Blind Van)",
+          "otr": 193500000,
+          "nik25": null,
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 0,
+            "total_discount": 9000000,
+            "nett": 184500000
+          }
+        },
+        {
+          "name": "GA",
+          "otr": 236500000,
+          "nik25": null,
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 0,
+            "total_discount": 9000000,
+            "nett": 227500000
+          }
+        },
+        {
+          "name": "GL ARENA M/T",
+          "otr": 245000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 0,
+            "total_discount": 9000000,
+            "nett": 236000000
+          }
+        },
+        {
+          "name": "GX ARENA M/T",
+          "otr": 259000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 0,
+            "total_discount": 9000000,
+            "nett": 250000000
+          }
+        },
+        {
+          "name": "SGX ARENA M/T",
+          "otr": 263000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 0,
+            "total_discount": 9000000,
+            "nett": 254000000
+          }
+        }
+      ]
+    },
+    {
+      "model": "All New Ertiga",
+      "type": [
+        {
+          "name": "GA PW",
+          "otr": 255100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 14000000,
+            "cashback": 0,
+            "total_discount": 14000000,
+            "nett": 241100000
+          }
+        },
+        {
+          "name": "GL MT",
+          "otr": 279000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 252000000
+          }
+        },
+        {
+          "name": "GL AT",
+          "otr": 290700000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 263700000
+          }
+        }
+      ]
+    },
+    {
+      "model": "All New Ertiga Hybrid",
+      "type": [
+        {
+          "name": "GX MT",
+          "otr": 298900000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 271900000
+          }
+        },
+        {
+          "name": "GX AT",
+          "otr": 310100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 283100000
+          }
+        },
+        {
+          "name": "Cruise MT",
+          "otr": 312000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 285000000
+          }
+        },
+        {
+          "name": "Cruise MT Two Tone",
+          "otr": 314000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 287000000
+          }
+        },
+        {
+          "name": "Cruise AT",
+          "otr": 323300000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 296300000
+          }
+        },
+        {
+          "name": "Cruise AT Two Tone",
+          "otr": 325300000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 4000000,
+            "total_discount": 27000000,
+            "nett": 298300000
+          }
+        }
+      ]
+    },
+    {
+      "model": "XL-7 MC",
+      "type": [
+        {
+          "name": "Zeta MT",
+          "otr": 285000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 3000000,
+            "total_discount": 26000000,
+            "nett": 259000000
+          }
+        },
+        {
+          "name": "Zeta AT",
+          "otr": 297000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 3000000,
+            "total_discount": 26000000,
+            "nett": 271000000
+          }
+        }
+      ]
+    },
+    {
+      "model": "XL-7 MC Hybrid",
+      "type": [
+        {
+          "name": "Beta MT",
+          "otr": 313500000,
+          "nik25": null,
+          "nik26": {
+            "discount": 26000000,
+            "cashback": 3000000,
+            "total_discount": 29000000,
+            "nett": 284500000
+          }
+        },
+        {
+          "name": "Beta AT",
+          "otr": 325500000,
+          "nik25": null,
+          "nik26": {
+            "discount": 26000000,
+            "cashback": 3000000,
+            "total_discount": 29000000,
+            "nett": 296500000
+          }
+        },
+        {
+          "name": "Alpha MT",
+          "otr": 325000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 26000000,
+            "cashback": 3000000,
+            "total_discount": 29000000,
+            "nett": 296000000
+          }
+        },
+        {
+          "name": "Alpha MT (2 Tone)",
+          "otr": 327000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 26000000,
+            "cashback": 3000000,
+            "total_discount": 29000000,
+            "nett": 298000000
+          }
+        },
+        {
+          "name": "Alpha AT",
+          "otr": 336500000,
+          "nik25": null,
+          "nik26": {
+            "discount": 26000000,
+            "cashback": 3000000,
+            "total_discount": 29000000,
+            "nett": 307500000
+          }
+        },
+        {
+          "name": "Alpha AT (2 Tone)",
+          "otr": 338500000,
+          "nik25": null,
+          "nik26": {
+            "discount": 26000000,
+            "cashback": 3000000,
+            "total_discount": 29000000,
+            "nett": 309500000
+          }
+        }
+      ]
+    },
+    {
+      "model": "XL-7 MC Hybrid Kuro",
+      "type": [
+        {
+          "name": "Alpha AT",
+          "otr": 340500000,
+          "nik25": {
+            "discount": 27500000,
+            "cashback": 3000000,
+            "total_discount": 30500000,
+            "nett": 310000000
+          },
+          "nik26": {
+            "discount": 25000000,
+            "cashback": 3000000,
+            "total_discount": 28000000,
+            "nett": 312500000
+          }
+        },
+        {
+          "name": "Alpha AT (2 Tone)",
+          "otr": 342500000,
+          "nik25": {
+            "discount": 27500000,
+            "cashback": 3000000,
+            "total_discount": 30500000,
+            "nett": 312000000
+          },
+          "nik26": {
+            "discount": 25000000,
+            "cashback": 3000000,
+            "total_discount": 28000000,
+            "nett": 314500000
+          }
+        }
+      ]
+    },
+    {
+      "model": "XL-7",
+      "type": [
+        {
+          "name": "New Zeta MT",
+          "otr": 294100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 10000000,
+            "cashback": 3000000,
+            "total_discount": 13000000,
+            "nett": 281100000
+          }
+        },
+        {
+          "name": "New Zeta AT",
+          "otr": 305900000,
+          "nik25": null,
+          "nik26": {
+            "discount": 10000000,
+            "cashback": 3000000,
+            "total_discount": 13000000,
+            "nett": 292900000
+          }
+        }
+      ]
+    },
+    {
+      "model": "XL-7 Hybrid",
+      "type": [
+        {
+          "name": "New Beta MT",
+          "otr": 322700000,
+          "nik25": null,
+          "nik26": {
+            "discount": 10000000,
+            "cashback": 3000000,
+            "total_discount": 13000000,
+            "nett": 309700000
+          }
+        },
+        {
+          "name": "New Beta AT",
+          "otr": 334600000,
+          "nik25": null,
+          "nik26": {
+            "discount": 10000000,
+            "cashback": 3000000,
+            "total_discount": 13000000,
+            "nett": 321600000
+          }
+        },
+        {
+          "name": "New Alpha AT",
+          "otr": 348900000,
+          "nik25": null,
+          "nik26": {
+            "discount": 10000000,
+            "cashback": 3000000,
+            "total_discount": 13000000,
+            "nett": 335900000
+          }
+        },
+        {
+          "name": "New Alpha AT (2 Tone)",
+          "otr": 350900000,
+          "nik25": null,
+          "nik26": {
+            "discount": 10000000,
+            "cashback": 3000000,
+            "total_discount": 13000000,
+            "nett": 337900000
+          }
+        }
+      ]
+    },
+    {
+      "model": "S-Presso",
+      "type": [
+        {
+          "name": "MT",
+          "otr": 194400000,
+          "nik25": null,
+          "nik26": {
+            "discount": 12000000,
+            "cashback": 3000000,
+            "total_discount": 15000000,
+            "nett": 179400000
+          }
+        },
+        {
+          "name": "AGS",
+          "otr": 206500000,
+          "nik25": null,
+          "nik26": {
+            "discount": 12000000,
+            "cashback": 3000000,
+            "total_discount": 15000000,
+            "nett": 191500000
+          }
+        }
+      ]
+    },
+    {
+      "model": "Grand Vitara MC",
+      "type": [
+        {
+          "name": "GLX AT",
+          "otr": 445000000,
+          "nik25": {
+            "discount": 45000000,
+            "cashback": 4000000,
+            "total_discount": 49000000,
+            "nett": 396000000
+          },
+          "nik26": null
+        },
+        {
+          "name": "GLX AT (Two Tone)",
+          "otr": 448000000,
+          "nik25": {
+            "discount": 45000000,
+            "cashback": 4000000,
+            "total_discount": 49000000,
+            "nett": 399000000
+          },
+          "nik26": null
+        },
+        {
+          "name": "GLX AT (Two Tone White & Black)",
+          "otr": 448000000,
+          "nik25": {
+            "discount": 50000000,
+            "cashback": 4000000,
+            "total_discount": 54000000,
+            "nett": 394000000
+          },
+          "nik26": null
+        }
+      ]
+    },
+    {
+      "model": "Fronx",
+      "type": [
+        {
+          "name": "GL MT",
+          "otr": 275800000,
+          "nik25": {
+            "discount": 18400000,
+            "cashback": 2000000,
+            "total_discount": 20400000,
+            "nett": 255400000
+          },
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 2000000,
+            "total_discount": 11000000,
+            "nett": 264800000
+          }
+        },
+        {
+          "name": "GL AT",
+          "otr": 287200000,
+          "nik25": {
+            "discount": 11800000,
+            "cashback": 2000000,
+            "total_discount": 13800000,
+            "nett": 273400000
+          },
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 2000000,
+            "total_discount": 11000000,
+            "nett": 276200000
+          }
+        }
+      ]
+    },
+    {
+      "model": "Fronx Hybrid",
+      "type": [
+        {
+          "name": "GX MT",
+          "otr": 300400000,
+          "nik25": {
+            "discount": 10400000,
+            "cashback": 2000000,
+            "total_discount": 12400000,
+            "nett": 288000000
+          },
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 2000000,
+            "total_discount": 11000000,
+            "nett": 289400000
+          }
+        },
+        {
+          "name": "GX AT",
+          "otr": 318700000,
+          "nik25": {
+            "discount": 11000000,
+            "cashback": 2000000,
+            "total_discount": 13000000,
+            "nett": 305700000
+          },
+          "nik26": {
+            "discount": 9000000,
+            "cashback": 2000000,
+            "total_discount": 11000000,
+            "nett": 307700000
+          }
+        },
+        {
+          "name": "SGX AT",
+          "otr": 345200000,
+          "nik25": {
+            "discount": 16000000,
+            "cashback": 2000000,
+            "total_discount": 18000000,
+            "nett": 327200000
+          },
+          "nik26": {
+            "discount": 3000000,
+            "cashback": 2000000,
+            "total_discount": 5000000,
+            "nett": 340200000
+          }
+        },
+        {
+          "name": "SGX AT Two Tone",
+          "otr": 347200000,
+          "nik25": {
+            "discount": 16000000,
+            "cashback": 2000000,
+            "total_discount": 18000000,
+            "nett": 329200000
+          },
+          "nik26": {
+            "discount": 3000000,
+            "cashback": 2000000,
+            "total_discount": 5000000,
+            "nett": 342200000
+          }
+        },
+        {
+          "name": "SGX AT Kuro",
+          "otr": 347700000,
+          "nik25": null,
+          "nik26": {
+            "discount": 3000000,
+            "cashback": 2000000,
+            "total_discount": 5000000,
+            "nett": 342700000
+          }
+        }
+      ]
+    },
+    {
+      "model": "Jimny 3 Door",
+      "type": [
+        {
+          "name": "AT",
+          "otr": 510400000,
+          "nik25": {
+            "discount": 44000000,
+            "cashback": 0,
+            "total_discount": 44000000,
+            "nett": 466400000
+          },
+          "nik26": null
+        },
+        {
+          "name": "AT Two Tone",
+          "otr": 513400000,
+          "nik25": {
+            "discount": 44000000,
+            "cashback": 0,
+            "total_discount": 44000000,
+            "nett": 469400000
+          },
+          "nik26": null
+        }
+      ]
+    },
+    {
+      "model": "Jimny 5 Door",
+      "type": [
+        {
+          "name": "AT",
+          "otr": 526300000,
+          "nik25": {
+            "discount": 34000000,
+            "cashback": 0,
+            "total_discount": 34000000,
+            "nett": 492300000
+          },
+          "nik26": null
+        },
+        {
+          "name": "AT Two Tone",
+          "otr": 529300000,
+          "nik25": {
+            "discount": 34000000,
+            "cashback": 0,
+            "total_discount": 34000000,
+            "nett": 495300000
+          },
+          "nik26": null
+        }
+      ]
+    },
+    {
+      "model": "e Vitara",
+      "type": [
+        {
+          "name": "1 Tone With Charging",
+          "otr": 769000000,
+          "nik25": null,
+          "nik26": null
+        },
+        {
+          "name": "2 Tone With Charging",
+          "otr": 772000000,
+          "nik25": null,
+          "nik26": null
+        }
+      ]
+    }
+  ],
+  "ltd": [
+    {
+      "model": "New Carry PU LTD",
+      "type": [
+        {
+          "name": "FD",
+          "otr": 202000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 43000000,
+            "cashback": 3500000,
+            "total_discount": 46500000,
+            "nett": 155500000
+          }
+        },
+        {
+          "name": "WD",
+          "otr": 203100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 43000000,
+            "cashback": 3500000,
+            "total_discount": 46500000,
+            "nett": 156600000
+          }
+        },
+        {
+          "name": "FD AC PS",
+          "otr": 210300000,
+          "nik25": null,
+          "nik26": {
+            "discount": 43000000,
+            "cashback": 3500000,
+            "total_discount": 46500000,
+            "nett": 163800000
+          }
+        },
+        {
+          "name": "WD AC PS",
+          "otr": 211200000,
+          "nik25": null,
+          "nik26": {
+            "discount": 43000000,
+            "cashback": 3500000,
+            "total_discount": 46500000,
+            "nett": 164700000
+          }
+        }
+      ]
+    },
+    {
+      "model": "All New Ertiga LTD",
+      "type": [
+        {
+          "name": "GL MT LTD",
+          "otr": 294100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 35000000,
+            "cashback": 4000000,
+            "total_discount": 39000000,
+            "nett": 255100000
+          }
+        },
+        {
+          "name": "GL AT LTD",
+          "otr": 305800000,
+          "nik25": null,
+          "nik26": {
+            "discount": 35000000,
+            "cashback": 4000000,
+            "total_discount": 39000000,
+            "nett": 266800000
+          }
+        }
+      ]
+    },
+    {
+      "model": "XL-7 MC LTD",
+      "type": [
+        {
+          "name": "Zeta MT LTD",
+          "otr": 300100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 35000000,
+            "cashback": 3000000,
+            "total_discount": 38000000,
+            "nett": 262100000
+          }
+        },
+        {
+          "name": "Zeta AT LTD",
+          "otr": 312100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 35000000,
+            "cashback": 3000000,
+            "total_discount": 38000000,
+            "nett": 274100000
+          }
+        },
+        {
+          "name": "Beta MT LTD",
+          "otr": 328600000,
+          "nik25": null,
+          "nik26": {
+            "discount": 38000000,
+            "cashback": 3000000,
+            "total_discount": 41000000,
+            "nett": 287600000
+          }
+        },
+        {
+          "name": "Beta AT LTD",
+          "otr": 340600000,
+          "nik25": null,
+          "nik26": {
+            "discount": 38000000,
+            "cashback": 3000000,
+            "total_discount": 41000000,
+            "nett": 299600000
+          }
+        }
+      ]
+    },
+    {
+      "model": "S-Presso Luxury",
+      "type": [
+        {
+          "name": "MT Luxury",
+          "otr": 207000000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 3000000,
+            "total_discount": 26000000,
+            "nett": 181000000
+          }
+        },
+        {
+          "name": "AGS Luxury",
+          "otr": 219100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 23000000,
+            "cashback": 3000000,
+            "total_discount": 26000000,
+            "nett": 193100000
+          }
+        }
+      ]
+    },
+    {
+      "model": "New Carry Karoseri (DSP)",
+      "type": [
+        {
+          "name": "PU FD AC PS - BOX Composite",
+          "otr": 243800000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 210300000
+          }
+        },
+        {
+          "name": "PU FD AC PS - BOX MBG",
+          "otr": 286400000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 252900000
+          }
+        },
+        {
+          "name": "PU FD AC PS - BOX MBG NON RAK",
+          "otr": 265800000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 232300000
+          }
+        },
+        {
+          "name": "PU FD AC PS - BOX Full Aluminium",
+          "otr": 256100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 222600000
+          }
+        }
+      ]
+    },
+    {
+      "model": "New Carry Karoseri (Antika Raya)",
+      "type": [
+        {
+          "name": "PU FD AC PS - BOX MBG NON RAK",
+          "otr": 269100000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 235600000
+          }
+        },
+        {
+          "name": "PU FD AC PS - HALF BOX Full Aluminium",
+          "otr": 243700000,
+          "nik25": null,
+          "nik26": {
+            "discount": 30000000,
+            "cashback": 3500000,
+            "total_discount": 33500000,
+            "nett": 210200000
+          }
+        }
+      ]
+    }
+  ]
+}
