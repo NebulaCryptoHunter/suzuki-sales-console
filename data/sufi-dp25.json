@@ -1,1 +1,50 @@
-{}
+[
+  {
+    "model": "New Carry PU",
+    "type": "FD",
+    "otr": 187000000,
+    "paket": [
+      { "tenor": 12, "tdp": 52000000, "angsuran": 13288000 },
+      { "tenor": 24, "tdp": 52000000, "angsuran": 7334000 },
+      { "tenor": 36, "tdp": 52000000, "angsuran": 5380000 },
+      { "tenor": 48, "tdp": 52000000, "angsuran": 4746000 },
+      { "tenor": 60, "tdp": 52000000, "angsuran": 4398000 }
+    ]
+  },
+  {
+    "model": "New Carry PU",
+    "type": "WD",
+    "otr": 188100000,
+    "paket": [
+      { "tenor": 12, "tdp": 52000000, "angsuran": 13392000 },
+      { "tenor": 24, "tdp": 52000000, "angsuran": 7391000 },
+      { "tenor": 36, "tdp": 52000000, "angsuran": 5422000 },
+      { "tenor": 48, "tdp": 52000000, "angsuran": 4913000 },
+      { "tenor": 60, "tdp": 52000000, "angsuran": 4432000 }
+    ]
+  },
+  {
+    "model": "New Carry PU",
+    "type": "FD AC PS",
+    "otr": 195300000,
+    "paket": [
+      { "tenor": 12, "tdp": 54000000, "angsuran": 13885000 },
+      { "tenor": 24, "tdp": 54000000, "angsuran": 7663000 },
+      { "tenor": 36, "tdp": 54000000, "angsuran": 5622000 },
+      { "tenor": 48, "tdp": 54000000, "angsuran": 4959000 },
+      { "tenor": 60, "tdp": 54000000, "angsuran": 4596000 }
+    ]
+  },
+  {
+    "model": "New Carry PU",
+    "type": "WD AC PS",
+    "otr": 196200000,
+    "paket": [
+      { "tenor": 12, "tdp": 54000000, "angsuran": 13970000 },
+      { "tenor": 24, "tdp": 54000000, "angsuran": 7710000 },
+      { "tenor": 36, "tdp": 54000000, "angsuran": 5656000 },
+      { "tenor": 48, "tdp": 54000000, "angsuran": 4989000 },
+      { "tenor": 60, "tdp": 54000000, "angsuran": 4624000 }
+    ]
+  }
+]
