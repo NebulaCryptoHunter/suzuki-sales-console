@@ -119,37 +119,28 @@ const APP = {
   // ---------- BUILD INDEXES ----------
   buildModelPatterns() {
     this.db.modelPatterns = [
-      // New Carry PU & variants
       { regex: /CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*(PU\s*)?(PICK\s*UP\s*)?/i, '').trim() },
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
       { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() },
-      // APV
       { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
-      // Ertiga
       { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
-      // XL7
       { regex: /XL-?7.*MC.*LTD/i, model: 'XL-7 MC LTD', extract: s => s.replace(/.*XL-?7\s*MC.*LTD\s*/i, '').trim() },
       { regex: /XL-?7.*KURO/i, model: 'XL-7 MC Hybrid Kuro', extract: s => s.replace(/.*XL-?7\s*(MC\s*)?(HYBRID\s*)?(KURO\s*)?(EDITION\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7.*HYBRID/i, model: 'XL-7 MC Hybrid', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?(HYBRID\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7\s*(MC|ZETA|BETA|ALPHA)/i, model: 'XL-7 MC', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW\s*(BETA|ALPHA).*HYBRID/i, model: 'XL-7 Hybrid', extract: s => s.replace(/.*XL-?7\s*(HYBRID\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
-      // Fronx
       { regex: /FRONX\s*HYBRID/i, model: 'Fronx Hybrid', extract: s => s.replace(/.*FRONX\s*HYBRID\s*/i, '').trim() },
       { regex: /FRONX/i, model: 'Fronx', extract: s => s.replace(/.*FRONX\s*/i, '').trim() },
-      // Grand Vitara
       { regex: /GRAND\s*VITARA/i, model: 'Grand Vitara MC', extract: s => s.replace(/.*GRAND\s*VITARA\s*(MC\s*)?/i, '').replace(/\bGX\b/gi, 'GLX').trim() },
-      // Jimny
       { regex: /JIMNY\s*5\s*DOOR/i, model: 'Jimny 5 Door', extract: s => s.replace(/.*JIMNY\s*5\s*DOOR\s*/i, '').trim() },
       { regex: /JIMNY/i, model: 'Jimny 3 Door', extract: s => s.replace(/.*JIMNY(\s*3\s*DOOR)?\s*/i, '').trim() },
-      // S-Presso
       { regex: /S[-\s]?PRESSO.*LUXURY/i, model: 'S-Presso Luxury', extract: s => s.replace(/.*S-?\s*PRESSO.*LUXURY\s*/i, '').trim() },
       { regex: /S[-\s]?PRESSO/i, model: 'S-Presso', extract: s => s.replace(/.*S-?\s*PRESSO\s*/i, '').trim() },
-      // e Vitara
       { regex: /E\s*VITARA/i, model: 'e Vitara', extract: s => s.replace(/.*E\s*VITARA\s*/i, '').trim() },
     ];
   },
@@ -308,7 +299,7 @@ const APP = {
     return Math.round(pokokBaru * (angsuranAsli / pokok));
   },
 
-  // ---------- DASHBOARD (tidak berubah) ----------
+  // ---------- DASHBOARD ----------
   initDashboard() {
     const all = this.state.stockUnits;
     const el = $('dashboard-stock-sub'); if (el) el.textContent = all.length ? `${all.length} Unit Ready` : 'Upload Excel • Cek Unit';
@@ -339,7 +330,7 @@ const APP = {
     }
   },
 
-  // ---------- PRICELIST (tidak berubah) ----------
+  // ---------- PRICELIST ----------
   updateNIKDropdown(cid, model, type) {
     const dd = document.getElementById(cid);
     if (!dd) return;
@@ -429,24 +420,249 @@ const APP = {
       const c = $('price-content'); if (c) c.innerHTML = `<div class="grid-2"><span>OTR</span><span style="text-align:right;">${this.fRupiah(pd.otr)}</span></div><div class="grid-2" style="color:#DC2626;"><span>Discount</span><span style="text-align:right;">-${this.fRupiah(d.discount)}</span></div><div class="grid-2" style="color:#059669;"><span>Cashback</span><span style="text-align:right;">-${this.fRupiah(d.cashback)}</span></div><div class="grid-2" style="font-weight:600;"><span>Total Discount</span><span style="text-align:right;">${this.fRupiah(d.total_discount)} <span class="badge badge-discount">${((d.total_discount/pd.otr)*100).toFixed(1)}%</span></span></div><div class="price-nett"><small>Harga Nett</small>${this.fRupiah(d.nett)}</div>`;
     }
   },
-  showStockSummary() { /* ... sama seperti sebelumnya ... */ },
-  goToKreditFromPricelist() { /* ... */ },
+  showStockSummary() {
+    const model = $('model-select')?.value, type = $('type-select')?.value;
+    const units = this.state.stockUnits.filter(u => u.model === model && this.matchType(u.type, type));
+    const c = $('stock-summary-pricelist'); if (!c) return;
+    if (!units.length) {
+      c.innerHTML = '<div style="margin-top:0.5rem;padding:0.7rem;background:#F1F5F9;border-radius:10px;text-align:center;color:#64748B;">🔴 Stok Habis</div>';
+      return;
+    }
+    const wm = {};
+    units.forEach(u => {
+      const w = this.getColorName(u.warna) || u.warna || 'Lainnya';
+      if (!wm[w]) wm[w] = { nik25: 0, nik26: 0, total: 0 };
+      if (u.nikGroup === '25') wm[w].nik25++; else if (u.nikGroup === '26') wm[w].nik26++;
+      wm[w].total++;
+    });
+    let h = `<div style="margin-top:0.5rem;padding:0.7rem;background:#F8FAFC;border-radius:10px;"><div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;"><span class="badge badge-ready">🟢 ${units.length} Unit Ready</span></div>`;
+    for (const [w, d] of Object.entries(wm)) {
+      const cls = this.getColorClass(w);
+      h += `<div style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0;font-size:0.8rem;border-bottom:1px solid #F1F5F9;"><span class="color-dot ${cls}"></span> <strong>${w}</strong> (${d.total}) ${d.nik25?`<span class="badge badge-nik25">NIK 25 · ${d.nik25}</span>`:''} ${d.nik26?`<span class="badge badge-nik26">NIK 26 · ${d.nik26}</span>`:''}</div>`;
+    }
+    c.innerHTML = h + '</div>';
+  },
+  goToKreditFromPricelist() {
+    if (!this.state.selectedPrice) return;
+    this.navigateTo('kredit', { tab: 'paket' });
+    const { model, type } = this.state.selectedPrice;
+    let cat = '';
+    for (const k in CATEGORIES_MAP) if (CATEGORIES_MAP[k].includes(model)) { cat = k; break; }
+    const ce = $('kredit-cat-paket'); if (ce) ce.value = cat;
+    this.loadKreditModelsPaket();
+    const me = $('kredit-model-paket'); if (me) me.value = model;
+    this.loadKreditTypesPaket();
+    const te = $('kredit-type-paket'); if (te) te.value = type;
+    this.onKreditTypeChangePaket();
+    const ne = $('kredit-nik-dropdown-paket'); if (ne && !ne.disabled) ne.value = this.state.selectedNIK;
+    const tre = $('kredit-tenor-paket'); if (tre) tre.value = '60';
+    this.showAllLeasingResult();
+  },
 
-  // ---------- KREDIT (tidak berubah) ----------
-  initKredit() { /* ... */ },
-  switchKreditTab(tab) { /* ... */ },
-  initPaketTab() { /* ... */ },
-  loadKreditModelsPaket() { /* ... */ },
-  loadKreditTypesPaket() { /* ... */ },
-  onKreditTypeChangePaket() { /* ... */ },
-  setSortMode(mode) { /* ... */ },
-  showAllLeasingResult() { /* ... */ },
-  initManualTab() { /* ... */ },
-  onManualLeasingChange() { /* ... */ },
-  loadManualModels() { /* ... */ },
-  loadManualTypes() { /* ... */ },
-  onManualTypeChange() { /* ... */ },
-  hitungManualPerLeasing() { /* ... */ },
+  // ---------- KREDIT ----------
+  initKredit() {
+    const tab = this.state.kreditTab || 'manual';
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+    if (tab === 'manual') {
+      const b = $('tab-btn-manual'); if (b) b.classList.add('active');
+      $('panel-manual')?.classList.remove('hidden');
+      this.initManualTab();
+    } else {
+      const b = $('tab-btn-paket'); if (b) b.classList.add('active');
+      $('panel-paket')?.classList.remove('hidden');
+      this.initPaketTab();
+    }
+  },
+  switchKreditTab(tab) { this.state.kreditTab = tab; this.initKredit(); },
+  initPaketTab() {
+    const c = $('kredit-cat-paket'); if (c) { c.innerHTML = '<option value="">-- Pilih Kategori --</option>'; for (const k in CATEGORIES_MAP) c.innerHTML += `<option value="${k}">${k}</option>`; }
+    const m = $('kredit-model-paket'); if (m) { m.innerHTML = '<option value="">-- Pilih Model --</option>'; m.disabled = true; }
+    const t = $('kredit-type-paket'); if (t) { t.innerHTML = '<option value="">-- Pilih Type --</option>'; t.disabled = true; }
+    const ns = $('kredit-nik-selector-paket'); if (ns) ns.classList.add('hidden');
+    const tn = $('kredit-tenor-paket'); if (tn) { tn.disabled = true; tn.value = '60'; }
+    const r = $('kredit-result'); if (r) { r.innerHTML = ''; r.classList.add('hidden'); }
+    const s = $('kredit-sort-options'); if (s) s.classList.add('hidden');
+  },
+  loadKreditModelsPaket() {
+    const cat = $('kredit-cat-paket')?.value;
+    const s = $('kredit-model-paket'); if (!s) return;
+    s.innerHTML = '<option value="">-- Pilih Model --</option>';
+    if (!cat) { s.disabled = true; return; }
+    s.disabled = false;
+    (CATEGORIES_MAP[cat] || []).forEach(m => s.innerHTML += `<option value="${m}">${m}</option>`);
+    const t = $('kredit-type-paket'); if (t) { t.disabled = true; t.innerHTML = '<option value="">-- Pilih Type --</option>'; }
+  },
+  loadKreditTypesPaket() {
+    const model = $('kredit-model-paket')?.value;
+    const s = $('kredit-type-paket'); if (!s) return;
+    s.innerHTML = '<option value="">-- Pilih Type --</option>';
+    if (!model) { s.disabled = true; return; }
+    s.disabled = false;
+    const types = Object.keys(this.db.priceIndex).filter(k => k.startsWith(model + '|')).map(k => k.split('|')[1]);
+    types.forEach(t => s.innerHTML += `<option value="${t}">${t}</option>`);
+  },
+  onKreditTypeChangePaket() {
+    const model = $('kredit-model-paket')?.value, type = $('kredit-type-paket')?.value;
+    if (!model || !type) return;
+    this.updateNIKDropdown('kredit-nik-dropdown-paket', model, type);
+    const ns = $('kredit-nik-selector-paket'), nd = $('kredit-nik-dropdown-paket');
+    if (ns && nd) ns.classList.toggle('hidden', nd.disabled);
+    const tn = $('kredit-tenor-paket'); if (tn) { tn.disabled = false; tn.value = '60'; }
+    const r = $('kredit-result'); if (r) { r.classList.add('hidden'); }
+    const s = $('kredit-sort-options'); if (s) s.classList.add('hidden');
+  },
+  setSortMode(mode) { this.state.kreditSortMode = mode; this.showAllLeasingResult(); },
+  showAllLeasingResult() {
+    const tenor = parseInt($('kredit-tenor-paket')?.value);
+    if (!tenor) return;
+    const model = $('kredit-model-paket')?.value, type = $('kredit-type-paket')?.value;
+    if (!model || !type) return;
+    const nd = $('kredit-nik-dropdown-paket');
+    const nikKey = (nd?.disabled || !nd?.value) ? 'nik26' : nd.value;
+    const pd = this.db.priceIndex[model + '|' + type];
+    const c = $('kredit-result'); if (!c) return;
+    if (!pd) { c.innerHTML = '<div class="card">Data harga tidak ditemukan.</div>'; c.classList.remove('hidden'); return; }
+    const totalDiskon = pd[nikKey]?.total_discount || 0;
+    const otr = pd.otr;
+    c.classList.remove('hidden');
+    const results = ALL_LEASINGS.map(ln => {
+      const key = ln + '|' + model + '|' + type + '|' + tenor;
+      const paket = this.db.leasingIndex[key];
+      if (paket) {
+        const dpBayar = paket.tdp - totalDiskon;
+        return {
+          leasing: ln, available: true, dpBayar,
+          totalInvestasi: dpBayar + (paket.angsuran * tenor),
+          tdp: paket.tdp, angsuran: paket.angsuran,
+          subsidiDP: paket.subsidiDP || 0
+        };
+      }
+      return { leasing: ln, available: false };
+    });
+    const avail = results.filter(r => r.available).sort((a, b) =>
+      this.state.kreditSortMode === 'dp' ? a.dpBayar - b.dpBayar : a.totalInvestasi - b.totalInvestasi
+    );
+    const unavail = results.filter(r => !r.available);
+    const best = avail.length > 0 ? avail[0] : null;
+    const s = $('kredit-sort-options'); if (s) s.classList.toggle('hidden', avail.length < 2);
+    let h = `<h3>${model} ${type} (${nikKey === 'nik25' ? 'NIK 25' : 'NIK 26'})</h3>`;
+    avail.forEach(r => {
+      const isBest = best && ((this.state.kreditSortMode === 'investasi' && r.totalInvestasi === best.totalInvestasi) || (this.state.kreditSortMode === 'dp' && r.dpBayar === best.dpBayar));
+      h += `<div class="leasing-card">
+        <div class="leasing-name">${r.leasing} ${isBest ? '<span class="best-badge">TERMURAH</span>' : ''}</div>
+        <div class="detail-row"><span>OTR</span><span>${this.fRupiah(otr)}</span></div>
+        <div class="detail-row" style="color:#DC2626;"><span>Total Discount</span><span>-${this.fRupiah(totalDiskon)}</span></div>
+        <div class="detail-row"><span>TDP Dealer</span><span>${this.fRupiah(r.tdp)}</span></div>
+        ${r.subsidiDP > 0 ? `<div class="detail-row" style="color:#059669;"><span>Subsidi DP</span><span>-${this.fRupiah(r.subsidiDP)}</span></div>` : ''}
+        <div class="highlight" style="background:#ECFDF5; border-left:4px solid #16A34A;">
+          <div class="highlight-row"><span class="highlight-label">💰 DP Bayar</span><span class="highlight-value" style="color:#16A34A; font-size:1.2rem;">${this.fRupiah(r.dpBayar)}</span></div>
+        </div>
+        <div class="highlight" style="background:#EFF6FF; border-left:4px solid #005BAC;">
+          <div class="highlight-row"><span class="highlight-label">📅 Angsuran/Bulan</span><span class="highlight-value" style="color:#005BAC;">${this.fRupiah(r.angsuran)}</span></div>
+        </div>
+        <div class="highlight" style="background:#FFF7ED; border-left:4px solid #D97706;">
+          <div class="highlight-row"><span class="highlight-label">⏳ Tenor</span><span class="highlight-value" style="color:#D97706;">${tenor} Bulan</span></div>
+        </div>
+        <div class="detail-row" style="font-weight:600; margin-top:0.4rem;"><span>Total Investasi</span><span>${this.fRupiah(r.totalInvestasi)}</span></div>
+      </div>`;
+    });
+    unavail.forEach(r => { h += `<div class="leasing-card" style="text-align:center; color:#64748B;"><div class="leasing-name">📋 ${r.leasing}</div><div style="font-size:0.8rem;">Data belum tersedia</div></div>`; });
+    c.innerHTML = h;
+    if (best) this.addKreditHistory({ model, type, leasing: best.leasing, tenor, dpBayar: best.dpBayar, angsuran: best.angsuran, totalInvestasi: best.totalInvestasi });
+  },
+  initManualTab() {
+    const sel = $('manual-leasing-select'); if (sel) { sel.innerHTML = '<option value="">-- Pilih Leasing --</option>'; ALL_LEASINGS.forEach(l => sel.innerHTML += `<option value="${l}">${l}</option>`); }
+    const cat = $('manual-cat'); if (cat) { cat.innerHTML = '<option value="">-- Pilih Kategori --</option>'; for (const k in CATEGORIES_MAP) cat.innerHTML += `<option value="${k}">${k}</option>`; }
+    const m = $('manual-model'); if (m) { m.innerHTML = '<option value="">-- Pilih Model --</option>'; m.disabled = true; }
+    const t = $('manual-type'); if (t) { t.innerHTML = '<option value="">-- Pilih Type --</option>'; t.disabled = true; }
+    const ns = $('manual-nik-selector'); if (ns) ns.classList.add('hidden');
+    const dp = $('manual-dp'); if (dp) dp.value = '';
+    const tn = $('manual-tenor'); if (tn) tn.value = '60';
+    const r = $('manual-result'); if (r) r.innerHTML = '';
+    const us = $('manual-unit-section'); if (us) us.classList.add('hidden');
+  },
+  onManualLeasingChange() {
+    const leasing = $('manual-leasing-select')?.value;
+    const us = $('manual-unit-section'), r = $('manual-result');
+    if (!leasing) { if (us) us.classList.add('hidden'); if (r) r.innerHTML = ''; return; }
+    if (!this.data.leasing[leasing]) {
+      if (us) us.classList.add('hidden');
+      if (r) r.innerHTML = `<div class="leasing-card" style="text-align:center;color:#64748B;">📋 Data leasing <b>${leasing}</b> belum tersedia</div>`;
+      return;
+    }
+    if (us) us.classList.remove('hidden');
+  },
+  loadManualModels() {
+    const cat = $('manual-cat')?.value;
+    const s = $('manual-model'); if (!s) return;
+    s.innerHTML = '<option value="">-- Pilih Model --</option>';
+    if (!cat) { s.disabled = true; return; }
+    s.disabled = false;
+    (CATEGORIES_MAP[cat] || []).forEach(m => s.innerHTML += `<option value="${m}">${m}</option>`);
+    const t = $('manual-type'); if (t) t.disabled = true;
+  },
+  loadManualTypes() {
+    const model = $('manual-model')?.value;
+    const s = $('manual-type'); if (!s) return;
+    s.innerHTML = '<option value="">-- Pilih Type --</option>';
+    if (!model) { s.disabled = true; return; }
+    s.disabled = false;
+    Object.keys(this.db.priceIndex).filter(k => k.startsWith(model + '|')).map(k => k.split('|')[1]).forEach(t => s.innerHTML += `<option value="${t}">${t}</option>`);
+  },
+  onManualTypeChange() {
+    const model = $('manual-model')?.value, type = $('manual-type')?.value;
+    if (!model || !type) return;
+    this.updateNIKDropdown('manual-nik-dropdown', model, type);
+    const ns = $('manual-nik-selector'), nd = $('manual-nik-dropdown');
+    if (ns && nd) ns.classList.toggle('hidden', nd.disabled);
+    this.hitungManualPerLeasing();
+  },
+  hitungManualPerLeasing() {
+    const leasing = $('manual-leasing-select')?.value, model = $('manual-model')?.value, type = $('manual-type')?.value;
+    const dpInput = this.parseRupiahInput($('manual-dp')?.value);
+    const tenor = parseInt($('manual-tenor')?.value) || 0;
+    const r = $('manual-result'); if (!r) return;
+    if (!leasing || !model || !type || !tenor) { r.innerHTML = ''; return; }
+    const nikKey = $('manual-nik-dropdown')?.disabled ? 'nik26' : $('manual-nik-dropdown')?.value;
+    const priceKey = model + '|' + type, pd = this.db.priceIndex[priceKey];
+    if (!pd) { r.innerHTML = '<div class="leasing-card">Data unit tidak ditemukan.</div>'; return; }
+    const totalDiscount = pd[nikKey]?.total_discount || 0;
+    const leasingKey = leasing + '|' + model + '|' + type + '|' + tenor, paket = this.db.leasingIndex[leasingKey];
+    if (!paket) { r.innerHTML = '<div class="leasing-card">Paket tenor tidak tersedia.</div>'; return; }
+    const otr = pd.otr, tdp = paket.tdp, angsuranAsli = paket.angsuran;
+    const dpBayarPaket = tdp - totalDiscount;
+    if (dpInput < dpBayarPaket) {
+      r.innerHTML = `<div class="leasing-card" style="border-left:4px solid #DC2626;"><div style="color:#DC2626;font-weight:600;">❌ DP Bayar minimal ${this.fRupiah(dpBayarPaket)}</div></div>`;
+      return;
+    }
+    const pokokKredit = otr - tdp;
+    if (pokokKredit <= 0) { r.innerHTML = '<div class="leasing-card">Data tidak valid (pokok kredit 0).</div>'; return; }
+    const selisihDP = dpInput - dpBayarPaket, pokokKreditBaru = pokokKredit - selisihDP;
+    const angsuranBaru = this.hitungAngsuranBaru(leasing, pokokKredit, pokokKreditBaru, angsuranAsli);
+    const penurunan = angsuranAsli - angsuranBaru, totalInvestasi = dpInput + (angsuranBaru * tenor);
+    const subsidiDP = paket.subsidiDP || 0;
+    r.innerHTML = `<div class="leasing-card">
+      <div class="leasing-name">${leasing} – ${model} ${type}</div>
+      <div class="detail-row"><span>OTR</span><span>${this.fRupiah(otr)}</span></div>
+      <div class="detail-row" style="color:#DC2626;"><span>Total Discount</span><span>-${this.fRupiah(totalDiscount)}</span></div>
+      <div class="detail-row"><span>TDP Dealer</span><span>${this.fRupiah(tdp)}</span></div>
+      ${subsidiDP > 0 ? `<div class="detail-row" style="color:#059669;"><span>Subsidi DP</span><span>-${this.fRupiah(subsidiDP)}</span></div>` : ''}
+      <div class="highlight" style="background:#ECFDF5; border-left:4px solid #16A34A;">
+        <div class="highlight-row"><span class="highlight-label">💰 DP Bayar</span><span class="highlight-value" style="color:#16A34A; font-size:1.2rem;">${this.fRupiah(dpInput)}</span></div>
+      </div>
+      <div class="highlight" style="background:#EFF6FF; border-left:4px solid #005BAC;">
+        <div class="highlight-row"><span class="highlight-label">📅 Angsuran/Bulan</span><span class="highlight-value" style="color:#005BAC;">${this.fRupiah(angsuranBaru)}</span></div>
+      </div>
+      <div class="highlight" style="background:#FFF7ED; border-left:4px solid #D97706;">
+        <div class="highlight-row"><span class="highlight-label">⏳ Tenor</span><span class="highlight-value" style="color:#D97706;">${tenor} Bulan</span></div>
+      </div>
+      <div class="detail-row" style="color:#059669; margin-top:0.3rem;"><span>Penurunan Angsuran</span><span>-${this.fRupiah(penurunan)}</span></div>
+      <div class="detail-row" style="font-weight:600; margin-top:0.4rem;"><span>Total Investasi</span><span>${this.fRupiah(totalInvestasi)}</span></div>
+      <div style="font-size:0.6rem; margin-top:0.5rem; color:#64748B;">Rumus: ${leasing === 'ADIRA' ? 'Faktor Leasing' : leasing === 'MUF' ? 'Persentase Pokok' : 'Proporsional'}</div>
+    </div>`;
+    this.addKreditHistory({ model, type, leasing, tenor, dpBayar: dpInput, angsuran: angsuranBaru, totalInvestasi });
+  },
 
   // ---------- STOCK (PERBAIKAN TOTAL) ----------
   initStockPage() {
@@ -824,7 +1040,7 @@ const APP = {
     });
   },
 
-  // ---------- SETTING (nama perusahaan diperbaiki) ----------
+  // ---------- SETTING ----------
   initSetting() {
     const stockInfo = this.state.stockUnits.length ? `${this.state.stockUnits.length} unit (${this.state.stockDate})` : 'Kosong';
     const info = $('setting-info');
