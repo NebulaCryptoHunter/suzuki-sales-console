@@ -1111,7 +1111,7 @@ const APP = {
       <p>Favorit: ${this.state.favorites.length}</p>
       <p>Riwayat Simulasi: ${this.state.kreditHistory.length}</p>
       <p><strong>Dikembangkan oleh:</strong> Heru Prasetyo</p>
-      <p><strong>Perusahaan:</strong> PT Sunmotor Indosntra Trada Semarang</p>
+      <p><strong>Perusahaan:</strong> PT Sunmotor Indosentra Trada Semarang</p>
       <button class="btn-outline btn-sm btn-block" onclick="APP.clearCache()">🗑️ Hapus Cache & Reset</button>
     </div>`;
   },
