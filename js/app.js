@@ -269,6 +269,32 @@ const APP = {
   copyText(t) { navigator.clipboard?.writeText(t).then(() => this.toast('Disalin!')) ?? this.toast('Gagal', true); },
   showModal(h) { this.dom.modalBody.innerHTML = h; this.dom.modalBackdrop.classList.add('active'); },
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
+  
+  // Normalisasi tipe yang lebih agresif: hapus spasi, kurung, dan karakter khusus
+  normalizeTypeAggressive(t) {
+    if (!t) return '';
+    return t.toUpperCase().trim()
+      .replace(/[^A-Z0-9]/g, '') // hapus semua non-alphanumeric
+      .replace(/\b20\d{2}\b/g, '')
+      .replace(/HYBRID/gi, '')
+      .replace(/NEW/gi, '')
+      .replace(/EDITION/gi, '')
+      .replace(/KURO/gi, '')
+      .replace(/TWOTONE/gi, 'TWOTONE')
+      .replace(/DOORS/gi, 'DOOR')
+      .replace(/GX/gi, 'GLX')
+      .replace(/LTD/gi, 'LTD')
+      .replace(/LUXURY/gi, 'LUXURY')
+      .replace(/MT/gi, 'MT')
+      .replace(/AT/gi, 'AT')
+      .replace(/AGS/gi, 'AGS')
+      .replace(/FD/gi, 'FD')
+      .replace(/WD/gi, 'WD')
+      .replace(/ACPS/gi, 'ACPS')
+      .replace(/PU/gi, 'PU')
+      .replace(/PICKUP/gi, 'PICKUP');
+  },
+
   matchType(a, b) { return this.normalizeType(a) === this.normalizeType(b); },
   normalizeType(t) {
     if (!t) return '';
@@ -474,36 +500,57 @@ const APP = {
       const c = $('price-content'); if (c) c.innerHTML = `<div class="grid-2"><span>OTR</span><span style="text-align:right;">${this.fRupiah(pd.otr)}</span></div><div class="grid-2" style="color:#DC2626;"><span>Discount</span><span style="text-align:right;">-${this.fRupiah(d.discount)}</span></div><div class="grid-2" style="color:#059669;"><span>Cashback</span><span style="text-align:right;">-${this.fRupiah(d.cashback)}</span></div><div class="grid-2" style="font-weight:600;"><span>Total Discount</span><span style="text-align:right;">${this.fRupiah(d.total_discount)} <span class="badge badge-discount">${((d.total_discount/pd.otr)*100).toFixed(1)}%</span></span></div><div class="price-nett"><small>Harga Nett</small>${this.fRupiah(d.nett)}</div>`;
     }
   },
-  showStockSummary() {
-    const model = $('model-select')?.value, type = $('type-select')?.value;
-    if (!model || !type) return;
+  
+  // Fungsi pencarian unit stok yang lebih longgar
+  findStockUnits(model, type) {
+    if (!model || !type) return [];
     
     const normalizedModel = this.normalizeModel(model);
     const normalizedType = this.normalizeType(type);
+    const aggressiveType = this.normalizeTypeAggressive(type);
     
-    // Filter unit dengan normalisasi
+    // Tahap 1: pencocokan normal
     let units = this.state.stockUnits.filter(u => {
       const unitModel = this.normalizeModel(u.model);
       const unitType = u.normalizedType;
       return unitModel === normalizedModel && unitType === normalizedType;
     });
     
-    // Jika tidak ada unit dan model adalah Carry, coba pencarian longgar: semua unit yang mengandung "CARRY" dengan tipe cocok
-    if (units.length === 0 && /CARRY/i.test(model)) {
-      units = this.state.stockUnits.filter(u => {
-        return /CARRY/i.test(u.model) && u.normalizedType === normalizedType;
-      });
-    }
+    if (units.length > 0) return units;
     
-    // Debug: log untuk mencari penyebab
-    console.log(`Pricelist Model: ${model} (norm: ${normalizedModel}), Type: ${type} (norm: ${normalizedType})`);
+    // Tahap 2: pencocokan model normal + tipe agresif
+    units = this.state.stockUnits.filter(u => {
+      const unitModel = this.normalizeModel(u.model);
+      const unitTypeAggressive = this.normalizeTypeAggressive(u.type);
+      return unitModel === normalizedModel && unitTypeAggressive === aggressiveType;
+    });
+    
+    if (units.length > 0) return units;
+    
+    // Tahap 3: pencocokan model longgar (mengandung string yang sama)
+    units = this.state.stockUnits.filter(u => {
+      const unitModelNorm = this.normalizeModel(u.model);
+      const unitTypeAggressive = this.normalizeTypeAggressive(u.type);
+      // Model longgar: salah satu mengandung yang lain
+      const modelMatch = unitModelNorm.includes(normalizedModel) || normalizedModel.includes(unitModelNorm);
+      const typeMatch = unitTypeAggressive === aggressiveType || 
+                        this.normalizeTypeAggressive(u.type).includes(aggressiveType) || 
+                        aggressiveType.includes(this.normalizeTypeAggressive(u.type));
+      return modelMatch && typeMatch;
+    });
+    
+    return units;
+  },
+  
+  showStockSummary() {
+    const model = $('model-select')?.value, type = $('type-select')?.value;
+    if (!model || !type) return;
+    
+    const units = this.findStockUnits(model, type);
+    
+    // Debug
+    console.log(`Pricelist Model: ${model}, Type: ${type}`);
     console.log(`Units found: ${units.length}`);
-    if (units.length === 0 && this.state.stockUnits.length > 0) {
-      const samples = this.state.stockUnits.slice(0, 5).map(u => 
-        `Model: ${u.model} (norm: ${this.normalizeModel(u.model)}), Type: ${u.type} (norm: ${u.normalizedType})`
-      ).join('\n');
-      console.log('Sample stock units:\n' + samples);
-    }
     
     const c = $('stock-summary-pricelist'); if (!c) return;
     if (!units.length) {
