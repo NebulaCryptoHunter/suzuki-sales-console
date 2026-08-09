@@ -23,7 +23,7 @@ const CATEGORIES_MAP = {
   "LTD": ["New Carry PU LTD","All New Ertiga LTD","XL-7 MC LTD","S-Presso Luxury"]
 };
 const PAGE_HEADERS = {
-  dashboard: { icon:'🏠', title:'Suzuki Sales Hub', subtitle:'Internal Dealer Application' },
+  dashboard: { icon:'🏠', title:'Suzuki Sales Console', subtitle:'Internal Dealer Application - SIT Semarang' },
   pricelist: { icon:'📋', title:'Pricelist', subtitle:'Harga OTR Agustus 2026' },
   kredit:   { icon:'💳', title:'Simulasi Kredit', subtitle:'Perbandingan & Kalkulator' },
   stock:    { icon:'📦', title:'Stock Unit', subtitle:'Cek Ketersediaan Unit' },
