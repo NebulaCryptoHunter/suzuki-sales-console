@@ -1,5 +1,5 @@
 /* ============================================================
-   Suzuki Sales Console v2.2 — Internal Dealer Application
+   Suzuki Sales Console v2.3 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
    ============================================================ */
 
@@ -27,7 +27,7 @@ const PAGE_HEADERS = {
   pricelist: { icon:'📋', title:'Pricelist', subtitle:'Harga OTR Agustus 2026' },
   kredit:   { icon:'💳', title:'Simulasi Kredit', subtitle:'Perbandingan & Kalkulator' },
   stock:    { icon:'📦', title:'Stock Unit', subtitle:'Cek Ketersediaan Unit' },
-  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.2' }
+  setting:  { icon:'⚙️', title:'Setting', subtitle:'Versi 2.3' }
 };
 
 // ========== UTILITY ==========
@@ -119,7 +119,6 @@ const APP = {
   // ---------- BUILD INDEXES ----------
   buildModelPatterns() {
     this.db.modelPatterns = [
-      // === CARRY (prioritas utama) ===
       { regex: /CARRY.*LTD/i, model: 'New Carry PU LTD', extract: s => s.replace(/.*CARRY.*LTD\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*DSP/i, model: 'New Carry Karoseri (DSP)', extract: s => s.replace(/.*CARRY.*KAROSERI.*DSP\s*/i, '').trim() },
       { regex: /CARRY.*KAROSERI.*ANTIKA/i, model: 'New Carry Karoseri (Antika Raya)', extract: s => s.replace(/.*CARRY.*KAROSERI.*ANTIKA\s*/i, '').trim() },
@@ -130,16 +129,12 @@ const APP = {
         }
       },
       { regex: /CARRY/i, model: 'New Carry PU', extract: s => s.replace(/.*CARRY\s*/i, '').replace(/PUFD/,'FD').replace(/PUWD/,'WD').trim() || 'PU' },
-      
-      // === ERTIGA ===
       { regex: /ALL NEW ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ALL NEW ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ALL NEW ERTIGA HYBRID\s*/i, '').trim() },
       { regex: /ALL NEW ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ALL NEW ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
       { regex: /ERTIGA.*LTD/i, model: 'All New Ertiga LTD', extract: s => s.replace(/.*ERTIGA.*LTD\s*/i, '').trim() },
       { regex: /ERTIGA\s*HYBRID/i, model: 'All New Ertiga Hybrid', extract: s => s.replace(/.*ERTIGA\s*HYBRID\s*/i, '').trim() },
       { regex: /ERTIGA/i, model: 'All New Ertiga', extract: s => { let t = s.replace(/.*ERTIGA\s*/i, '').trim(); return t === 'GA MT' ? 'GA PW' : t; } },
-      
-      // === XL7 ===
       { regex: /XL-?7.*MC.*LTD/i, model: 'XL-7 MC LTD', extract: s => s.replace(/.*XL-?7\s*MC.*LTD\s*/i, '').trim() },
       { regex: /XL-?7.*KURO/i, model: 'XL-7 MC Hybrid Kuro', extract: s => s.replace(/.*XL-?7\s*(MC\s*)?(HYBRID\s*)?(KURO\s*)?(EDITION\s*)?/i, '').trim() },
       { regex: /(NEW\s*)?XL-?7.*HYBRID/i, model: 'XL-7 MC Hybrid', extract: s => s.replace(/.*(NEW\s*)?XL-?7\s*(MC\s*)?(HYBRID\s*)?/i, '').trim() },
@@ -147,26 +142,14 @@ const APP = {
       { regex: /XL-?7\s*NEW\s*(BETA|ALPHA).*HYBRID/i, model: 'XL-7 Hybrid', extract: s => s.replace(/.*XL-?7\s*(HYBRID\s*)?/i, '').trim() },
       { regex: /XL-?7\s*NEW/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
       { regex: /XL-?7/i, model: 'XL-7', extract: s => s.replace(/.*XL-?7\s*/i, '').trim() },
-      
-      // === FRONX ===
       { regex: /FRONX\s*HYBRID/i, model: 'Fronx Hybrid', extract: s => s.replace(/.*FRONX\s*HYBRID\s*/i, '').trim() },
       { regex: /FRONX/i, model: 'Fronx', extract: s => s.replace(/.*FRONX\s*/i, '').trim() },
-      
-      // === GRAND VITARA ===
       { regex: /GRAND\s*VITARA/i, model: 'Grand Vitara MC', extract: s => s.replace(/.*GRAND\s*VITARA\s*(MC\s*)?/i, '').replace(/\bGX\b/gi, 'GLX').trim() },
-      
-      // === JIMNY ===
       { regex: /JIMNY\s*5\s*DOOR/i, model: 'Jimny 5 Door', extract: s => s.replace(/.*JIMNY\s*5\s*DOOR\s*/i, '').trim() },
       { regex: /JIMNY/i, model: 'Jimny 3 Door', extract: s => s.replace(/.*JIMNY(\s*3\s*DOOR)?\s*/i, '').trim() },
-      
-      // === S-PRESSO ===
       { regex: /S[-\s]?PRESSO.*LUXURY/i, model: 'S-Presso Luxury', extract: s => s.replace(/.*S-?\s*PRESSO.*LUXURY\s*/i, '').trim() },
       { regex: /S[-\s]?PRESSO/i, model: 'S-Presso', extract: s => s.replace(/.*S-?\s*PRESSO\s*/i, '').trim() },
-      
-      // === APV ===
       { regex: /APV/i, model: 'APV', extract: s => s.replace(/.*APV\s*/i, '').trim() },
-      
-      // === E VITARA ===
       { regex: /E\s*VITARA/i, model: 'e Vitara', extract: s => s.replace(/.*E\s*VITARA\s*/i, '').trim() },
     ];
   },
@@ -270,29 +253,15 @@ const APP = {
   showModal(h) { this.dom.modalBody.innerHTML = h; this.dom.modalBackdrop.classList.add('active'); },
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
   
-  // Normalisasi tipe yang lebih agresif: hapus spasi, kurung, dan karakter khusus
+  // Normalisasi agresif: hapus SEMUA karakter non-alphanumeric, ideal untuk perbandingan tipe
   normalizeTypeAggressive(t) {
     if (!t) return '';
-    return t.toUpperCase().trim()
-      .replace(/[^A-Z0-9]/g, '') // hapus semua non-alphanumeric
-      .replace(/\b20\d{2}\b/g, '')
-      .replace(/HYBRID/gi, '')
-      .replace(/NEW/gi, '')
-      .replace(/EDITION/gi, '')
-      .replace(/KURO/gi, '')
-      .replace(/TWOTONE/gi, 'TWOTONE')
-      .replace(/DOORS/gi, 'DOOR')
-      .replace(/GX/gi, 'GLX')
-      .replace(/LTD/gi, 'LTD')
-      .replace(/LUXURY/gi, 'LUXURY')
-      .replace(/MT/gi, 'MT')
-      .replace(/AT/gi, 'AT')
-      .replace(/AGS/gi, 'AGS')
-      .replace(/FD/gi, 'FD')
-      .replace(/WD/gi, 'WD')
-      .replace(/ACPS/gi, 'ACPS')
-      .replace(/PU/gi, 'PU')
-      .replace(/PICKUP/gi, 'PICKUP');
+    return t.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/20\d{2}/g, '').replace(/HYBRID/gi, '')
+      .replace(/NEW/gi, '').replace(/EDITION/gi, '').replace(/KURO/gi, '')
+      .replace(/TWOTONE/gi, 'TWOTONE').replace(/DOORS/gi, 'DOOR').replace(/GX/gi, 'GLX')
+      .replace(/LTD/gi, 'LTD').replace(/LUXURY/gi, 'LUXURY').replace(/MT/gi, 'MT')
+      .replace(/AT/gi, 'AT').replace(/AGS/gi, 'AGS').replace(/FD/gi, 'FD').replace(/WD/gi, 'WD')
+      .replace(/ACPS/gi, 'ACPS').replace(/PU/gi, 'PU').replace(/PICKUP/gi, 'PICKUP');
   },
 
   matchType(a, b) { return this.normalizeType(a) === this.normalizeType(b); },
@@ -319,7 +288,6 @@ const APP = {
           .replace(/\bFRONX\b/gi, 'FRONX').replace(/\bJIMNY\b/gi, 'JIMNY')
           .replace(/\bS-?PRESSO\b/gi, 'SPRESSO').replace(/\bCARRY\b/gi, 'CARRY')
           .replace(/\s+/g, ' ').trim();
-    // Hapus varian tipe agar model dasar saja yang dibandingkan
     norm = norm.replace(/\bPU\b/gi, '').replace(/\bPICK\s*UP\b/gi, '').replace(/\bFD\b/gi, '')
           .replace(/\bWD\b/gi, '').replace(/\bAC\s*PS\b/gi, '').replace(/\s+/g, ' ').trim();
     return norm;
@@ -356,7 +324,6 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
-    // Fallback: coba tebak dari database pricelist
     const normModel = this.normalizeModel(s);
     const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
     if (candidates.length > 0) {
@@ -365,7 +332,7 @@ const APP = {
     return null;
   },
   updateFooter() {
-    this.dom.footerInfo.textContent = 'v2.2 • Pricelist: Agustus 2026';
+    this.dom.footerInfo.textContent = 'v2.3 • Pricelist: Agustus 2026';
     this.dom.footerStock.textContent = `Stock: ${this.state.stockDate||'belum diunggah'} | ${this.state.stockUnits.length||0} unit`;
   },
   addRecentView(u) { this.state.recentViews = this.state.recentViews.filter(x=>x.idx!==u.idx); this.state.recentViews.unshift(u); if(this.state.recentViews.length>10) this.state.recentViews.pop(); this.saveState(); },
@@ -501,7 +468,7 @@ const APP = {
     }
   },
   
-  // Fungsi pencarian unit stok yang lebih longgar
+  // Pencarian unit stok yang lebih longgar dengan kata kunci
   findStockUnits(model, type) {
     if (!model || !type) return [];
     
@@ -509,34 +476,36 @@ const APP = {
     const normalizedType = this.normalizeType(type);
     const aggressiveType = this.normalizeTypeAggressive(type);
     
-    // Tahap 1: pencocokan normal
+    // Tahap 1: normal
     let units = this.state.stockUnits.filter(u => {
-      const unitModel = this.normalizeModel(u.model);
-      const unitType = u.normalizedType;
-      return unitModel === normalizedModel && unitType === normalizedType;
+      return this.normalizeModel(u.model) === normalizedModel && u.normalizedType === normalizedType;
     });
-    
     if (units.length > 0) return units;
     
-    // Tahap 2: pencocokan model normal + tipe agresif
+    // Tahap 2: model normal + tipe agresif
     units = this.state.stockUnits.filter(u => {
-      const unitModel = this.normalizeModel(u.model);
-      const unitTypeAggressive = this.normalizeTypeAggressive(u.type);
-      return unitModel === normalizedModel && unitTypeAggressive === aggressiveType;
+      return this.normalizeModel(u.model) === normalizedModel && this.normalizeTypeAggressive(u.type) === aggressiveType;
     });
-    
     if (units.length > 0) return units;
     
-    // Tahap 3: pencocokan model longgar (mengandung string yang sama)
+    // Tahap 3: model mengandung string yang sama + tipe agresif longgar
     units = this.state.stockUnits.filter(u => {
-      const unitModelNorm = this.normalizeModel(u.model);
-      const unitTypeAggressive = this.normalizeTypeAggressive(u.type);
-      // Model longgar: salah satu mengandung yang lain
-      const modelMatch = unitModelNorm.includes(normalizedModel) || normalizedModel.includes(unitModelNorm);
-      const typeMatch = unitTypeAggressive === aggressiveType || 
-                        this.normalizeTypeAggressive(u.type).includes(aggressiveType) || 
-                        aggressiveType.includes(this.normalizeTypeAggressive(u.type));
+      const um = this.normalizeModel(u.model);
+      const ut = this.normalizeTypeAggressive(u.type);
+      const modelMatch = um.includes(normalizedModel) || normalizedModel.includes(um);
+      const typeMatch = ut.includes(aggressiveType) || aggressiveType.includes(ut);
       return modelMatch && typeMatch;
+    });
+    if (units.length > 0) return units;
+    
+    // Tahap 4: kata kunci tipe - setiap kata dari tipe Pricelist harus ada di tipe unit
+    const typeKeywords = aggressiveType.match(/[A-Z0-9]+/g) || [aggressiveType];
+    units = this.state.stockUnits.filter(u => {
+      const um = this.normalizeModel(u.model);
+      const modelMatch = um.includes(normalizedModel) || normalizedModel.includes(um) || um === normalizedModel;
+      if (!modelMatch) return false;
+      const ut = this.normalizeTypeAggressive(u.type);
+      return typeKeywords.every(kw => ut.includes(kw));
     });
     
     return units;
@@ -547,10 +516,6 @@ const APP = {
     if (!model || !type) return;
     
     const units = this.findStockUnits(model, type);
-    
-    // Debug
-    console.log(`Pricelist Model: ${model}, Type: ${type}`);
-    console.log(`Units found: ${units.length}`);
     
     const c = $('stock-summary-pricelist'); if (!c) return;
     if (!units.length) {
@@ -1191,7 +1156,7 @@ const APP = {
     const stockInfo = this.state.stockUnits.length ? `${this.state.stockUnits.length} unit (${this.state.stockDate})` : 'Kosong';
     const info = $('setting-info');
     if (info) info.innerHTML = `<div class="card"><h3>⚙️ Setting</h3>
-      <p>Versi: v2.2</p>
+      <p>Versi: v2.3</p>
       <p>Pricelist: Agustus 2026</p>
       <p>Stok: ${stockInfo}</p>
       <p>Favorit: ${this.state.favorites.length}</p>
