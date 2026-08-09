@@ -224,7 +224,10 @@ const APP = {
   renderPage(page) {
     const tpl = document.getElementById(`tpl-${page}`);
     if (!tpl) return;
-    this.dom.container.innerHTML = '';
+    // Hapus seluruh isi container untuk menghindari sisa render
+    while (this.dom.container.firstChild) {
+      this.dom.container.removeChild(this.dom.container.firstChild);
+    }
     this.dom.container.appendChild(tpl.content.cloneNode(true));
     const hd = PAGE_HEADERS[page];
     this.dom.headerIcon.textContent = hd.icon;
@@ -253,7 +256,6 @@ const APP = {
   showModal(h) { this.dom.modalBody.innerHTML = h; this.dom.modalBackdrop.classList.add('active'); },
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
   
-  // Normalisasi agresif: hapus SEMUA karakter non-alphanumeric, ideal untuk perbandingan tipe
   normalizeTypeAggressive(t) {
     if (!t) return '';
     return t.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/20\d{2}/g, '').replace(/HYBRID/gi, '')
@@ -277,7 +279,6 @@ const APP = {
       .replace(/\bPU\b/gi, 'PU').replace(/\bPICK\s*UP\b/gi, 'PICK UP')
       .replace(/\s+/g, ' ').trim();
   },
-  // Normalisasi model untuk pencocokan dengan Pricelist
   normalizeModel(m) {
     if (!m) return '';
     let norm = m.toUpperCase().replace(/\s+/g, ' ').trim();
@@ -328,6 +329,13 @@ const APP = {
     const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
     if (candidates.length > 0) {
       return { model: candidates[0].model, type: candidates[0].type };
+    }
+    // Fallback terakhir: coba cocokkan hanya berdasarkan kata kunci model yang dikenal
+    const knownModels = [...new Set(Object.values(this.db.priceIndex).map(p => p.model))];
+    for (const known of knownModels) {
+      if (s.includes(known.toUpperCase().replace(/\s+/g, ' '))) {
+        return { model: known, type: '' };
+      }
     }
     return null;
   },
@@ -468,27 +476,16 @@ const APP = {
     }
   },
   
-  // Pencarian unit stok yang lebih longgar dengan kata kunci
   findStockUnits(model, type) {
     if (!model || !type) return [];
-    
     const normalizedModel = this.normalizeModel(model);
     const normalizedType = this.normalizeType(type);
     const aggressiveType = this.normalizeTypeAggressive(type);
-    
-    // Tahap 1: normal
-    let units = this.state.stockUnits.filter(u => {
-      return this.normalizeModel(u.model) === normalizedModel && u.normalizedType === normalizedType;
-    });
-    if (units.length > 0) return units;
-    
-    // Tahap 2: model normal + tipe agresif
-    units = this.state.stockUnits.filter(u => {
-      return this.normalizeModel(u.model) === normalizedModel && this.normalizeTypeAggressive(u.type) === aggressiveType;
-    });
-    if (units.length > 0) return units;
-    
-    // Tahap 3: model mengandung string yang sama + tipe agresif longgar
+    let units = [];
+    units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && u.normalizedType === normalizedType);
+    if (units.length) return units;
+    units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && this.normalizeTypeAggressive(u.type) === aggressiveType);
+    if (units.length) return units;
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
       const ut = this.normalizeTypeAggressive(u.type);
@@ -496,9 +493,7 @@ const APP = {
       const typeMatch = ut.includes(aggressiveType) || aggressiveType.includes(ut);
       return modelMatch && typeMatch;
     });
-    if (units.length > 0) return units;
-    
-    // Tahap 4: kata kunci tipe - setiap kata dari tipe Pricelist harus ada di tipe unit
+    if (units.length) return units;
     const typeKeywords = aggressiveType.match(/[A-Z0-9]+/g) || [aggressiveType];
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
@@ -507,16 +502,12 @@ const APP = {
       const ut = this.normalizeTypeAggressive(u.type);
       return typeKeywords.every(kw => ut.includes(kw));
     });
-    
     return units;
   },
-  
   showStockSummary() {
     const model = $('model-select')?.value, type = $('type-select')?.value;
     if (!model || !type) return;
-    
     const units = this.findStockUnits(model, type);
-    
     const c = $('stock-summary-pricelist'); if (!c) return;
     if (!units.length) {
       c.innerHTML = '<div style="margin-top:0.5rem;padding:0.7rem;background:#F1F5F9;border-radius:10px;text-align:center;color:#64748B;">🔴 Stok Habis</div>';
