@@ -1,1 +1,47 @@
-{}
+{
+  "ADIRA": {
+    "nama": "ADIRA Finance",
+    "rumus": "faktor_leasing",
+    "subsidiDP": false
+  },
+  "MUF": {
+    "nama": "Mandiri Utama Finance",
+    "rumus": "persentase_pokok",
+    "subsidiDP": false
+  },
+  "SUFI DP20": {
+    "nama": "Suzuki Finance (DP 20%)",
+    "rumus": "faktor_leasing",
+    "subsidiDP": true
+  },
+  "SUFI DP25": {
+    "nama": "Suzuki Finance (DP 25%)",
+    "rumus": "faktor_leasing",
+    "subsidiDP": true
+  },
+  "SUFI DP30": {
+    "nama": "Suzuki Finance (DP 30%)",
+    "rumus": "faktor_leasing",
+    "subsidiDP": true
+  },
+  "BCA": {
+    "nama": "BCA Finance",
+    "rumus": "proporsional",
+    "subsidiDP": false
+  },
+  "BNI": {
+    "nama": "BNI Finance",
+    "rumus": "proporsional",
+    "subsidiDP": false
+  },
+  "BRI": {
+    "nama": "BRI Finance",
+    "rumus": "proporsional",
+    "subsidiDP": false
+  },
+  "MANDIRI": {
+    "nama": "Mandiri Finance",
+    "rumus": "proporsional",
+    "subsidiDP": false
+  }
+}
