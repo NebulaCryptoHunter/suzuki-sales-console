@@ -1,1 +1,146 @@
-{}
+[
+  {
+    "model": "All New Ertiga",
+    "type": "GA PW",
+    "otr": 255100000,
+    "paket": [
+      { "tenor": 12, "tdp": 77000000, "angsuran": 17152000 },
+      { "tenor": 24, "tdp": 77000000, "angsuran": 9331000 },
+      { "tenor": 36, "tdp": 77000000, "angsuran": 6861000 },
+      { "tenor": 48, "tdp": 77000000, "angsuran": 5808000 },
+      { "tenor": 60, "tdp": 77000000, "angsuran": 5099000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga",
+    "type": "GL MT",
+    "otr": 279000000,
+    "paket": [
+      { "tenor": 12, "tdp": 84000000, "angsuran": 18756000 },
+      { "tenor": 24, "tdp": 84000000, "angsuran": 10203000 },
+      { "tenor": 36, "tdp": 84000000, "angsuran": 7491000 },
+      { "tenor": 48, "tdp": 84000000, "angsuran": 6342000 },
+      { "tenor": 60, "tdp": 84000000, "angsuran": 5567000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga",
+    "type": "GL AT",
+    "otr": 290700000,
+    "paket": [
+      { "tenor": 12, "tdp": 88000000, "angsuran": 19477000 },
+      { "tenor": 24, "tdp": 88000000, "angsuran": 10595000 },
+      { "tenor": 36, "tdp": 88000000, "angsuran": 7780000 },
+      { "tenor": 48, "tdp": 88000000, "angsuran": 6586000 },
+      { "tenor": 60, "tdp": 88000000, "angsuran": 5781000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "GX MT",
+    "otr": 298900000,
+    "paket": [
+      { "tenor": 12, "tdp": 90000000, "angsuran": 20056000 },
+      { "tenor": 24, "tdp": 90000000, "angsuran": 10910000 },
+      { "tenor": 36, "tdp": 90000000, "angsuran": 8011000 },
+      { "tenor": 48, "tdp": 90000000, "angsuran": 6782000 },
+      { "tenor": 60, "tdp": 90000000, "angsuran": 5953000 }
+    ]
+  },
+  {
+    "model": "All New Ertiga Hybrid",
+    "type": "GX AT",
+    "otr": 310100000,
+    "paket": [
+      { "tenor": 12, "tdp": 94000000, "angsuran": 20731000 },
+      { "tenor": 24, "tdp": 94000000, "angsuran": 11278000 },
+      { "tenor": 36, "tdp": 94000000, "angsuran": 8281000 },
+      { "tenor": 48, "tdp": 94000000, "angsuran": 7001000 },
+      { "tenor": 60, "tdp": 94000000, "angsuran": 6145000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Beta AT",
+    "otr": 334600000,
+    "paket": [
+      { "tenor": 12, "tdp": 101000000, "angsuran": 22367000 },
+      { "tenor": 24, "tdp": 101000000, "angsuran": 12168000 },
+      { "tenor": 36, "tdp": 101000000, "angsuran": 8934000 },
+      { "tenor": 48, "tdp": 101000000, "angsuran": 7553000 },
+      { "tenor": 60, "tdp": 101000000, "angsuran": 6622000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Alpha AT",
+    "otr": 348900000,
+    "paket": [
+      { "tenor": 12, "tdp": 105000000, "angsuran": 23330000 },
+      { "tenor": 24, "tdp": 105000000, "angsuran": 12692000 },
+      { "tenor": 36, "tdp": 105000000, "angsuran": 9319000 },
+      { "tenor": 48, "tdp": 105000000, "angsuran": 7879000 },
+      { "tenor": 60, "tdp": 105000000, "angsuran": 6907000 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Alpha AT (2 Tone)",
+    "otr": 350900000,
+    "paket": [
+      { "tenor": 12, "tdp": 106000000, "angsuran": 23425000 },
+      { "tenor": 24, "tdp": 106000000, "angsuran": 12743000 },
+      { "tenor": 36, "tdp": 106000000, "angsuran": 9357000 },
+      { "tenor": 48, "tdp": 106000000, "angsuran": 7911000 },
+      { "tenor": 60, "tdp": 106000000, "angsuran": 6936000 }
+    ]
+  },
+  {
+    "model": "Jimny 5 Door",
+    "type": "AT",
+    "otr": 526300000,
+    "paket": [
+      { "tenor": 12, "tdp": 158000000, "angsuran": 34692000 },
+      { "tenor": 24, "tdp": 158000000, "angsuran": 18860000 },
+      { "tenor": 36, "tdp": 158000000, "angsuran": 13848000 },
+      { "tenor": 48, "tdp": 158000000, "angsuran": 11709000 },
+      { "tenor": 60, "tdp": 158000000, "angsuran": 10266000 }
+    ]
+  },
+  {
+    "model": "Jimny 5 Door",
+    "type": "AT Two Tone",
+    "otr": 529300000,
+    "paket": [
+      { "tenor": 12, "tdp": 159000000, "angsuran": 34877000 },
+      { "tenor": 24, "tdp": 159000000, "angsuran": 18961000 },
+      { "tenor": 36, "tdp": 159000000, "angsuran": 13923000 },
+      { "tenor": 48, "tdp": 159000000, "angsuran": 11771000 },
+      { "tenor": 60, "tdp": 159000000, "angsuran": 10321000 }
+    ]
+  },
+  {
+    "model": "Grand Vitara MC",
+    "type": "GLX AT",
+    "otr": 445000000,
+    "paket": [
+      { "tenor": 12, "tdp": 134000000, "angsuran": 29344000 },
+      { "tenor": 24, "tdp": 134000000, "angsuran": 15964000 },
+      { "tenor": 36, "tdp": 134000000, "angsuran": 11722000 },
+      { "tenor": 48, "tdp": 134000000, "angsuran": 9911000 },
+      { "tenor": 60, "tdp": 134000000, "angsuran": 8689000 }
+    ]
+  },
+  {
+    "model": "Grand Vitara MC",
+    "type": "GLX AT (Two Tone)",
+    "otr": 448000000,
+    "paket": [
+      { "tenor": 12, "tdp": 135000000, "angsuran": 29530000 },
+      { "tenor": 24, "tdp": 135000000, "angsuran": 16065000 },
+      { "tenor": 36, "tdp": 135000000, "angsuran": 11796000 },
+      { "tenor": 48, "tdp": 135000000, "angsuran": 9973000 },
+      { "tenor": 60, "tdp": 135000000, "angsuran": 8744000 }
+    ]
+  }
+]
