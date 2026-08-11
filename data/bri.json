@@ -1,4 +1,6 @@
+// data-bri.js
 const LEASING_BRI = [
+  // ===== ALL NEW ERTIGA =====
   {
     model: "All New Ertiga",
     type: "GA PW",
@@ -83,6 +85,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 5371000, angsuran: 93058000 }
     ]
   },
+
+  // ===== XL-7 MC =====
   {
     model: "XL-7 MC",
     type: "Zeta MT",
@@ -107,6 +111,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 4934000, angsuran: 86029000 }
     ]
   },
+
+  // ===== XL-7 MC HYBRID =====
   {
     model: "XL-7 MC Hybrid",
     type: "Beta MT",
@@ -155,6 +161,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 5590000, angsuran: 96282000 }
     ]
   },
+
+  // ===== XL-7 MC HYBRID KURO =====
   {
     model: "XL-7 MC Hybrid Kuro",
     type: "Alpha AT",
@@ -167,6 +175,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 5656000, angsuran: 97348000 }
     ]
   },
+
+  // ===== XL-7 (NEW) =====
   {
     model: "XL-7",
     type: "New Zeta MT",
@@ -191,6 +201,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 5082000, angsuran: 88408000 }
     ]
   },
+
+  // ===== XL-7 HYBRID (NEW) =====
   {
     model: "XL-7 Hybrid",
     type: "New Beta MT",
@@ -227,6 +239,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 5796000, angsuran: 99585000 }
     ]
   },
+
+  // ===== S-PRESSO =====
   {
     model: "S-Presso",
     type: "MT",
@@ -251,6 +265,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 3431000, angsuran: 62284000 }
     ]
   },
+
+  // ===== GRAND VITARA =====
   {
     model: "Grand Vitara MC",
     type: "GLX AT",
@@ -263,6 +279,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 7392000, angsuran: 121953000 }
     ]
   },
+
+  // ===== FRONX =====
   {
     model: "Fronx",
     type: "GL MT",
@@ -323,6 +341,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 5735000, angsuran: 98599000 }
     ]
   },
+
+  // ===== JIMNY =====
   {
     model: "Jimny 3 Door",
     type: "AT",
@@ -347,6 +367,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 8743000, angsuran: 143199000 }
     ]
   },
+
+  // ===== E VITARA =====
   {
     model: "e Vitara",
     type: "1 Tone With Charging",
@@ -371,6 +393,8 @@ const LEASING_BRI = [
       { tenor: 60, tdp: 12824000, angsuran: 206128000 }
     ]
   },
+
+  // ===== NEW CARRY =====
   {
     model: "New Carry PU",
     type: "FD",
