@@ -4,11 +4,11 @@
     "type": "GA PW",
     "otr": 255100000,
     "paket": [
-      { "tenor": 12, "tdp": 17680000, "angsuran": 6388800 },
-      { "tenor": 24, "tdp": 9159000, "angsuran": 6665700 },
-      { "tenor": 36, "tdp": 6343000, "angsuran": 6958400 },
-      { "tenor": 48, "tdp": 4952000, "angsuran": 7239800 },
-      { "tenor": 60, "tdp": 4238000, "angsuran": 7510000 }
+      { "tenor": 12, "tdp": 63888000, "angsuran": 17680000 },
+      { "tenor": 24, "tdp": 66657000, "angsuran": 9159000 },
+      { "tenor": 36, "tdp": 69584000, "angsuran": 6343000 },
+      { "tenor": 48, "tdp": 72398000, "angsuran": 4952000 },
+      { "tenor": 60, "tdp": 75100000, "angsuran": 4238000 }
     ]
   },
   {
@@ -16,11 +16,11 @@
     "type": "GL MT",
     "otr": 279000000,
     "paket": [
-      { "tenor": 12, "tdp": 19336000, "angsuran": 6928700 },
-      { "tenor": 24, "tdp": 10017000, "angsuran": 7230600 },
-      { "tenor": 36, "tdp": 6937000, "angsuran": 7549800 },
-      { "tenor": 48, "tdp": 5416000, "angsuran": 7856600 },
-      { "tenor": 60, "tdp": 4635000, "angsuran": 8151200 }
+      { "tenor": 12, "tdp": 69287000, "angsuran": 19336000 },
+      { "tenor": 24, "tdp": 72306000, "angsuran": 10017000 },
+      { "tenor": 36, "tdp": 75498000, "angsuran": 6937000 },
+      { "tenor": 48, "tdp": 78566000, "angsuran": 5416000 },
+      { "tenor": 60, "tdp": 81512000, "angsuran": 4635000 }
     ]
   },
   {
@@ -28,11 +28,11 @@
     "type": "GL AT",
     "otr": 290700000,
     "paket": [
-      { "tenor": 12, "tdp": 20147000, "angsuran": 7193000 },
-      { "tenor": 24, "tdp": 10437000, "angsuran": 7507200 },
-      { "tenor": 36, "tdp": 7228000, "angsuran": 7808800 },
-      { "tenor": 48, "tdp": 5643000, "angsuran": 8128100 },
-      { "tenor": 60, "tdp": 4829000, "angsuran": 8434600 }
+      { "tenor": 12, "tdp": 71930000, "angsuran": 20147000 },
+      { "tenor": 24, "tdp": 75072000, "angsuran": 10437000 },
+      { "tenor": 36, "tdp": 78088000, "angsuran": 7228000 },
+      { "tenor": 48, "tdp": 81281000, "angsuran": 5643000 },
+      { "tenor": 60, "tdp": 84346000, "angsuran": 4829000 }
     ]
   },
   {
@@ -40,11 +40,11 @@
     "type": "GX MT",
     "otr": 298900000,
     "paket": [
-      { "tenor": 12, "tdp": 20715000, "angsuran": 7378200 },
-      { "tenor": 24, "tdp": 10731000, "angsuran": 7701000 },
-      { "tenor": 36, "tdp": 7432000, "angsuran": 8010800 },
-      { "tenor": 48, "tdp": 5802000, "angsuran": 8338800 },
-      { "tenor": 60, "tdp": 4965000, "angsuran": 8653700 }
+      { "tenor": 12, "tdp": 73782000, "angsuran": 20715000 },
+      { "tenor": 24, "tdp": 77010000, "angsuran": 10731000 },
+      { "tenor": 36, "tdp": 80108000, "angsuran": 7432000 },
+      { "tenor": 48, "tdp": 83388000, "angsuran": 5802000 },
+      { "tenor": 60, "tdp": 86537000, "angsuran": 4965000 }
     ]
   },
   {
@@ -52,11 +52,11 @@
     "type": "GX AT",
     "otr": 310100000,
     "paket": [
-      { "tenor": 12, "tdp": 21491000, "angsuran": 7631200 },
-      { "tenor": 24, "tdp": 11134000, "angsuran": 7965700 },
-      { "tenor": 36, "tdp": 7710000, "angsuran": 8286800 },
-      { "tenor": 48, "tdp": 6020000, "angsuran": 8626700 },
-      { "tenor": 60, "tdp": 5151000, "angsuran": 8953000 }
+      { "tenor": 12, "tdp": 76312000, "angsuran": 21491000 },
+      { "tenor": 24, "tdp": 79657000, "angsuran": 11134000 },
+      { "tenor": 36, "tdp": 82868000, "angsuran": 7710000 },
+      { "tenor": 48, "tdp": 86267000, "angsuran": 6020000 },
+      { "tenor": 60, "tdp": 89530000, "angsuran": 5151000 }
     ]
   },
   {
@@ -64,11 +64,11 @@
     "type": "Cruise MT",
     "otr": 312000000,
     "paket": [
-      { "tenor": 12, "tdp": 21623000, "angsuran": 7674100 },
-      { "tenor": 24, "tdp": 11202000, "angsuran": 8010600 },
-      { "tenor": 36, "tdp": 7758000, "angsuran": 8333600 },
-      { "tenor": 48, "tdp": 6057000, "angsuran": 8675500 },
-      { "tenor": 60, "tdp": 5183000, "angsuran": 9003800 }
+      { "tenor": 12, "tdp": 76741000, "angsuran": 21623000 },
+      { "tenor": 24, "tdp": 80106000, "angsuran": 11202000 },
+      { "tenor": 36, "tdp": 83336000, "angsuran": 7758000 },
+      { "tenor": 48, "tdp": 86755000, "angsuran": 6057000 },
+      { "tenor": 60, "tdp": 90038000, "angsuran": 5183000 }
     ]
   },
   {
@@ -76,11 +76,11 @@
     "type": "Cruise AT",
     "otr": 323300000,
     "paket": [
-      { "tenor": 12, "tdp": 22406000, "angsuran": 7929400 },
-      { "tenor": 24, "tdp": 11607000, "angsuran": 8277700 },
-      { "tenor": 36, "tdp": 8039000, "angsuran": 8612000 },
-      { "tenor": 48, "tdp": 6276000, "angsuran": 8966000 },
-      { "tenor": 60, "tdp": 5371000, "angsuran": 9305800 }
+      { "tenor": 12, "tdp": 79294000, "angsuran": 22406000 },
+      { "tenor": 24, "tdp": 82777000, "angsuran": 11607000 },
+      { "tenor": 36, "tdp": 86120000, "angsuran": 8039000 },
+      { "tenor": 48, "tdp": 89660000, "angsuran": 6276000 },
+      { "tenor": 60, "tdp": 93058000, "angsuran": 5371000 }
     ]
   },
   {
@@ -88,11 +88,11 @@
     "type": "Zeta MT",
     "otr": 285000000,
     "paket": [
-      { "tenor": 12, "tdp": 19752000, "angsuran": 7064200 },
-      { "tenor": 24, "tdp": 10232000, "angsuran": 7372500 },
-      { "tenor": 36, "tdp": 7086000, "angsuran": 7698200 },
-      { "tenor": 48, "tdp": 5533000, "angsuran": 8011500 },
-      { "tenor": 60, "tdp": 4735000, "angsuran": 8312200 }
+      { "tenor": 12, "tdp": 70642000, "angsuran": 19752000 },
+      { "tenor": 24, "tdp": 73725000, "angsuran": 10232000 },
+      { "tenor": 36, "tdp": 76982000, "angsuran": 7086000 },
+      { "tenor": 48, "tdp": 80115000, "angsuran": 5533000 },
+      { "tenor": 60, "tdp": 83122000, "angsuran": 4735000 }
     ]
   },
   {
@@ -100,11 +100,11 @@
     "type": "Zeta AT",
     "otr": 297000000,
     "paket": [
-      { "tenor": 12, "tdp": 20583000, "angsuran": 7335300 },
-      { "tenor": 24, "tdp": 10663000, "angsuran": 7656100 },
-      { "tenor": 36, "tdp": 7385000, "angsuran": 7964000 },
-      { "tenor": 48, "tdp": 5765000, "angsuran": 8290000 },
-      { "tenor": 60, "tdp": 4934000, "angsuran": 8602900 }
+      { "tenor": 12, "tdp": 73353000, "angsuran": 20583000 },
+      { "tenor": 24, "tdp": 76561000, "angsuran": 10663000 },
+      { "tenor": 36, "tdp": 79640000, "angsuran": 7385000 },
+      { "tenor": 48, "tdp": 82900000, "angsuran": 5765000 },
+      { "tenor": 60, "tdp": 86029000, "angsuran": 4934000 }
     ]
   },
   {
@@ -112,11 +112,11 @@
     "type": "Beta MT",
     "otr": 313500000,
     "paket": [
-      { "tenor": 12, "tdp": 21727000, "angsuran": 7708000 },
-      { "tenor": 24, "tdp": 11256000, "angsuran": 8046100 },
-      { "tenor": 36, "tdp": 7795000, "angsuran": 8370500 },
-      { "tenor": 48, "tdp": 6086000, "angsuran": 8714100 },
-      { "tenor": 60, "tdp": 5208000, "angsuran": 9043900 }
+      { "tenor": 12, "tdp": 77080000, "angsuran": 21727000 },
+      { "tenor": 24, "tdp": 80461000, "angsuran": 11256000 },
+      { "tenor": 36, "tdp": 83705000, "angsuran": 7795000 },
+      { "tenor": 48, "tdp": 87141000, "angsuran": 6086000 },
+      { "tenor": 60, "tdp": 90439000, "angsuran": 5208000 }
     ]
   },
   {
@@ -124,11 +124,11 @@
     "type": "Beta AT",
     "otr": 325500000,
     "paket": [
-      { "tenor": 12, "tdp": 22559000, "angsuran": 7979100 },
-      { "tenor": 24, "tdp": 11686000, "angsuran": 8329700 },
-      { "tenor": 36, "tdp": 8093000, "angsuran": 8666200 },
-      { "tenor": 48, "tdp": 6319000, "angsuran": 9022500 },
-      { "tenor": 60, "tdp": 5407000, "angsuran": 9364500 }
+      { "tenor": 12, "tdp": 79791000, "angsuran": 22559000 },
+      { "tenor": 24, "tdp": 83297000, "angsuran": 11686000 },
+      { "tenor": 36, "tdp": 86662000, "angsuran": 8093000 },
+      { "tenor": 48, "tdp": 90225000, "angsuran": 6319000 },
+      { "tenor": 60, "tdp": 93645000, "angsuran": 5407000 }
     ]
   },
   {
@@ -136,11 +136,11 @@
     "type": "Alpha MT",
     "otr": 325000000,
     "paket": [
-      { "tenor": 12, "tdp": 22524000, "angsuran": 7967800 },
-      { "tenor": 24, "tdp": 11668000, "angsuran": 8317900 },
-      { "tenor": 36, "tdp": 8081000, "angsuran": 8653900 },
-      { "tenor": 48, "tdp": 6309000, "angsuran": 9009700 },
-      { "tenor": 60, "tdp": 5399000, "angsuran": 9351200 }
+      { "tenor": 12, "tdp": 79678000, "angsuran": 22524000 },
+      { "tenor": 24, "tdp": 83179000, "angsuran": 11668000 },
+      { "tenor": 36, "tdp": 86539000, "angsuran": 8081000 },
+      { "tenor": 48, "tdp": 90097000, "angsuran": 6309000 },
+      { "tenor": 60, "tdp": 93512000, "angsuran": 5399000 }
     ]
   },
   {
@@ -148,11 +148,11 @@
     "type": "Alpha AT",
     "otr": 336500000,
     "paket": [
-      { "tenor": 12, "tdp": 23321000, "angsuran": 8227600 },
-      { "tenor": 24, "tdp": 12081000, "angsuran": 8589700 },
-      { "tenor": 36, "tdp": 8367000, "angsuran": 8937200 },
-      { "tenor": 48, "tdp": 6532000, "angsuran": 9275000 },
-      { "tenor": 60, "tdp": 5590000, "angsuran": 9628200 }
+      { "tenor": 12, "tdp": 82276000, "angsuran": 23321000 },
+      { "tenor": 24, "tdp": 85897000, "angsuran": 12081000 },
+      { "tenor": 36, "tdp": 89372000, "angsuran": 8367000 },
+      { "tenor": 48, "tdp": 92750000, "angsuran": 6532000 },
+      { "tenor": 60, "tdp": 96282000, "angsuran": 5590000 }
     ]
   },
   {
@@ -160,11 +160,11 @@
     "type": "Alpha AT",
     "otr": 340500000,
     "paket": [
-      { "tenor": 12, "tdp": 23598000, "angsuran": 8317900 },
-      { "tenor": 24, "tdp": 12225000, "angsuran": 8684300 },
-      { "tenor": 36, "tdp": 8466000, "angsuran": 9035800 },
-      { "tenor": 48, "tdp": 6610000, "angsuran": 9377400 },
-      { "tenor": 60, "tdp": 5656000, "angsuran": 9734800 }
+      { "tenor": 12, "tdp": 83179000, "angsuran": 23598000 },
+      { "tenor": 24, "tdp": 86843000, "angsuran": 12225000 },
+      { "tenor": 36, "tdp": 90358000, "angsuran": 8466000 },
+      { "tenor": 48, "tdp": 93774000, "angsuran": 6610000 },
+      { "tenor": 60, "tdp": 97348000, "angsuran": 5656000 }
     ]
   },
   {
@@ -172,11 +172,11 @@
     "type": "New Zeta MT",
     "otr": 294100000,
     "paket": [
-      { "tenor": 12, "tdp": 20382000, "angsuran": 7269800 },
-      { "tenor": 24, "tdp": 10559000, "angsuran": 7587500 },
-      { "tenor": 36, "tdp": 7313000, "angsuran": 7892500 },
-      { "tenor": 48, "tdp": 5709000, "angsuran": 8215400 },
-      { "tenor": 60, "tdp": 4886000, "angsuran": 8525400 }
+      { "tenor": 12, "tdp": 72698000, "angsuran": 20382000 },
+      { "tenor": 24, "tdp": 75875000, "angsuran": 10559000 },
+      { "tenor": 36, "tdp": 78925000, "angsuran": 7313000 },
+      { "tenor": 48, "tdp": 82154000, "angsuran": 5709000 },
+      { "tenor": 60, "tdp": 85254000, "angsuran": 4886000 }
     ]
   },
   {
@@ -184,11 +184,11 @@
     "type": "New Zeta AT",
     "otr": 305900000,
     "paket": [
-      { "tenor": 12, "tdp": 21200000, "angsuran": 7536300 },
-      { "tenor": 24, "tdp": 10983000, "angsuran": 7866500 },
-      { "tenor": 36, "tdp": 7606000, "angsuran": 8183300 },
-      { "tenor": 48, "tdp": 5938000, "angsuran": 8518800 },
-      { "tenor": 60, "tdp": 5082000, "angsuran": 8840800 }
+      { "tenor": 12, "tdp": 75363000, "angsuran": 21200000 },
+      { "tenor": 24, "tdp": 78665000, "angsuran": 10983000 },
+      { "tenor": 36, "tdp": 81833000, "angsuran": 7606000 },
+      { "tenor": 48, "tdp": 85188000, "angsuran": 5938000 },
+      { "tenor": 60, "tdp": 88408000, "angsuran": 5082000 }
     ]
   },
   {
@@ -196,11 +196,11 @@
     "type": "New Beta MT",
     "otr": 322700000,
     "paket": [
-      { "tenor": 12, "tdp": 22364000, "angsuran": 7915800 },
-      { "tenor": 24, "tdp": 11586000, "angsuran": 8263500 },
-      { "tenor": 36, "tdp": 8024000, "angsuran": 8597200 },
-      { "tenor": 48, "tdp": 6264000, "angsuran": 8950600 },
-      { "tenor": 60, "tdp": 5361000, "angsuran": 9289700 }
+      { "tenor": 12, "tdp": 79158000, "angsuran": 22364000 },
+      { "tenor": 24, "tdp": 82635000, "angsuran": 11586000 },
+      { "tenor": 36, "tdp": 85972000, "angsuran": 8024000 },
+      { "tenor": 48, "tdp": 89506000, "angsuran": 6264000 },
+      { "tenor": 60, "tdp": 92897000, "angsuran": 5361000 }
     ]
   },
   {
@@ -208,11 +208,11 @@
     "type": "New Beta AT",
     "otr": 334600000,
     "paket": [
-      { "tenor": 12, "tdp": 23189000, "angsuran": 8184700 },
-      { "tenor": 24, "tdp": 12013000, "angsuran": 8544800 },
-      { "tenor": 36, "tdp": 8320000, "angsuran": 8890400 },
-      { "tenor": 48, "tdp": 6495000, "angsuran": 9226300 },
-      { "tenor": 60, "tdp": 5558000, "angsuran": 9577600 }
+      { "tenor": 12, "tdp": 81847000, "angsuran": 23189000 },
+      { "tenor": 24, "tdp": 85448000, "angsuran": 12013000 },
+      { "tenor": 36, "tdp": 88904000, "angsuran": 8320000 },
+      { "tenor": 48, "tdp": 92263000, "angsuran": 6495000 },
+      { "tenor": 60, "tdp": 95776000, "angsuran": 5558000 }
     ]
   },
   {
@@ -220,11 +220,11 @@
     "type": "New Alpha AT",
     "otr": 348900000,
     "paket": [
-      { "tenor": 12, "tdp": 24180000, "angsuran": 8507700 },
-      { "tenor": 24, "tdp": 12526000, "angsuran": 8882800 },
-      { "tenor": 36, "tdp": 8675000, "angsuran": 9242800 },
-      { "tenor": 48, "tdp": 6773000, "angsuran": 9592600 },
-      { "tenor": 60, "tdp": 5796000, "angsuran": 9958500 }
+      { "tenor": 12, "tdp": 85077000, "angsuran": 24180000 },
+      { "tenor": 24, "tdp": 88828000, "angsuran": 12526000 },
+      { "tenor": 36, "tdp": 92428000, "angsuran": 8675000 },
+      { "tenor": 48, "tdp": 95926000, "angsuran": 6773000 },
+      { "tenor": 60, "tdp": 99585000, "angsuran": 5796000 }
     ]
   },
   {
@@ -232,11 +232,11 @@
     "type": "MT",
     "otr": 194400000,
     "paket": [
-      { "tenor": 12, "tdp": 13473000, "angsuran": 5172500 },
-      { "tenor": 24, "tdp": 6980000, "angsuran": 5410700 },
-      { "tenor": 36, "tdp": 4834000, "angsuran": 5636100 },
-      { "tenor": 48, "tdp": 3774000, "angsuran": 5861100 },
-      { "tenor": 60, "tdp": 3230000, "angsuran": 6076200 }
+      { "tenor": 12, "tdp": 51725000, "angsuran": 13473000 },
+      { "tenor": 24, "tdp": 54107000, "angsuran": 6980000 },
+      { "tenor": 36, "tdp": 56361000, "angsuran": 4834000 },
+      { "tenor": 48, "tdp": 58611000, "angsuran": 3774000 },
+      { "tenor": 60, "tdp": 60762000, "angsuran": 3230000 }
     ]
   },
   {
@@ -244,11 +244,11 @@
     "type": "AGS",
     "otr": 206500000,
     "paket": [
-      { "tenor": 12, "tdp": 14312000, "angsuran": 5270900 },
-      { "tenor": 24, "tdp": 7414000, "angsuran": 5523300 },
-      { "tenor": 36, "tdp": 5135000, "angsuran": 5762100 },
-      { "tenor": 48, "tdp": 4009000, "angsuran": 6000500 },
-      { "tenor": 60, "tdp": 3431000, "angsuran": 6228400 }
+      { "tenor": 12, "tdp": 52709000, "angsuran": 14312000 },
+      { "tenor": 24, "tdp": 55233000, "angsuran": 7414000 },
+      { "tenor": 36, "tdp": 57621000, "angsuran": 5135000 },
+      { "tenor": 48, "tdp": 60005000, "angsuran": 4009000 },
+      { "tenor": 60, "tdp": 62284000, "angsuran": 3431000 }
     ]
   },
   {
@@ -256,11 +256,11 @@
     "type": "GLX AT",
     "otr": 445000000,
     "paket": [
-      { "tenor": 12, "tdp": 30840000, "angsuran": 10389300 },
-      { "tenor": 24, "tdp": 15977000, "angsuran": 10865000 },
-      { "tenor": 36, "tdp": 11064000, "angsuran": 11321400 },
-      { "tenor": 48, "tdp": 8638000, "angsuran": 11764800 },
-      { "tenor": 60, "tdp": 7392000, "angsuran": 12195300 }
+      { "tenor": 12, "tdp": 103893000, "angsuran": 30840000 },
+      { "tenor": 24, "tdp": 108650000, "angsuran": 15977000 },
+      { "tenor": 36, "tdp": 113214000, "angsuran": 11064000 },
+      { "tenor": 48, "tdp": 117648000, "angsuran": 8638000 },
+      { "tenor": 60, "tdp": 121953000, "angsuran": 7392000 }
     ]
   },
   {
@@ -268,11 +268,11 @@
     "type": "GL MT",
     "otr": 275800000,
     "paket": [
-      { "tenor": 12, "tdp": 19114000, "angsuran": 6856400 },
-      { "tenor": 24, "tdp": 9902000, "angsuran": 7155000 },
-      { "tenor": 36, "tdp": 6858000, "angsuran": 7470600 },
-      { "tenor": 48, "tdp": 5354000, "angsuran": 7774000 },
-      { "tenor": 60, "tdp": 4582000, "angsuran": 8065400 }
+      { "tenor": 12, "tdp": 68564000, "angsuran": 19114000 },
+      { "tenor": 24, "tdp": 71550000, "angsuran": 9902000 },
+      { "tenor": 36, "tdp": 74706000, "angsuran": 6858000 },
+      { "tenor": 48, "tdp": 77740000, "angsuran": 5354000 },
+      { "tenor": 60, "tdp": 80654000, "angsuran": 4582000 }
     ]
   },
   {
@@ -280,11 +280,11 @@
     "type": "GL AT",
     "otr": 287200000,
     "paket": [
-      { "tenor": 12, "tdp": 19904000, "angsuran": 7113900 },
-      { "tenor": 24, "tdp": 10311000, "angsuran": 7424500 },
-      { "tenor": 36, "tdp": 7141000, "angsuran": 7722500 },
-      { "tenor": 48, "tdp": 5575000, "angsuran": 8038100 },
-      { "tenor": 60, "tdp": 4771000, "angsuran": 8341000 }
+      { "tenor": 12, "tdp": 71139000, "angsuran": 19904000 },
+      { "tenor": 24, "tdp": 74245000, "angsuran": 10311000 },
+      { "tenor": 36, "tdp": 77225000, "angsuran": 7141000 },
+      { "tenor": 48, "tdp": 80381000, "angsuran": 5575000 },
+      { "tenor": 60, "tdp": 83410000, "angsuran": 4771000 }
     ]
   },
   {
@@ -292,11 +292,11 @@
     "type": "GX MT",
     "otr": 300400000,
     "paket": [
-      { "tenor": 12, "tdp": 20819000, "angsuran": 7412100 },
-      { "tenor": 24, "tdp": 10785000, "angsuran": 7736500 },
-      { "tenor": 36, "tdp": 7469000, "angsuran": 8047800 },
-      { "tenor": 48, "tdp": 5831000, "angsuran": 8377400 },
-      { "tenor": 60, "tdp": 4990000, "angsuran": 8693800 }
+      { "tenor": 12, "tdp": 74121000, "angsuran": 20819000 },
+      { "tenor": 24, "tdp": 77365000, "angsuran": 10785000 },
+      { "tenor": 36, "tdp": 80478000, "angsuran": 7469000 },
+      { "tenor": 48, "tdp": 83774000, "angsuran": 5831000 },
+      { "tenor": 60, "tdp": 86938000, "angsuran": 4990000 }
     ]
   },
   {
@@ -304,11 +304,11 @@
     "type": "GX AT",
     "otr": 318700000,
     "paket": [
-      { "tenor": 12, "tdp": 22087000, "angsuran": 7825500 },
-      { "tenor": 24, "tdp": 11442000, "angsuran": 8169000 },
-      { "tenor": 36, "tdp": 7924000, "angsuran": 8498700 },
-      { "tenor": 48, "tdp": 6187000, "angsuran": 8847800 },
-      { "tenor": 60, "tdp": 5294000, "angsuran": 9182800 }
+      { "tenor": 12, "tdp": 78255000, "angsuran": 22087000 },
+      { "tenor": 24, "tdp": 81690000, "angsuran": 11442000 },
+      { "tenor": 36, "tdp": 84987000, "angsuran": 7924000 },
+      { "tenor": 48, "tdp": 88478000, "angsuran": 6187000 },
+      { "tenor": 60, "tdp": 91828000, "angsuran": 5294000 }
     ]
   },
   {
@@ -316,11 +316,11 @@
     "type": "SGX AT",
     "otr": 345200000,
     "paket": [
-      { "tenor": 12, "tdp": 23924000, "angsuran": 8424100 },
-      { "tenor": 24, "tdp": 12394000, "angsuran": 8795400 },
-      { "tenor": 36, "tdp": 8583000, "angsuran": 9151600 },
-      { "tenor": 48, "tdp": 6701000, "angsuran": 9497800 },
-      { "tenor": 60, "tdp": 5735000, "angsuran": 9859900 }
+      { "tenor": 12, "tdp": 84241000, "angsuran": 23924000 },
+      { "tenor": 24, "tdp": 87954000, "angsuran": 12394000 },
+      { "tenor": 36, "tdp": 91516000, "angsuran": 8583000 },
+      { "tenor": 48, "tdp": 94978000, "angsuran": 6701000 },
+      { "tenor": 60, "tdp": 98599000, "angsuran": 5735000 }
     ]
   },
   {
@@ -328,11 +328,11 @@
     "type": "AT",
     "otr": 510400000,
     "paket": [
-      { "tenor": 12, "tdp": 35373000, "angsuran": 11869200 },
-      { "tenor": 24, "tdp": 18325000, "angsuran": 12387300 },
-      { "tenor": 36, "tdp": 12691000, "angsuran": 12909300 },
-      { "tenor": 48, "tdp": 9908000, "angsuran": 13416400 },
-      { "tenor": 60, "tdp": 8479000, "angsuran": 13908700 }
+      { "tenor": 12, "tdp": 118692000, "angsuran": 35373000 },
+      { "tenor": 24, "tdp": 123873000, "angsuran": 18325000 },
+      { "tenor": 36, "tdp": 129093000, "angsuran": 12691000 },
+      { "tenor": 48, "tdp": 134164000, "angsuran": 9908000 },
+      { "tenor": 60, "tdp": 139087000, "angsuran": 8479000 }
     ]
   },
   {
@@ -340,11 +340,11 @@
     "type": "AT",
     "otr": 526300000,
     "paket": [
-      { "tenor": 12, "tdp": 36474000, "angsuran": 12218100 },
-      { "tenor": 24, "tdp": 18895000, "angsuran": 12752000 },
-      { "tenor": 36, "tdp": 13086000, "angsuran": 13289900 },
-      { "tenor": 48, "tdp": 10216000, "angsuran": 13812500 },
-      { "tenor": 60, "tdp": 8743000, "angsuran": 14319900 }
+      { "tenor": 12, "tdp": 122181000, "angsuran": 36474000 },
+      { "tenor": 24, "tdp": 127520000, "angsuran": 18895000 },
+      { "tenor": 36, "tdp": 132899000, "angsuran": 13086000 },
+      { "tenor": 48, "tdp": 138125000, "angsuran": 10216000 },
+      { "tenor": 60, "tdp": 143199000, "angsuran": 8743000 }
     ]
   },
   {
@@ -352,11 +352,11 @@
     "type": "1 Tone With Charging",
     "otr": 769000000,
     "paket": [
-      { "tenor": 12, "tdp": 53294000, "angsuran": 17542900 },
-      { "tenor": 24, "tdp": 27609000, "angsuran": 18318400 },
-      { "tenor": 36, "tdp": 19120000, "angsuran": 19067500 },
-      { "tenor": 48, "tdp": 14927000, "angsuran": 19798800 },
-      { "tenor": 60, "tdp": 12774000, "angsuran": 20535500 }
+      { "tenor": 12, "tdp": 175429000, "angsuran": 53294000 },
+      { "tenor": 24, "tdp": 183184000, "angsuran": 27609000 },
+      { "tenor": 36, "tdp": 190675000, "angsuran": 19120000 },
+      { "tenor": 48, "tdp": 197988000, "angsuran": 14927000 },
+      { "tenor": 60, "tdp": 205355000, "angsuran": 12774000 }
     ]
   },
   {
@@ -364,11 +364,11 @@
     "type": "2 Tone With Charging",
     "otr": 772000000,
     "paket": [
-      { "tenor": 12, "tdp": 53502000, "angsuran": 17608700 },
-      { "tenor": 24, "tdp": 27716000, "angsuran": 18387300 },
-      { "tenor": 36, "tdp": 19195000, "angsuran": 19139100 },
-      { "tenor": 48, "tdp": 14986000, "angsuran": 19873300 },
-      { "tenor": 60, "tdp": 12824000, "angsuran": 20612800 }
+      { "tenor": 12, "tdp": 176087000, "angsuran": 53502000 },
+      { "tenor": 24, "tdp": 183873000, "angsuran": 27716000 },
+      { "tenor": 36, "tdp": 191391000, "angsuran": 19195000 },
+      { "tenor": 48, "tdp": 198733000, "angsuran": 14986000 },
+      { "tenor": 60, "tdp": 206128000, "angsuran": 12824000 }
     ]
   },
   {
@@ -376,11 +376,11 @@
     "type": "FD",
     "otr": 187000000,
     "paket": [
-      { "tenor": 12, "tdp": 12792000, "angsuran": 5562800 },
-      { "tenor": 24, "tdp": 6969000, "angsuran": 5831800 },
-      { "tenor": 36, "tdp": 5071000, "angsuran": 6078000 },
-      { "tenor": 48, "tdp": 4157000, "angsuran": 6309200 },
-      { "tenor": 60, "tdp": 3639000, "angsuran": 6525200 }
+      { "tenor": 12, "tdp": 55628000, "angsuran": 12792000 },
+      { "tenor": 24, "tdp": 58318000, "angsuran": 6969000 },
+      { "tenor": 36, "tdp": 60780000, "angsuran": 5071000 },
+      { "tenor": 48, "tdp": 63092000, "angsuran": 4157000 },
+      { "tenor": 60, "tdp": 65252000, "angsuran": 3639000 }
     ]
   },
   {
@@ -388,11 +388,11 @@
     "type": "WD",
     "otr": 188100000,
     "paket": [
-      { "tenor": 12, "tdp": 12868000, "angsuran": 5592000 },
-      { "tenor": 24, "tdp": 7010000, "angsuran": 5862600 },
-      { "tenor": 36, "tdp": 5101000, "angsuran": 6110300 },
-      { "tenor": 48, "tdp": 4181000, "angsuran": 6342800 },
-      { "tenor": 60, "tdp": 3660000, "angsuran": 6560000 }
+      { "tenor": 12, "tdp": 55920000, "angsuran": 12868000 },
+      { "tenor": 24, "tdp": 58626000, "angsuran": 7010000 },
+      { "tenor": 36, "tdp": 61103000, "angsuran": 5101000 },
+      { "tenor": 48, "tdp": 63428000, "angsuran": 4181000 },
+      { "tenor": 60, "tdp": 65600000, "angsuran": 3660000 }
     ]
   },
   {
@@ -400,11 +400,11 @@
     "type": "FD AC PS",
     "otr": 195300000,
     "paket": [
-      { "tenor": 12, "tdp": 13360000, "angsuran": 5783200 },
-      { "tenor": 24, "tdp": 7278000, "angsuran": 6064200 },
-      { "tenor": 36, "tdp": 5296000, "angsuran": 6321400 },
-      { "tenor": 48, "tdp": 4341000, "angsuran": 6562800 },
-      { "tenor": 60, "tdp": 3800000, "angsuran": 6788300 }
+      { "tenor": 12, "tdp": 57832000, "angsuran": 13360000 },
+      { "tenor": 24, "tdp": 60642000, "angsuran": 7278000 },
+      { "tenor": 36, "tdp": 63214000, "angsuran": 5296000 },
+      { "tenor": 48, "tdp": 65628000, "angsuran": 4341000 },
+      { "tenor": 60, "tdp": 67883000, "angsuran": 3800000 }
     ]
   },
   {
@@ -412,11 +412,11 @@
     "type": "WD AC PS",
     "otr": 196200000,
     "paket": [
-      { "tenor": 12, "tdp": 13422000, "angsuran": 5807100 },
-      { "tenor": 24, "tdp": 7311000, "angsuran": 6089400 },
-      { "tenor": 36, "tdp": 5320000, "angsuran": 6347800 },
-      { "tenor": 48, "tdp": 4361000, "angsuran": 6590300 },
-      { "tenor": 60, "tdp": 3818000, "angsuran": 6816900 }
+      { "tenor": 12, "tdp": 58071000, "angsuran": 13422000 },
+      { "tenor": 24, "tdp": 60894000, "angsuran": 7311000 },
+      { "tenor": 36, "tdp": 63478000, "angsuran": 5320000 },
+      { "tenor": 48, "tdp": 65903000, "angsuran": 4361000 },
+      { "tenor": 60, "tdp": 68169000, "angsuran": 3818000 }
     ]
   }
 ]
