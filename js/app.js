@@ -188,8 +188,19 @@ const APP = {
       const saved = JSON.parse(localStorage.getItem('suzuki_hub_state'));
       if (saved) {
         const { stockUnits, stockDate, stockIndex, importTime, ...rest } = saved;
-        Object.assign(this.state, rest);
-        this.state.stockUnits = []; this.state.stockDate = null; this.state.stockIndex = null; this.state.importTime = 0;
+        // Gabungkan dengan default agar properti baru tidak undefined
+        this.state = {
+          ...this.state,
+          ...rest,
+          last: {
+            ...this.state.last,
+            ...(rest.last || {})
+          },
+          stockUnits: [],
+          stockDate: null,
+          stockIndex: null,
+          importTime: 0
+        };
       }
     } catch (e) {}
   },
@@ -258,29 +269,34 @@ const APP = {
   showModal(h) { this.dom.modalBody.innerHTML = h; this.dom.modalBackdrop.classList.add('active'); },
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
 
-  normalizeTypeAggressive(t) {
-    if (!t) return '';
-    return t.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/20\d{2}/g, '').replace(/HYBRID/gi, '')
-      .replace(/NEW/gi, '').replace(/EDITION/gi, '').replace(/KURO/gi, '')
-      .replace(/TWOTONE/gi, 'TWOTONE').replace(/DOORS/gi, 'DOOR').replace(/GX/gi, 'GLX')
-      .replace(/LTD/gi, 'LTD').replace(/LUXURY/gi, 'LUXURY').replace(/MT/gi, 'MT')
-      .replace(/AT/gi, 'AT').replace(/AGS/gi, 'AGS').replace(/FD/gi, 'FD').replace(/WD/gi, 'WD')
-      .replace(/ACPS/gi, 'ACPS').replace(/PU/gi, 'PU').replace(/PICKUP/gi, 'PICKUP');
-  },
-
-  matchType(a, b) { return this.normalizeType(a) === this.normalizeType(b); },
   normalizeType(t) {
     if (!t) return '';
     return t.toUpperCase().trim()
-      .replace(/\b20\d{2}\b/g, '').replace(/\bHYBRID\b/gi, '').replace(/\bNEW\b/gi, '')
-      .replace(/\bEDITION\b/gi, '').replace(/\bKURO\b/gi, '').replace(/\b2\s*TONE\b/gi, 'TWO TONE')
-      .replace(/\bTT\b/gi, 'TWO TONE').replace(/\bDOORS\b/gi, 'DOOR').replace(/\bGX\b/gi, 'GLX')
-      .replace(/\bLTD\b/gi, 'LTD').replace(/\bLUXURY\b/gi, 'LUXURY')
-      .replace(/\bMT\b/gi, 'MT').replace(/\bAT\b/gi, 'AT').replace(/\bAGS\b/gi, 'AGS')
-      .replace(/\bFD\b/gi, 'FD').replace(/\bWD\b/gi, 'WD').replace(/\bAC\s*PS\b/gi, 'AC PS')
-      .replace(/\bPU\b/gi, 'PU').replace(/\bPICK\s*UP\b/gi, 'PICK UP')
-      .replace(/\s+/g, ' ').trim();
+      .replace(/\b20\d{2}\b/g, '')
+      .replace(/[()\[\]{}]/g, ' ')          // hilangkan tanda kurung
+      .replace(/\b2\s*TONE\b/gi, 'TWO TONE')
+      .replace(/\bTT\b/gi, 'TWO TONE')
+      .replace(/\bDOORS\b/gi, 'DOOR')
+      .replace(/\bGX\b/gi, 'GLX')
+      .replace(/\bLTD\b/gi, 'LTD')
+      .replace(/\bLUXURY\b/gi, 'LUXURY')
+      .replace(/\bMT\b/gi, 'MT')
+      .replace(/\bAT\b/gi, 'AT')
+      .replace(/\bAGS\b/gi, 'AGS')
+      .replace(/\bFD\b/gi, 'FD')
+      .replace(/\bWD\b/gi, 'WD')
+      .replace(/\bAC\s*PS\b/gi, 'AC PS')
+      .replace(/\bPU\b/gi, 'PU')
+      .replace(/\bPICK\s*UP\b/gi, 'PICK UP')
+      .replace(/\s+/g, ' ')
+      .trim();
   },
+
+  normalizeTypeAggressive(t) {
+    if (!t) return '';
+    return this.normalizeType(t).replace(/\s+/g, '');
+  },
+
   normalizeModel(m) {
     if (!m) return '';
     let norm = m.toUpperCase().replace(/\s+/g, ' ').trim();
@@ -312,8 +328,8 @@ const APP = {
     if (u.includes('biru')||u.includes('blue')) return 'blue';
     return 'silver';
   },
-  parseModelType(raw) {
-    let s = raw.toUpperCase().replace(/[.,\/\\_\-()\[\]{}]/g,' ').replace(/\s+/g,' ').trim();
+  parseModelType(raw, typeHint = '') {
+    let s = (raw + ' ' + typeHint).toUpperCase().replace(/[.,\/\\_\-()\[\]{}]/g,' ').replace(/\s+/g,' ').trim();
     s = s.replace(/\b20(2[3-9]|3[0-9])\b/g,'').replace(/\bNIK\s*2[56]\b/gi,'').replace(/\bMY\s*2[56]\b/gi,'');
     s = s.replace(/\s+/g,' ').replace(/\b2TONE\b/g,'TWO TONE').replace(/\b2 TONE\b/g,'TWO TONE').replace(/\b5 DOORS\b/g,'5 DOOR').replace(/\b3 DOORS\b/g,'3 DOOR');
     for (const p of this.db.modelPatterns) {
@@ -609,6 +625,7 @@ const APP = {
     const tn = $('kredit-tenor-paket'); if (tn) { tn.disabled = false; tn.value = '60'; }
     const r = $('kredit-result'); if (r) { r.classList.add('hidden'); }
     const s = $('kredit-sort-options'); if (s) s.classList.add('hidden');
+    this.showAllLeasingResult(); // ✅ perbaikan poin 1
   },
   setSortMode(mode) { this.state.kreditSortMode = mode; this.showAllLeasingResult(); },
   showAllLeasingResult() {
@@ -636,7 +653,6 @@ const APP = {
           subsidiDP: paket.subsidiDP || 0
         };
       }
-      // Cek apakah leasing ada di data leasing (terlepas dari tenor)
       if (this.data.leasing[ln]) {
         return { leasing: ln, available: false, reason: 'Tenor tidak tersedia' };
       }
@@ -861,11 +877,12 @@ const APP = {
           if (String(row[0] || '').toUpperCase().includes('TOTAL')) continue;
 
           const modelRaw = String(row[col.model] || '').trim();
-          const resolved = this.parseModelType(modelRaw);
+          const typeHint = String(row[col.type] || '').trim(); // ✅ perbaikan
+          const resolved = this.parseModelType(modelRaw, typeHint);
           if (!resolved) {
             errorCount++;
-            errorDetails.push(`Baris ${i+1}: Model/Tipe tidak dikenal`);
-            failedRows.push({ baris: i+1, model: modelRaw, type: String(row[col.type] || ''), nik: String(row[col.nik] || '') });
+            errorDetails.push(`Baris ${i+1}: Model/Tipe tidak dikenal — Model: "${modelRaw}" | Type: "${typeHint}" | NIK: "${String(row[col.nik] || '').trim()}"`);
+            failedRows.push({ baris: i+1, model: modelRaw, type: typeHint, nik: String(row[col.nik] || '') });
             continue;
           }
 
@@ -989,6 +1006,7 @@ const APP = {
   mapColumns(headers) {
     const aliases = {
       model: ['MODEL', 'MODEL UNIT', 'NAMA MODEL', 'TYPE UNIT', 'VARIAN', 'UNIT', 'TIPE', 'TIPE UNIT', 'PRODUK', 'PRODUCT'],
+      type: ['TYPE', 'TIPE', 'VARIAN', 'TYPE UNIT', 'TIPE UNIT', 'MODEL TYPE'], // ✅ tambahan
       gd: ['GD', 'GRADE', 'GUDANG', 'LOKASI', 'LOKASI UNIT', 'CABANG'],
       warna: ['WARNA', 'COLOR', 'COLOUR', 'BODY COLOR', 'WARNA UNIT', 'KODE WARNA', 'COLOR CODE'],
       noRangka: ['NO RANGKA', 'RANGKA', 'CHASSIS', 'FRAME', 'NOMOR RANGKA', 'NO CHASSIS', 'NOMOR CHASSIS', 'VIN', 'NO VIN'],
@@ -1135,7 +1153,8 @@ const APP = {
     const fav = this.isFavorite(idx);
     const hasPrev = idx > 0, hasNext = idx < this.state.stockUnits.length - 1;
     let h = `<h3>${u.model}</h3><p><strong>Type:</strong> ${u.type}</p><p><strong>Warna:</strong> <span class="color-dot ${this.getColorClass(u.warna)}"></span> ${cn}</p>
-    <p><strong>NIK:</strong> ${u.nik||'-'} (${u.nikGroup})</p><button class="btn-sm" onclick="APP.toggleFavorite(APP.state.stockUnits[${idx}]);APP.showStockDetail(${idx})">${fav?'★ Hapus Favorit':'☆ Favorit'}</button>
+    <p><strong>NIK:</strong> ${u.nik||'-'} (${u.nikGroup})</p>
+    <button class="btn-sm" onclick="APP.toggleFavoriteFromModal(${idx})">${fav?'★ Hapus Favorit':'☆ Favorit'}</button>
     <div class="divider"></div><p><strong>GD:</strong> ${u.gd||'-'}</p><p><strong>No Rangka:</strong> ${u.noRangka||'-'} <button class="btn-sm" onclick="APP.copyText('${u.noRangka}')">Copy</button></p>
     <p><strong>No Mesin:</strong> ${u.noMesin||'-'} <button class="btn-sm" onclick="APP.copyText('${u.noMesin}')">Copy</button></p>
     <p><strong>No DO:</strong> ${u.noDO||'-'}</p><p><strong>Tanggal DO:</strong> ${u.tanggal||'-'}</p>
@@ -1143,6 +1162,13 @@ const APP = {
     <p><strong>Sales Head:</strong> ${u.salesHead||'-'}</p><p><strong>Keterangan:</strong> ${u.keterangan||'-'}</p>
     <div class="flex-row" style="margin-top:0.8rem;">${hasPrev?`<button class="btn-outline btn-sm" onclick="APP.showStockDetail(${idx-1})">← Sebelumnya</button>`:''}${hasNext?`<button class="btn-outline btn-sm" onclick="APP.showStockDetail(${idx+1})">Berikutnya →</button>`:''}</div>`;
     this.showModal(h);
+  },
+
+  toggleFavoriteFromModal(idx) {
+    const u = this.state.stockUnits[idx];
+    if (!u) return;
+    this.toggleFavorite(u);
+    this.showStockDetail(idx);
   },
 
   downloadTemplate() {
