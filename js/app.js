@@ -856,7 +856,7 @@ const APP = {
         const minSearch = secondRowIdx !== -1 ? secondRowIdx + 1 : headerIdx + 1;
         for (let i = minSearch; i < rows.length; i++) {
           const row = rows[i];
-          if (!row || row.every(c => !c)) continue;
+          if (!row || row.every(c => !String(c || '').trim())) continue;  // ✅ perbaikan baris kosong
           const noRangkaCell = String(row[col.noRangka] || '').trim();
           if (noRangkaCell) {
             startRow = i;
@@ -873,7 +873,7 @@ const APP = {
 
         for (let i = startRow; i < rows.length; i++) {
           const row = rows[i];
-          if (!row || row.every(c => !c)) continue;
+          if (!row || row.every(c => !String(c || '').trim())) continue;   // ✅ perbaikan baris kosong
           if (String(row[0] || '').toUpperCase().includes('TOTAL')) continue;
 
           const modelRaw = String(row[col.model] || '').trim();
