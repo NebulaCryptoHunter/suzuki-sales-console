@@ -224,18 +224,14 @@ const APP = {
   renderPage(page) {
     const tpl = document.getElementById(`tpl-${page}`);
     if (!tpl) return;
-    // Hapus total isi container
     this.dom.container.innerHTML = '';
-    // Clone dan tambahkan template
     const clone = tpl.content.cloneNode(true);
     this.dom.container.appendChild(clone);
-    // Perbarui header
     const hd = PAGE_HEADERS[page];
     this.dom.headerIcon.textContent = hd.icon;
     this.dom.headerTitle.textContent = hd.title;
     this.dom.headerSubtitle.textContent = hd.subtitle;
     this.dom.headerBack.style.display = page !== 'dashboard' ? 'block' : 'none';
-    // Inisialisasi halaman
     if (page === 'pricelist') this.initPricelist();
     if (page === 'kredit') this.initKredit();
     if (page === 'stock') this.initStockPage();
@@ -257,7 +253,7 @@ const APP = {
   copyText(t) { navigator.clipboard?.writeText(t).then(() => this.toast('Disalin!')) ?? this.toast('Gagal', true); },
   showModal(h) { this.dom.modalBody.innerHTML = h; this.dom.modalBackdrop.classList.add('active'); },
   closeModal() { this.dom.modalBackdrop.classList.remove('active'); },
-  
+
   normalizeTypeAggressive(t) {
     if (!t) return '';
     return t.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/20\d{2}/g, '').replace(/HYBRID/gi, '')
