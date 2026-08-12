@@ -5,7 +5,7 @@
 
 // ========== CONFIG ==========
 const DATA_BASE = 'data/';
-const VERSION = '20260810';
+const VERSION = '20260812';
 const DATA_FILES = {
   pricelist: 'pricelist.json',
   leasingConfig: 'leasing-config.json',
@@ -14,9 +14,10 @@ const DATA_FILES = {
   sufiDP20: 'sufi-dp20.json',
   sufiDP25: 'sufi-dp25.json',
   sufiDP30: 'sufi-dp30.json',
-  sufiSubsidi: 'sufi-subsidi.json'
+  sufiSubsidi: 'sufi-subsidi.json',
+  bri: 'bri.json'                   // ← tambahan BRI
 };
-const ALL_LEASINGS = ['ADIRA','MUF','SUFI DP20','SUFI DP25','SUFI DP30','BCA','BNI','BRI','MANDIRI'];
+const ALL_LEASINGS = ['ADIRA','MUF','SUFI DP20','SUFI DP25','SUFI DP30','BRI','BCA','BNI','MANDIRI'];
 const CATEGORIES_MAP = {
   "Commercial": ["New Carry PU","APV","New Carry Chassis","New Carry Karoseri (DSP)","New Carry Karoseri (Antika Raya)"],
   "Passenger": ["Fronx","Fronx Hybrid","XL-7 MC","XL-7 MC Hybrid","XL-7 MC Hybrid Kuro","XL-7","XL-7 Hybrid","All New Ertiga","All New Ertiga Hybrid","S-Presso","Jimny 3 Door","Jimny 5 Door","Grand Vitara MC","e Vitara"],
@@ -94,7 +95,7 @@ const APP = {
   },
 
   async loadAllData() {
-    const [pricelist, leasingConfig, adira, muf, sufi20, sufi25, sufi30, sufiSubsidi] = await Promise.all([
+    const [pricelist, leasingConfig, adira, muf, sufi20, sufi25, sufi30, sufiSubsidi, bri] = await Promise.all([
       loadJSON(DATA_FILES.pricelist),
       loadJSON(DATA_FILES.leasingConfig),
       loadJSON(DATA_FILES.adira),
@@ -102,7 +103,8 @@ const APP = {
       loadJSON(DATA_FILES.sufiDP20),
       loadJSON(DATA_FILES.sufiDP25),
       loadJSON(DATA_FILES.sufiDP30),
-      loadJSON(DATA_FILES.sufiSubsidi)
+      loadJSON(DATA_FILES.sufiSubsidi),
+      loadJSON(DATA_FILES.bri)         // ← BRI
     ]);
     this.data.pricelist = pricelist;
     this.data.leasingConfig = leasingConfig;
@@ -111,7 +113,8 @@ const APP = {
       MUF: muf,
       'SUFI DP20': sufi20,
       'SUFI DP25': sufi25,
-      'SUFI DP30': sufi30
+      'SUFI DP30': sufi30,
+      BRI: bri                         // ← BRI
     };
     this.data.sufiSubsidi = sufiSubsidi;
   },
