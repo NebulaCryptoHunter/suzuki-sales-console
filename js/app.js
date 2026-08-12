@@ -1,7 +1,7 @@
 /* ============================================================
    Suzuki Sales Console v2.5 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
-   (Improved stock-pricelist matching + BRI integration)
+   (Audit & perbaikan kredit — tenor tidak tersedia vs data tidak tersedia)
    ============================================================ */
 
 // ========== CONFIG ==========
@@ -327,35 +327,13 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
-    // Fallback 1: coba normalisasi model lalu cek di priceIndex, gunakan tipe hasil normalisasi agresif dari sisa string
+    // Fallback: cari model di priceIndex
     const normModel = this.normalizeModel(s);
     const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
     if (candidates.length > 0) {
-      // Ambil tipe dari string yang tersisa setelah menghapus model yang cocok
-      let typeGuess = '';
-      for (const p of this.db.modelPatterns) {
-        if (p.regex.test(s)) {
-          typeGuess = p.extract(s).replace(/\s+/g,' ').trim();
-          break;
-        }
-      }
-      if (!typeGuess) {
-        // coba ambil sisa string setelah menghapus model yang paling mungkin
-        const knownModels = [...new Set(candidates.map(c => c.model))];
-        for (const km of knownModels) {
-          const idx = s.indexOf(km.toUpperCase().replace(/\s+/g, ' '));
-          if (idx >= 0) {
-            typeGuess = s.substring(idx + km.length).trim();
-            break;
-          }
-        }
-      }
-      const normalizedTypeGuess = this.normalizeType(typeGuess);
-      // cari tipe yang paling cocok dari kandidat
-      const bestMatch = candidates.find(c => this.normalizeType(c.type) === normalizedTypeGuess) || candidates[0];
-      return { model: bestMatch.model, type: bestMatch.type };
+      return { model: candidates[0].model, type: candidates[0].type };
     }
-    // Fallback 2: cari berdasarkan keyword model di daftar model priceIndex
+    // Fallback: cari berdasarkan kata yang dikenal di daftar model
     const knownModels = [...new Set(Object.values(this.db.priceIndex).map(p => p.model))];
     for (const known of knownModels) {
       if (s.includes(known.toUpperCase().replace(/\s+/g, ' '))) {
@@ -506,16 +484,10 @@ const APP = {
     const normalizedType = this.normalizeType(type);
     const aggressiveType = this.normalizeTypeAggressive(type);
     let units = [];
-
-    // Tahap 1: exact model & normalized type
     units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && u.normalizedType === normalizedType);
     if (units.length) return units;
-
-    // Tahap 2: exact model & aggressive type
     units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && this.normalizeTypeAggressive(u.type) === aggressiveType);
     if (units.length) return units;
-
-    // Tahap 3: model longgar & aggressive type longgar
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
       const ut = this.normalizeTypeAggressive(u.type);
@@ -524,8 +496,6 @@ const APP = {
       return modelMatch && typeMatch;
     });
     if (units.length) return units;
-
-    // Tahap 4: keyword tipe harus ada semua di unit tipe
     const typeKeywords = aggressiveType.match(/[A-Z0-9]+/g) || [aggressiveType];
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
@@ -534,18 +504,17 @@ const APP = {
       const ut = this.normalizeTypeAggressive(u.type);
       return typeKeywords.every(kw => ut.includes(kw));
     });
-    if (units.length) return units;
-
-    // Tahap 5: pencarian liar di searchKey (mengandung semua kata kunci model & tipe)
+    // Tahap 5: pencarian liar di searchKey
     const modelKeywords = model.toUpperCase().split(/\s+/).filter(k => k.length > 1);
     const typeKeywordsFull = type.toUpperCase().split(/\s+/).filter(k => k.length > 1);
-    units = this.state.stockUnits.filter(u => {
-      const haystack = (u.searchKey || '').toUpperCase();
-      const modelOk = modelKeywords.every(kw => haystack.includes(kw));
-      const typeOk = typeKeywordsFull.every(kw => haystack.includes(kw));
-      return modelOk && typeOk;
-    });
-
+    if (modelKeywords.length && typeKeywordsFull.length) {
+      units = this.state.stockUnits.filter(u => {
+        const haystack = (u.searchKey || '').toUpperCase();
+        const modelOk = modelKeywords.every(kw => haystack.includes(kw));
+        const typeOk = typeKeywordsFull.every(kw => haystack.includes(kw));
+        return modelOk && typeOk;
+      });
+    }
     return units;
   },
   showStockSummary() {
@@ -667,7 +636,12 @@ const APP = {
           subsidiDP: paket.subsidiDP || 0
         };
       }
-      return { leasing: ln, available: false };
+      // Cek apakah leasing ada di data leasing (terlepas dari tenor)
+      if (this.data.leasing[ln]) {
+        // Leasing tersedia, tapi tenor tidak ada
+        return { leasing: ln, available: false, reason: 'Tenor tidak tersedia' };
+      }
+      return { leasing: ln, available: false, reason: 'Data belum tersedia' };
     });
     const avail = results.filter(r => r.available).sort((a, b) =>
       this.state.kreditSortMode === 'dp' ? a.dpBayar - b.dpBayar : a.totalInvestasi - b.totalInvestasi
@@ -696,7 +670,9 @@ const APP = {
         <div class="detail-row" style="font-weight:600; margin-top:0.4rem;"><span>Total Investasi</span><span>${this.fRupiah(r.totalInvestasi)}</span></div>
       </div>`;
     });
-    unavail.forEach(r => { h += `<div class="leasing-card" style="text-align:center; color:#64748B;"><div class="leasing-name">📋 ${r.leasing}</div><div style="font-size:0.8rem;">Data belum tersedia</div></div>`; });
+    unavail.forEach(r => {
+      h += `<div class="leasing-card" style="text-align:center; color:#64748B;"><div class="leasing-name">📋 ${r.leasing}</div><div style="font-size:0.8rem;">${r.reason || 'Data belum tersedia'}</div></div>`;
+    });
     c.innerHTML = h;
     if (best) this.addKreditHistory({ model, type, leasing: best.leasing, tenor, dpBayar: best.dpBayar, angsuran: best.angsuran, totalInvestasi: best.totalInvestasi });
   },
@@ -758,7 +734,15 @@ const APP = {
     if (!pd) { r.innerHTML = '<div class="leasing-card">Data unit tidak ditemukan.</div>'; return; }
     const totalDiscount = pd[nikKey]?.total_discount || 0;
     const leasingKey = leasing + '|' + model + '|' + type + '|' + tenor, paket = this.db.leasingIndex[leasingKey];
-    if (!paket) { r.innerHTML = '<div class="leasing-card">Paket tenor tidak tersedia.</div>'; return; }
+    if (!paket) {
+      // Cek apakah leasing ada
+      if (this.data.leasing[leasing]) {
+        r.innerHTML = '<div class="leasing-card" style="text-align:center;color:#64748B;">Paket tenor tidak tersedia untuk leasing ini.</div>';
+      } else {
+        r.innerHTML = '<div class="leasing-card" style="text-align:center;color:#64748B;">Data leasing tidak tersedia.</div>';
+      }
+      return;
+    }
     const otr = pd.otr, tdp = paket.tdp, angsuranAsli = paket.angsuran;
     const dpBayarPaket = tdp - totalDiscount;
     if (dpInput < dpBayarPaket) {
