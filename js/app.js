@@ -1,6 +1,7 @@
 /* ============================================================
    Suzuki Sales Console v2.5 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
+   (Improved stock-pricelist matching + BRI integration)
    ============================================================ */
 
 // ========== CONFIG ==========
@@ -15,7 +16,7 @@ const DATA_FILES = {
   sufiDP25: 'sufi-dp25.json',
   sufiDP30: 'sufi-dp30.json',
   sufiSubsidi: 'sufi-subsidi.json',
-  bri: 'bri.json'                   // ← tambahan BRI
+  bri: 'bri.json'
 };
 const ALL_LEASINGS = ['ADIRA','MUF','SUFI DP20','SUFI DP25','SUFI DP30','BRI','BCA','BNI','MANDIRI'];
 const CATEGORIES_MAP = {
@@ -104,7 +105,7 @@ const APP = {
       loadJSON(DATA_FILES.sufiDP25),
       loadJSON(DATA_FILES.sufiDP30),
       loadJSON(DATA_FILES.sufiSubsidi),
-      loadJSON(DATA_FILES.bri)         // ← BRI
+      loadJSON(DATA_FILES.bri)
     ]);
     this.data.pricelist = pricelist;
     this.data.leasingConfig = leasingConfig;
@@ -114,7 +115,7 @@ const APP = {
       'SUFI DP20': sufi20,
       'SUFI DP25': sufi25,
       'SUFI DP30': sufi30,
-      BRI: bri                         // ← BRI
+      BRI: bri
     };
     this.data.sufiSubsidi = sufiSubsidi;
   },
@@ -326,11 +327,35 @@ const APP = {
         return { model: p.model, type: type || '' };
       }
     }
+    // Fallback 1: coba normalisasi model lalu cek di priceIndex, gunakan tipe hasil normalisasi agresif dari sisa string
     const normModel = this.normalizeModel(s);
     const candidates = Object.values(this.db.priceIndex).filter(p => this.normalizeModel(p.model) === normModel);
     if (candidates.length > 0) {
-      return { model: candidates[0].model, type: candidates[0].type };
+      // Ambil tipe dari string yang tersisa setelah menghapus model yang cocok
+      let typeGuess = '';
+      for (const p of this.db.modelPatterns) {
+        if (p.regex.test(s)) {
+          typeGuess = p.extract(s).replace(/\s+/g,' ').trim();
+          break;
+        }
+      }
+      if (!typeGuess) {
+        // coba ambil sisa string setelah menghapus model yang paling mungkin
+        const knownModels = [...new Set(candidates.map(c => c.model))];
+        for (const km of knownModels) {
+          const idx = s.indexOf(km.toUpperCase().replace(/\s+/g, ' '));
+          if (idx >= 0) {
+            typeGuess = s.substring(idx + km.length).trim();
+            break;
+          }
+        }
+      }
+      const normalizedTypeGuess = this.normalizeType(typeGuess);
+      // cari tipe yang paling cocok dari kandidat
+      const bestMatch = candidates.find(c => this.normalizeType(c.type) === normalizedTypeGuess) || candidates[0];
+      return { model: bestMatch.model, type: bestMatch.type };
     }
+    // Fallback 2: cari berdasarkan keyword model di daftar model priceIndex
     const knownModels = [...new Set(Object.values(this.db.priceIndex).map(p => p.model))];
     for (const known of knownModels) {
       if (s.includes(known.toUpperCase().replace(/\s+/g, ' '))) {
@@ -481,10 +506,16 @@ const APP = {
     const normalizedType = this.normalizeType(type);
     const aggressiveType = this.normalizeTypeAggressive(type);
     let units = [];
+
+    // Tahap 1: exact model & normalized type
     units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && u.normalizedType === normalizedType);
     if (units.length) return units;
+
+    // Tahap 2: exact model & aggressive type
     units = this.state.stockUnits.filter(u => this.normalizeModel(u.model) === normalizedModel && this.normalizeTypeAggressive(u.type) === aggressiveType);
     if (units.length) return units;
+
+    // Tahap 3: model longgar & aggressive type longgar
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
       const ut = this.normalizeTypeAggressive(u.type);
@@ -493,6 +524,8 @@ const APP = {
       return modelMatch && typeMatch;
     });
     if (units.length) return units;
+
+    // Tahap 4: keyword tipe harus ada semua di unit tipe
     const typeKeywords = aggressiveType.match(/[A-Z0-9]+/g) || [aggressiveType];
     units = this.state.stockUnits.filter(u => {
       const um = this.normalizeModel(u.model);
@@ -501,6 +534,18 @@ const APP = {
       const ut = this.normalizeTypeAggressive(u.type);
       return typeKeywords.every(kw => ut.includes(kw));
     });
+    if (units.length) return units;
+
+    // Tahap 5: pencarian liar di searchKey (mengandung semua kata kunci model & tipe)
+    const modelKeywords = model.toUpperCase().split(/\s+/).filter(k => k.length > 1);
+    const typeKeywordsFull = type.toUpperCase().split(/\s+/).filter(k => k.length > 1);
+    units = this.state.stockUnits.filter(u => {
+      const haystack = (u.searchKey || '').toUpperCase();
+      const modelOk = modelKeywords.every(kw => haystack.includes(kw));
+      const typeOk = typeKeywordsFull.every(kw => haystack.includes(kw));
+      return modelOk && typeOk;
+    });
+
     return units;
   },
   showStockSummary() {
