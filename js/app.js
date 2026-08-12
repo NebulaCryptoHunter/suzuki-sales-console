@@ -952,7 +952,7 @@ const pageTemplates = {
           <label>Model</label><select id="manual-model" onchange="APP.loadManualTypes()" disabled><option value="">-- Pilih Model --</option></select>
           <label>Type</label><select id="manual-type" onchange="APP.onManualTypeChange()" disabled><option value="">-- Pilih Type --</option></select>
           <div id="manual-nik-selector" class="hidden"><label>NIK</label><select id="manual-nik-dropdown" onchange="APP.hitungManualPerLeasing()" disabled></select></div>
-          <label>DP Bayar</label><input type="text" id="manual-dp" placeholder="Contoh: 10.000.000" oninput="this.value = APP.formatRupiahInput(this.value); APP.hitungManualPerLeasing();">
+          <label>DP Bayar</label><input type="text" id="manual-dp" placeholder="Contoh: 10.000.000" oninput="this.value=APP.formatRupiahInput(this.value);APP.hitungManualPerLeasing();">
           <label>Tenor</label><select id="manual-tenor" onchange="APP.hitungManualPerLeasing()"><option value="">-- Pilih Tenor --</option><option value="12">12 Bulan</option><option value="24">24 Bulan</option><option value="36">36 Bulan</option><option value="48">48 Bulan</option><option value="60">60 Bulan</option></select>
           <div id="manual-result" style="margin-top:0.5rem;"></div>
         </div>
