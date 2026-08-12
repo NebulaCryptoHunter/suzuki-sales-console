@@ -1,7 +1,7 @@
 /* ============================================================
    Suzuki Sales Console v2.5 — Internal Dealer Application
    Engineered by Heru Prasetyo, SIT Semarang
-   (Audit & perbaikan kredit — tenor tidak tersedia vs data tidak tersedia)
+   (Final: all fixes, BRI integrated, stock matching, tenor handling)
    ============================================================ */
 
 // ========== CONFIG ==========
@@ -638,7 +638,6 @@ const APP = {
       }
       // Cek apakah leasing ada di data leasing (terlepas dari tenor)
       if (this.data.leasing[ln]) {
-        // Leasing tersedia, tapi tenor tidak ada
         return { leasing: ln, available: false, reason: 'Tenor tidak tersedia' };
       }
       return { leasing: ln, available: false, reason: 'Data belum tersedia' };
@@ -735,7 +734,6 @@ const APP = {
     const totalDiscount = pd[nikKey]?.total_discount || 0;
     const leasingKey = leasing + '|' + model + '|' + type + '|' + tenor, paket = this.db.leasingIndex[leasingKey];
     if (!paket) {
-      // Cek apakah leasing ada
       if (this.data.leasing[leasing]) {
         r.innerHTML = '<div class="leasing-card" style="text-align:center;color:#64748B;">Paket tenor tidak tersedia untuk leasing ini.</div>';
       } else {
