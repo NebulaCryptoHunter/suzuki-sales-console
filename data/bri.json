@@ -84,8 +84,8 @@
     ]
   },
   {
-    "model": "XL-7",
-    "type": "New Zeta MT",
+    "model": "XL-7 MC",
+    "type": "Zeta MT",
     "otr": 285000000,
     "paket": [
       { "tenor": 12, "tdp": 19752000, "angsuran": 7064200 },
@@ -96,8 +96,8 @@
     ]
   },
   {
-    "model": "XL-7",
-    "type": "New Zeta AT",
+    "model": "XL-7 MC",
+    "type": "Zeta AT",
     "otr": 297000000,
     "paket": [
       { "tenor": 12, "tdp": 20583000, "angsuran": 7335300 },
@@ -108,8 +108,8 @@
     ]
   },
   {
-    "model": "XL-7 Hybrid",
-    "type": "New Beta MT",
+    "model": "XL-7 MC Hybrid",
+    "type": "Beta MT",
     "otr": 313500000,
     "paket": [
       { "tenor": 12, "tdp": 21727000, "angsuran": 7708000 },
@@ -120,8 +120,8 @@
     ]
   },
   {
-    "model": "XL-7 Hybrid",
-    "type": "New Beta AT",
+    "model": "XL-7 MC Hybrid",
+    "type": "Beta AT",
     "otr": 325500000,
     "paket": [
       { "tenor": 12, "tdp": 22559000, "angsuran": 7979100 },
@@ -132,8 +132,20 @@
     ]
   },
   {
-    "model": "XL-7 Hybrid",
-    "type": "New Alpha AT",
+    "model": "XL-7 MC Hybrid",
+    "type": "Alpha MT",
+    "otr": 325000000,
+    "paket": [
+      { "tenor": 12, "tdp": 22524000, "angsuran": 7967800 },
+      { "tenor": 24, "tdp": 11668000, "angsuran": 8317900 },
+      { "tenor": 36, "tdp": 8081000, "angsuran": 8653900 },
+      { "tenor": 48, "tdp": 6309000, "angsuran": 9009700 },
+      { "tenor": 60, "tdp": 5399000, "angsuran": 9351200 }
+    ]
+  },
+  {
+    "model": "XL-7 MC Hybrid",
+    "type": "Alpha AT",
     "otr": 336500000,
     "paket": [
       { "tenor": 12, "tdp": 23321000, "angsuran": 8227600 },
@@ -153,6 +165,66 @@
       { "tenor": 36, "tdp": 8466000, "angsuran": 9035800 },
       { "tenor": 48, "tdp": 6610000, "angsuran": 9377400 },
       { "tenor": 60, "tdp": 5656000, "angsuran": 9734800 }
+    ]
+  },
+  {
+    "model": "XL-7",
+    "type": "New Zeta MT",
+    "otr": 294100000,
+    "paket": [
+      { "tenor": 12, "tdp": 20382000, "angsuran": 7269800 },
+      { "tenor": 24, "tdp": 10559000, "angsuran": 7587500 },
+      { "tenor": 36, "tdp": 7313000, "angsuran": 7892500 },
+      { "tenor": 48, "tdp": 5709000, "angsuran": 8215400 },
+      { "tenor": 60, "tdp": 4886000, "angsuran": 8525400 }
+    ]
+  },
+  {
+    "model": "XL-7",
+    "type": "New Zeta AT",
+    "otr": 305900000,
+    "paket": [
+      { "tenor": 12, "tdp": 21200000, "angsuran": 7536300 },
+      { "tenor": 24, "tdp": 10983000, "angsuran": 7866500 },
+      { "tenor": 36, "tdp": 7606000, "angsuran": 8183300 },
+      { "tenor": 48, "tdp": 5938000, "angsuran": 8518800 },
+      { "tenor": 60, "tdp": 5082000, "angsuran": 8840800 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Beta MT",
+    "otr": 322700000,
+    "paket": [
+      { "tenor": 12, "tdp": 22364000, "angsuran": 7915800 },
+      { "tenor": 24, "tdp": 11586000, "angsuran": 8263500 },
+      { "tenor": 36, "tdp": 8024000, "angsuran": 8597200 },
+      { "tenor": 48, "tdp": 6264000, "angsuran": 8950600 },
+      { "tenor": 60, "tdp": 5361000, "angsuran": 9289700 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Beta AT",
+    "otr": 334600000,
+    "paket": [
+      { "tenor": 12, "tdp": 23189000, "angsuran": 8184700 },
+      { "tenor": 24, "tdp": 12013000, "angsuran": 8544800 },
+      { "tenor": 36, "tdp": 8320000, "angsuran": 8890400 },
+      { "tenor": 48, "tdp": 6495000, "angsuran": 9226300 },
+      { "tenor": 60, "tdp": 5558000, "angsuran": 9577600 }
+    ]
+  },
+  {
+    "model": "XL-7 Hybrid",
+    "type": "New Alpha AT",
+    "otr": 348900000,
+    "paket": [
+      { "tenor": 12, "tdp": 24180000, "angsuran": 8507700 },
+      { "tenor": 24, "tdp": 12526000, "angsuran": 8882800 },
+      { "tenor": 36, "tdp": 8675000, "angsuran": 9242800 },
+      { "tenor": 48, "tdp": 6773000, "angsuran": 9592600 },
+      { "tenor": 60, "tdp": 5796000, "angsuran": 9958500 }
     ]
   },
   {
