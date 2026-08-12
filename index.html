@@ -4,12 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#005BAC">
-  <title>Suzuki Sales Hub v2.1</title>
-  
-  <!-- CSS -->
+  <title>Suzuki Sales Console v2.5</title>
   <link rel="stylesheet" href="css/style.css">
-  
-  <!-- SheetJS CDN -->
   <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -19,7 +15,7 @@
     <div class="header-icon" id="header-icon">🏠</div>
     <div class="header-text">
       <div class="header-title" id="header-title">Suzuki Sales Console</div>
-      <div class="header-subtitle" id="header-subtitle">Internal Dealer Application — SIT Semarang </div>
+      <div class="header-subtitle" id="header-subtitle">Internal Dealer Application — SIT Semarang</div>
     </div>
   </header>
 
@@ -31,7 +27,7 @@
 
   <!-- ========== FOOTER ========== -->
   <footer class="footer" id="main-footer">
-    <span id="footer-info">v2.1</span>
+    <span id="footer-info">v2.5</span>
     <span id="footer-stock-info">Stock: belum diunggah</span>
     <span style="width:100%;text-align:center;margin-top:2px;">Engineered by Heru Prasetyo, SIT Semarang</span>
   </footer>
@@ -45,7 +41,7 @@
   </div>
 
   <!-- ========== TEMPLATES ========== -->
-  
+
   <!-- Dashboard -->
   <template id="tpl-dashboard">
     <div class="menu-list">
@@ -120,7 +116,7 @@
       <button class="tab-btn" id="tab-btn-paket" onclick="APP.switchKreditTab('paket')">Perbandingan Leasing</button>
       <button class="tab-btn" id="tab-btn-manual" onclick="APP.switchKreditTab('manual')">Kalkulator Manual</button>
     </div>
-    
+
     <!-- Panel Paket -->
     <div class="tab-panel hidden" id="panel-paket">
       <div class="card accent-green">
@@ -156,7 +152,7 @@
       </div>
       <div id="kredit-result" class="hidden"></div>
     </div>
-    
+
     <!-- Panel Manual -->
     <div class="tab-panel hidden" id="panel-manual">
       <div class="card accent-green">
@@ -245,6 +241,6 @@
   </template>
 
   <!-- ========== APP JS ========== -->
-  <script src="js/app.js?v=20260807"></script>
+  <script src="js/app.js?v=20260810"></script>
 </body>
 </html>
